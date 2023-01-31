@@ -22,16 +22,13 @@ CREATE TABLE User(
 
 
 
-
-
-
-
-CREATE TABLE [Plant] (
-id INT identity(1,1) NOT NULL,
-user_id INT NOT NULL,
-nickname NVARCHAR(255),
-last_watered DATE NOT NULL,
-plant_id NCHAR(255) NOT NULL,
-image_url NCHAR(255) NOT NULL,
-PRIMARY KEY(user_id, nickname),
-FOREIGN KEY (user_id) REFERENCES [User] (id));
+CREATE TABLE Plant (
+    id SERIAL NOT NULL,
+    user_id INT NOT NULL,
+    nickname VARCHAR(255),
+    last_watered DATE NOT NULL,
+    plant_id VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id, nickname),
+    FOREIGN KEY (user_id) REFERENCES User (id)
+);
