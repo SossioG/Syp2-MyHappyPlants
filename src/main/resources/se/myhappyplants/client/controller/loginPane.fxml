@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
+               <top>
+                  <AnchorPane prefHeight="89.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="loginLargeHeading" layoutX="383.0" layoutY="40.0" prefHeight="42.0" prefWidth="281.0" />
+                     </children>
+                  </AnchorPane>
+               </top>
+               <center>
+                  <Pane prefHeight="442.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="272.0" layoutX="259.0" layoutY="177.0" stroke="BLACK" strokeType="INSIDE" width="478.0" />
+                        <TextField fx:id="txtFldEmail" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
+                        <PasswordField fx:id="passFldPassword" layoutX="330.0" layoutY="304.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
+                        <Button fx:id="test" defaultButton="true" layoutX="441.0" layoutY="358.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
+                        <Hyperlink fx:id="registerLink" layoutX="387.0" layoutY="407.0" onAction="#swapToRegister" text="No account? Register here!">
+               </Hyperlink>
+                        <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="632.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Blommor/blomma15.1.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="229.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Blommor/blomma13.1.png" />
+                           </image>
+                        </ImageView>
+            <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="430.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/login.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="170.0" fitWidth="250.0" layoutX="334.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Blommor/Logotyp.png" />
+               </image>
+            </ImageView>
+                     </children>
+                  </Pane>
+               </center>
+</BorderPane>
