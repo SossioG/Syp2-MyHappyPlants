@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class StartServer {
     public static void main(String[] args) throws UnknownHostException, SQLException {
-        IDatabaseConnection connectionMyHappyPlants = new DatabaseConnection("MyHappyPlants");
+        IDatabaseConnection connectionMyHappyPlants = new DatabaseConnection("am3281");
         IDatabaseConnection connectionSpecies = new DatabaseConnection("Species");
         IQueryExecutor databaseMyHappyPlants = new QueryExecutor(connectionMyHappyPlants);
         IQueryExecutor databaseSpecies = new QueryExecutor(connectionSpecies);

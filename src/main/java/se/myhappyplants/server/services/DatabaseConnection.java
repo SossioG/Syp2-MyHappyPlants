@@ -24,13 +24,13 @@ public class DatabaseConnection implements IDatabaseConnection {
         String dbServerPort = PasswordsAndKeys.dbServerPort;
         String dbUser = PasswordsAndKeys.dbUsername;
         String dbPassword = PasswordsAndKeys.dbPassword;
-        DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+        DriverManager.registerDriver(new org.postgresql.Driver());
 
         if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
             dbServerIp = "localhost";
         }
-        String dbURL = String.format("jdbc:sqlserver://%s:%s;databaseName=" + databaseName + ";user=%s;password=%s", dbServerIp, dbServerPort, dbUser, dbPassword);
-        this.conn = DriverManager.getConnection(dbURL);
+        String dbURL = String.format("jdbc:postgresql://%s/%s", dbServerIp, databaseName);
+        this.conn = DriverManager.getConnection(dbURL, dbUser, dbPassword);
         return conn;
     }
 

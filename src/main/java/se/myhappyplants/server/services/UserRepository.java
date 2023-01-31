@@ -29,7 +29,7 @@ public class UserRepository {
         boolean success = false;
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         String sqlSafeUsername = user.getUsername().replace("'", "''");
-        String query = "INSERT INTO [User] VALUES ('" + sqlSafeUsername + "', '" + user.getEmail() + "', '" + hashedPassword + "'," + 1 + "," + 1 + ");";
+        String query = String.format("INSERT INTO tUser (username, email, password, notification_activated, fun_facts_activated) VALUES ('%s', '%s', '%s',true,true);", sqlSafeUsername, user.getEmail(), hashedPassword);
         try {
             database.executeUpdate(query);
             success = true;
@@ -50,7 +50,7 @@ public class UserRepository {
      */
     public boolean checkLogin(String email, String password) {
         boolean isVerified = false;
-        String query = "SELECT password FROM [User] WHERE email = '" + email + "';";
+        String query = String.format("SELECT password FROM tuser WHERE email = '%s';", email);
         try {
             ResultSet resultSet = database.executeQuery(query);
             if (resultSet.next()) {
@@ -76,7 +76,7 @@ public class UserRepository {
         String username = null;
         boolean notificationActivated = false;
         boolean funFactsActivated = false;
-        String query = "SELECT id, username, notification_activated, fun_facts_activated FROM [User] WHERE email = '" + email + "';";
+        String query = String.format("SELECT id, username, notification_activated, fun_facts_activated FROM tuser WHERE email = '%s';", email);
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
@@ -105,7 +105,7 @@ public class UserRepository {
     public boolean deleteAccount(String email, String password) {
         boolean accountDeleted = false;
         if (checkLogin(email, password)) {
-            String querySelect = "SELECT [User].id from [User] WHERE [User].email = '" + email + "';";
+            String querySelect = String.format("SELECT tUser.id from [User] WHERE [User].email = '%s';", email);
             try {
                 Statement statement = database.beginTransaction();
                 ResultSet resultSet = statement.executeQuery(querySelect);
@@ -113,9 +113,9 @@ public class UserRepository {
                     throw new SQLException();
                 }
                 int id = resultSet.getInt(1);
-                String queryDeletePlants = "DELETE FROM [Plant] WHERE user_id = " + id + ";";
+                String queryDeletePlants = String.format("DELETE FROM Plant WHERE user_id = %d;", id);
                 statement.executeUpdate(queryDeletePlants);
-                String queryDeleteUser = "DELETE FROM [User] WHERE id = " + id + ";";
+                String queryDeleteUser = String.format("DELETE FROM tuser WHERE id = %d;", id);
                 statement.executeUpdate(queryDeleteUser);
                 database.endTransaction();
                 accountDeleted = true;
@@ -138,7 +138,8 @@ public class UserRepository {
         if (notifications) {
             notificationsActivated = 1;
         }
-        String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() + "';";
+//        String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() + "';";
+        String query = String.format("UPDATE [User] SET notification_activated = %s WHERE email = '%s';", notificationsActivated, user.getEmail());
         try {
             database.executeUpdate(query);
             notificationsChanged = true;
@@ -155,7 +156,8 @@ public class UserRepository {
         if (funFactsActivated) {
             funFactsBitValue = 1;
         }
-        String query = "UPDATE [User] SET fun_facts_activated = " + funFactsBitValue + " WHERE email = '" + user.getEmail() + "';";
+//        String query = "UPDATE [User] SET fun_facts_activated = " + funFactsBitValue + " WHERE email = '" + user.getEmail() + "';";
+        String query = String.format("UPDATE [User] SET fun_facts_activated = %s WHERE email = '%s';", funFactsBitValue, user.getEmail());
         try {
             database.executeUpdate(query);
             funFactsChanged = true;
