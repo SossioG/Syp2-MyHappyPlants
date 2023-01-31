@@ -201,8 +201,8 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/java,macos,windows,intellij,maven
 
 # File that stores all passwords and API keys
-PasswordsAndKeys.java
-PasswordsAndKeys.class
+# PasswordsAndKeys.java
+# PasswordsAndKeys.class
 
 lastLogin.txt
 searchHistory.txt
