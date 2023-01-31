@@ -11,14 +11,14 @@ CREATE TABLE [dbo].[species](
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [User] (
-id INT identity(1,1) NOT NULL,
-username NVARCHAR(25) NOT NULL,
-email NVARCHAR(50) NULL,
-password NVARCHAR(100) NOT NULL,
-notification_activated BIT NULL,
-fun_facts_activated BIT NULL,
-PRIMARY KEY (id));
+CREATE TABLE User(
+	id SERIAL PRIMARY Key,
+	username NVARCHAR (25) NOT NULL,
+	email VARCHAR (50),
+	password VARCHAR (100) NOT NULL,
+	 notification_activated BOOLEAN,
+  	fun_facts_activated BOOLEAN
+);
 
 
 
