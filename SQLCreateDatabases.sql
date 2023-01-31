@@ -1,15 +1,14 @@
-CREATE TABLE [dbo].[species](
-	id float NULL,
-	scientific_name varchar(255) NULL,
-	genus varchar(255) NULL,
-	family varchar(255) NULL,
-	common_name varchar(255) NULL,
-	image_url nvarchar(255) NULL,
-	light varchar(255) NULL,
-	url_wikipedia_en varchar(255) NULL,
-	water_frequency varchar(255) NULL
-) ON [PRIMARY]
-GO
+create table Species(
+	id float null,
+	scientific_name varchar(255) null,
+	genus varchar(255) null,
+	family varchar(255) null,
+	common_name varchar(255) null,
+	image_url nvarchar(255) null,
+	light varchar(255) null,
+	url_wikipedia_en varchar(255) null,
+	water_frequency varchar(255) null
+);
 
 create table User(
 	id serial,
