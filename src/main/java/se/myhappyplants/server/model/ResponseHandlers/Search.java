@@ -23,8 +23,10 @@ public class Search implements IResponseHandler {
         try {
             ArrayList<Plant> plantList = plantRepository.getResult(searchText);
             response = new Message(plantList, true);
+            System.out.println("Im true!");
         } catch (Exception e) {
             response = new Message(false);
+            System.out.println("Im false!");
             e.printStackTrace();
         }
         return response;

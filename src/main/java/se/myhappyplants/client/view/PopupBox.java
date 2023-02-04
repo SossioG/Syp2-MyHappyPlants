@@ -35,7 +35,8 @@ public class PopupBox extends Popup {
      */
     public static void display(String message) {
 
-        window = new Stage();
+        Stage window = new Stage();
+        PopupBox.window = window;
         window.initModality(Modality.NONE);
         window.initStyle(StageStyle.TRANSPARENT);
         window.setMinWidth(190);
@@ -79,6 +80,7 @@ public class PopupBox extends Popup {
                 toggleButton.setDisable(false);
             }
             window.close();
+            window.hide();
         });
         timeline.play();
 

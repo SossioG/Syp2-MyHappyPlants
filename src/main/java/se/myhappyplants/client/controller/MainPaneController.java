@@ -1,7 +1,9 @@
 package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 
@@ -17,6 +19,12 @@ import java.io.IOException;
 public class MainPaneController {
 
     @FXML public TabPane mainPane;
+    public BorderPane settingsTabPane;
+    public Tab settingsTab;
+    public BorderPane searchTabPane;
+    public Tab searchTab;
+    public BorderPane myPlantsTabPane;
+    public Tab myPlantsTab;
 
     @FXML private MyPlantsTabPaneController myPlantsTabPaneController;
     @FXML private SearchTabPaneController searchTabPaneController;

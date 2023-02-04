@@ -7,9 +7,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 /**
- * Class defining a plant
- * Created by: Frida Jacobsson
- * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström
+ * Class defining a plant.
+ * Created by: Frida Jacobsson.
+ * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström.
  */
 public class Plant implements Serializable {
 
@@ -24,14 +24,12 @@ public class Plant implements Serializable {
     private long waterFrequency;
 
     /**
-     * Creates a plant object from information
-     * in the Species database
-     *
-     * @param plantId        Unique plant id in Species database
-     * @param commonName     Common name
-     * @param scientificName Scientific name
-     * @param familyName     Family name
-     * @param imageURL       Image location
+     * Creates a plant object from information in the Species database.
+     * @param plantId unique plant id.
+     * @param commonName common name.
+     * @param scientificName scientific name.
+     * @param familyName family name.
+     * @param imageURL image location.
      */
     public Plant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
         this.plantId = plantId;
@@ -40,31 +38,27 @@ public class Plant implements Serializable {
         this.familyName = familyName;
         this.imageURL = imageURL;
     }
-
     public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency) {
         this.nickname = nickname;
         this.plantId = plantId;
         this.lastWatered = lastWatered;
         this.waterFrequency = waterFrequency;
     }
-
     public Plant(String nickname, String plantID, Date lastWatered) {
         this.nickname = nickname;
         this.plantId = plantID;
         this.lastWatered = lastWatered;
     }
+
     /**
-     * Creates a plant object from a users library
-     * in the MyHappyPlants database
-     *
-     * @param nickname
-     * @param plantId        Unique plant id in Species database
-     * @param lastWatered    Date the plant was last watered
-     * @param waterFrequency How often the plant needs water in milliseconds
-     * @param imageURL       Image location
+     * Creates a plant object from a users library in the MyHappyPlants database.
+     * @param nickname of the user.
+     * @param plantId unique plant id in Species database.
+     * @param lastWatered date the plant was last watered.
+     * @param waterFrequency how often the plant needs water in milliseconds.
+     * @param imageURL image location.
      */
     public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency, String imageURL) {
-
         this.nickname = nickname;
         this.plantId = plantId;
         this.lastWatered = lastWatered;
@@ -73,54 +67,48 @@ public class Plant implements Serializable {
     }
 
     /**
-     * Creates a plant object that can be used to update
-     * a users library in the MyHappyPlants database
-     *
-     * @param nickname
-     * @param plantId     Unique plant id in Species database
-     * @param lastWatered Date the plant was last watered
-     * @param imageURL    Image location
+     * Creates a plant object that can be used to update a users library in the MyHappyPlants database.
+     * @param nickname of the user.
+     * @param plantId unique plant id.
+     * @param lastWatered date the plant was last watered.
+     * @param imageURL image location.
      */
     public Plant(String nickname, String plantId, Date lastWatered, String imageURL) {
-
         this.nickname = nickname;
         this.plantId = plantId;
         this.lastWatered = lastWatered;
         this.imageURL = imageURL;
     }
 
+
+    /**
+     * Method to return to string.
+     * @return string format.
+     */
     public String toString() {
         String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ", commonName, familyName, scientificName);
         return toString;
     }
 
+    // getters and setters
     public String getNickname() {
         return nickname;
     }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
     public String getCommonName() {
         return commonName;
     }
-
     public String getScientificName() {
         return scientificName;
     }
-
     public String getPlantId() {
         return plantId;
     }
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-    /**
-     * Image location for selected plant
-     *
-     * @return URL location of image
-     */
     public String getImageURL() {
         if(imageURL == null) {
             imageURL = PictureRandomizer.getRandomPictureURL();
@@ -128,11 +116,9 @@ public class Plant implements Serializable {
         String httpImageURL = imageURL.replace("https", "http");
         return httpImageURL;
     }
-
     public Date getLastWatered() {
         return lastWatered;
     }
-
     public void setLastWatered(LocalDate localDate) {
         Date date = java.sql.Date.valueOf(localDate);
         this.lastWatered = date;
@@ -141,8 +127,7 @@ public class Plant implements Serializable {
     /**
      * Compares the length of time since the plant was watered
      * with recommended frequency of watering. Returns a decimal value
-     * that can be used in a progress bar or indicator
-     *
+     * that can be used in a progress bar or indicator.
      * @return Double between 0.02 (max time elapsed) and 1.0 (min time elapsed)
      */
     public double getProgress() {
@@ -160,10 +145,8 @@ public class Plant implements Serializable {
 
     /**
      * Converts time since last water from milliseconds
-     * into days, then returns the value as
-     * an explanation text
-     *
-     * @return Days since last water
+     * into days, then returns the value as an explanation text.
+     * @return Days since last water.
      */
     public String getDaysUntilWater() {
         long millisSinceLastWatered = System.currentTimeMillis() - lastWatered.getTime();

@@ -17,10 +17,12 @@ public class ServerConnection {
 
     private static ServerConnection connection;
     private String ipAddress = "localhost";
-    private int port = 2555;
+    private int port = 2550;
 
     public static ServerConnection getClientConnection() {
+        System.out.println("connection is not null");
         if(connection==null) {
+            System.out.println("connection is null");
             connection = new ServerConnection();
         }
         return connection;
@@ -36,6 +38,7 @@ public class ServerConnection {
      * @return instance of Message class with a certain response
      */
     public Message makeRequest(Message request) {
+        System.out.println("We make a request");
 
         Message response = null;
         try {
@@ -45,10 +48,12 @@ public class ServerConnection {
             oos.writeObject(request);
             oos.flush();
             response = (Message) ois.readObject();
+            System.out.println("ServerConnection");
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         return response;
     }
 }

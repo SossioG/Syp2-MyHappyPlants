@@ -232,7 +232,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         if (!extended) {
             if (!gotInfoOnPlant) {
                 PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
-                long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+                long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
                 String waterText = WaterTextFormatter.getWaterString(waterInMilli);
                 String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
 
@@ -326,7 +326,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         listViewMoreInfo.setPrefWidth(725.0);
         listViewMoreInfo.setPrefHeight(140.0);
         PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
-        long waterInMilli = WaterCalculator.calculateWaterFrequencyForWatering(plantDetails.getWaterFrequency());
+        long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
         String waterText = WaterTextFormatter.getWaterString(waterInMilli);
         String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
         ObservableList<String> plantInfo = FXCollections.observableArrayList();

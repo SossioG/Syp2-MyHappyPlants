@@ -5,7 +5,6 @@ import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public class PlantRepository {
     public ArrayList<Plant> getResult(String plantSearch) {
         ArrayList<Plant> plantList = new ArrayList<>();
         String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
+        System.out.println("Inside the db!!!");
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
@@ -86,7 +86,7 @@ public class PlantRepository {
             while (resultSet.next()) {
                 String waterText = resultSet.getString("water_frequency");
                 int water = (isNumeric(waterText)) ? Integer.parseInt(waterText) : -1;
-                waterFrequency = WaterCalculator.calculateWaterFrequencyForWatering(water);
+                waterFrequency = WaterCalculator.calcWaterFreqForWatering(water);
             }
         }
         catch (SQLException throwables) {

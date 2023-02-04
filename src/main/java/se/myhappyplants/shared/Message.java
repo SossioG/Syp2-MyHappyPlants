@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Class that can be used for communication between Client/Server
- * Client/Server via TCP
- * Created by: Christopher O'Driscoll
- * Updated by: Linn Borgström 2021-05-13
+ * Class that can be used for communication between Client/Server.
+ * Client/Server via TCP.
+ * Created by: Christopher O'Driscoll.
+ * Updated by: Linn Borgström 2021-05-13.
  */
 public class Message implements Serializable {
 
@@ -23,35 +23,29 @@ public class Message implements Serializable {
     private String newNickname;
     private PlantDetails plantDetails;
 
-
     /**
-     * create a message that can be used to send a boolean value
-     *
-     * @param success
+     * Create a message that can be used to send a boolean value.
+     * @param success if message passed.
      */
     public Message(boolean success) {
         this.success = success;
     }
 
     /**
-     * Creates a message which can be used to send a user
-     *
-     * @param messageType
-     * @param user
+     * Creates a message which can be used to send a user.
+     * @param messageType of the message.
+     * @param user user.
      */
     public Message(MessageType messageType, User user) {
-
         this.messageType = messageType;
         this.user = user;
     }
 
     /**
-     * Creates a message that can be used to send
-     * a user and a plant object
-     *
-     * @param messageType
-     * @param user
-     * @param plant
+     * Creates a message that can be used to send a user and a plant object
+     * @param messageType of the message.
+     * @param user user.
+     * @param plant plant.
      */
     public Message(MessageType messageType, User user, Plant plant) {
         this(messageType, user);
@@ -59,11 +53,9 @@ public class Message implements Serializable {
     }
 
     /**
-     * create a message that can be used to send
-     * a plant object
-     *
-     * @param messageType
-     * @param plant
+     * Create a message that can be used to send a plant object.
+     * @param messageType of the message.
+     * @param plant plant.
      */
     public Message(MessageType messageType, Plant plant) {
         this.messageType = messageType;
@@ -71,12 +63,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message that can be used to send
-     * a notification setting and a user
-     *
-     * @param messageType
-     * @param notifications
-     * @param user
+     * Creates a message that can be used to send a notification setting and a user.
+     * @param messageType of the message.
+     * @param notifications notifications.
+     * @param user user.
      */
     public Message(MessageType messageType, boolean notifications, User user) {
         this(messageType, user);
@@ -84,13 +74,11 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message that can be used to send
-     * a user, a plant and a date
-     *
-     * @param messageType
-     * @param user
-     * @param plant
-     * @param date
+     * Creates a message that can be used to send a user, a plant and a date.
+     * @param messageType of the message.
+     * @param user user.
+     * @param plant plant.
+     * @param date current date.
      */
     public Message(MessageType messageType, User user, Plant plant, LocalDate date) {
         this(messageType, user, plant);
@@ -98,26 +86,21 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message that can be used to send
-     * a user, a plant and it's new nickname
-     *
-     * @param messageType
-     * @param user
-     * @param plant
-     * @param newNickname
+     * Creates a message that can be used to send a user, a plant and it's new nickname.
+     * @param messageType of the message.
+     * @param user user.
+     * @param plant plant.
+     * @param newNickname of the user.
      */
     public Message(MessageType messageType, User user, Plant plant, String newNickname) {
         this(messageType, user, plant);
         this.newNickname = newNickname;
     }
 
-
     /**
-     * Creates a message that can be used to send
-     * an array of plants
-     *
-     * @param plantArray
-     * @param success
+     * Creates a message that can be used to send an array of plants.
+     * @param plantArray list of plants as arraylist.
+     * @param success message.
      */
     public Message(ArrayList<Plant> plantArray, boolean success) {
         this.plantArray = plantArray;
@@ -125,11 +108,9 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message which can be used to send
-     * text
-     *
-     * @param messageType
-     * @param messageText
+     * Creates a message which can be used to send text.
+     * @param messageType of the message.
+     * @param messageText of the message.
      */
     public Message(MessageType messageType, String messageText) {
         this.messageType = messageType;
@@ -137,11 +118,9 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message which can be used to send
-     * a user and a boolean value
-     *
-     * @param user
-     * @param success
+     * Creates a message which can be used to send a user and a boolean value.
+     * @param user user.
+     * @param success message.
      */
     public Message(User user, boolean success) {
         this.user = user;
@@ -149,52 +128,43 @@ public class Message implements Serializable {
     }
 
     /**
-     * Creates a message that can be used to send
-     * further information about a plant
-     * @param plantDetails
-     * @param success
+     * Creates a message that can be used to send further information about a plant.
+     * @param plantDetails details of plants.
+     * @param success message.
      */
     public Message(PlantDetails plantDetails, boolean success) {
         this.plantDetails = plantDetails;
         this.success = success;
     }
 
+    // getters and setters
     public String getNewNickname() {
         return newNickname;
     }
-
     public MessageType getMessageType() {
         return messageType;
     }
-
     public String getMessageText() {
         return messageText;
     }
-
     public User getUser() {
         return user;
     }
-
     public boolean isSuccess() {
         return success;
     }
-
     public ArrayList<Plant> getPlantArray() {
         return plantArray;
     }
-
     public Plant getPlant() {
         return plant;
     }
-
     public LocalDate getDate() {
         return date;
     }
-
     public boolean getNotifications() {
         return notifications;
     }
-
     public PlantDetails getPlantDetails() {
         return plantDetails;
     }

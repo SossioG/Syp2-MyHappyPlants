@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 public class SearchTabPaneController {
     @FXML
     public ListView lstFunFacts;
+    public BorderPane plantsPane;
     @FXML
     private MainPaneController mainPaneController;
     @FXML
@@ -159,19 +161,25 @@ public class SearchTabPaneController {
      */
     @FXML
     private void searchButtonPressed() {
+        System.out.println("1");
         btnSearch.setDisable(true);
         txtFldSearchText.addToHistory();
         PopupBox.display(MessageText.holdOnGettingInfo.toString());
+        System.out.println("2");
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ServerConnection connection = ServerConnection.getClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
+            System.out.println("3");
 
             if (apiResponse != null) {
+                System.out.println("4");
                 if (apiResponse.isSuccess()) {
+                    System.out.println("5");
                     searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> txtNbrOfResults.setText(searchResults.size() + " results"));
                     if(searchResults.size() == 0) {
+                        System.out.println("6");
                         progressIndicator.progressProperty().unbind();
                         progressIndicator.setProgress(100);
                         btnSearch.setDisable(false);
@@ -179,6 +187,7 @@ public class SearchTabPaneController {
                         return;
                     }
                     Platform.runLater(() -> showResultsOnPane());
+                    System.out.println("7");
                 }
             }
             else {
@@ -187,6 +196,7 @@ public class SearchTabPaneController {
             btnSearch.setDisable(false);
         });
         searchThread.start();
+        System.out.println("8");
     }
 
     /**

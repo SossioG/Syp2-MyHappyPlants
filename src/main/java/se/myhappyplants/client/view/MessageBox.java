@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MessageBox {
 
-    private static Stage window;
+    //private static Stage window;
     private static VBox vBox;
 
     /**
@@ -31,7 +31,7 @@ public class MessageBox {
      * @param message the message of the box
      */
     public static void display(BoxTitle boxTitle, String message) {
-        window = new Stage();
+        Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(String.valueOf(boxTitle));
@@ -42,8 +42,11 @@ public class MessageBox {
         label.setText(message);
 
         Button okButton = new Button("OK");
+        System.out.println("Outside");
         okButton.setOnAction(action -> {
+            window.hide();
             window.close();
+            System.out.println("Inside");
         });
 
         label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 20 20;");

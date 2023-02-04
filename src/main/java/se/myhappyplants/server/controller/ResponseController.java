@@ -11,25 +11,29 @@ import se.myhappyplants.shared.MessageType;
 import java.io.IOException;
 
 /**
- * Class that handles the logic from the Server
- * Created by: Linn Borgström
- * Updated by: Linn Borgström, 2021-05-13
+ * Class that handles the logic from the Server.
+ * Created by: Linn Borgström.
+ * Updated by: Linn Borgström, 2021-05-13.
  */
-
 public class ResponseController {
     private ResponseContext responseContext;
 
-
-    public ResponseController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository){
+    /**
+     * Default constructor.
+     * @param userRepository user rep.
+     * @param userPlantRepository user plant rep.
+     * @param plantRepository plant rep.
+     */
+    public ResponseController(UserRepository userRepository, UserPlantRepository userPlantRepository, PlantRepository plantRepository) {
         responseContext = new ResponseContext(userRepository, userPlantRepository, plantRepository);
     }
+
     /**
      * Gets a response depending on the type of requests received
      * @param request request object received from client
      * @return response to be sent back to client
      */
     public Message getResponse(Message request) throws IOException, InterruptedException {
-
         Message response;
         MessageType messageType = request.getMessageType();
 

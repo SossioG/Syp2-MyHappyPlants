@@ -34,7 +34,6 @@
         <Pane prefHeight="509.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
                 <AutocompleteSearchField fx:id="txtFldSearchText" layoutX="14.0" layoutY="10.0" onAction="#searchButtonPressed" prefHeight="30.0" prefWidth="441.0" promptText="Search...">
-
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
@@ -44,7 +43,7 @@
                 <ListView fx:id="listViewResult" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="14.0" layoutY="86.0" minHeight="50.0" prefHeight="384.0" prefWidth="765.0" />
                 <ListView fx:id="lstFunFacts" layoutX="786.0" layoutY="86.0" prefHeight="296.0" prefWidth="200.0" />
                 <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
-                <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortResults" prefHeight="30.0" prefWidth="186.0" promptText="  Common name" />
+                <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortResults" prefHeight="30.0" prefWidth="186.0" promptText="Common name" />
                 <ListView layoutX="786.0" layoutY="388.0" prefHeight="82.0" prefWidth="200.0" />
                 <ImageView fitHeight="96.0" fitWidth="114.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -56,7 +55,7 @@
                         <Image url="@../../../../Blommor/funfacts.png" />
                     </image>
                 </ImageView>
-            <TextField fx:id="txtNbrOfResults" editable="false" style= "-fx-background-color: transparent" layoutX="181.0" layoutY="53.0" pickOnBounds="false" />
+                <TextField fx:id="txtNbrOfResults" editable="false" style= "-fx-background-color: transparent" layoutX="181.0" layoutY="53.0" pickOnBounds="false" />
             </children>
         </Pane>
     </left>

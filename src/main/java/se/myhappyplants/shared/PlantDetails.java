@@ -3,9 +3,8 @@ package se.myhappyplants.shared;
 import java.io.Serializable;
 
 /**
- * Container class for more detailed information about a plant
- * Created by: Frida Jacobsson
- * Updated by:
+ * Container class for more detailed information about a plant.
+ * Created by: Frida Jacobsson.
  **/
 public class PlantDetails implements Serializable {
 
@@ -15,6 +14,14 @@ public class PlantDetails implements Serializable {
     private int waterFrequency;
     private String family;
 
+    /**
+     * Default constructor.
+     * @param genus for plant.
+     * @param scientificName for plant.
+     * @param light for plant.
+     * @param waterFrequency for plant.
+     * @param family for plant.
+     */
     public PlantDetails(String genus, String scientificName, int light, int waterFrequency, String family) {
         this.scientificName = scientificName;
         this.genus = genus;
@@ -23,22 +30,19 @@ public class PlantDetails implements Serializable {
         this.family = family;
     }
 
+    // getters and setters
     public String getScientificName() {
         return scientificName;
     }
-
     public String getGenus() {
         return genus;
     }
-
     public int getLight() {
         return light;
     }
-
     public int getWaterFrequency() {
         return waterFrequency;
     }
-
     public String getFamily() {
         return family;
     }
