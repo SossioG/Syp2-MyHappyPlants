@@ -28,11 +28,12 @@ public class QueryExecutor implements IQueryExecutor {
             }
             catch (SQLException sqlException) {
                 connection.closeConnection();
+                sqlException.printStackTrace();
                 retries++;
             }
         } while (!isSuccess && retries < 3);
 
-        throw new SQLException("No connection to database");
+        //throw new SQLException("No connection to database");
     }
 
     @Override
