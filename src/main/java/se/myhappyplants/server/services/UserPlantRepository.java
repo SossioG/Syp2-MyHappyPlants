@@ -42,7 +42,8 @@ public class UserPlantRepository {
         boolean success = false;
         String sqlSafeNickname = plant.getNickname().replace("'", "''");
 //      String query = "INSERT INTO Plant (user_id, nickname, plant_id, last_watered, image_url) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getPlantId() + "', '" + plant.getLastWatered() + "', '" + plant.getImageURL() + "');";
-        String query = String.format("INSERT INTO plant (user_id, nickname, plant_id, last_watered, image_url) values (%s, %s, %s, %s, %s);", user.getUniqueId(), sqlSafeNickname, plant.getPlantId(), plant.getLastWatered(), plant.getImageURL() );
+        String query = String.format("INSERT INTO plant (user_id, nickname, last_watered, plant_id, image_url) values (%s, '%s', '%s', %s, '%s');", user.getUniqueId(), sqlSafeNickname, plant.getLastWatered(), plant.getPlantId(), plant.getImageURL() );
+        System.out.println(query);
         try {
             database.executeUpdate(query);
             success = true;

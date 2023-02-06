@@ -130,12 +130,16 @@ public class UserRepository {
 
     public boolean changeNotifications(User user, boolean notifications) {
         boolean notificationsChanged = false;
-        int notificationsActivated = 0;
+        boolean notificationsActivated = false;
         if (notifications) {
-            notificationsActivated = 1;
+            notificationsActivated = true;
         }
 //      String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() + "';";
         String query = String.format("UPDATE tuser SET notification_activated = %s WHERE email = '%s';", notificationsActivated, user.getEmail());
+        //String query = "UPDATE tuser SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() +  "';";
+        //String query = "UPDATE tuser SET notification_activated = true WHERE email = '1@1.se';";
+
+
         try {
             database.executeUpdate(query);
             notificationsChanged = true;
@@ -148,9 +152,9 @@ public class UserRepository {
 
     public boolean changeFunFacts(User user, Boolean funFactsActivated) {
         boolean funFactsChanged = false;
-        int funFactsBitValue = 0;
+        boolean funFactsBitValue = false;
         if (funFactsActivated) {
-            funFactsBitValue = 1;
+            funFactsBitValue = true;
         }
 //      String query = "UPDATE [User] SET fun_facts_activated = " + funFactsBitValue + " WHERE email = '" + user.getEmail() + "';";
         String query = String.format("UPDATE tuser SET fun_facts_activated = %s WHERE email = '%s';", funFactsBitValue, user.getEmail());
