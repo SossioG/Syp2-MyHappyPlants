@@ -13,7 +13,7 @@
         </Tab>
         <Tab fx:id="searchTab" text="Search">
             <content>
-                <fx:include fx:id="searchTabPane" source="searchTabPane.fxml" />
+                <fx:include fx:id="searchTabPane" source="searchTabPaneF.fxml" />
             </content>
         </Tab>
         <Tab fx:id="settingsTab" text="Settings">
