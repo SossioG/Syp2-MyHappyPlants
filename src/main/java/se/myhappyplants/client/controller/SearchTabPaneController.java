@@ -16,7 +16,6 @@ import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.client.view.SearchPlantPane;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
@@ -34,29 +33,19 @@ import java.util.ArrayList;
  */
 
 public class SearchTabPaneController {
-    @FXML
-    public ListView lstFunFacts;
     public BorderPane plantsPane;
-    @FXML
-    private MainPaneController mainPaneController;
-    @FXML
-    private Circle imgUserAvatar;
-    @FXML
-    private Label lblUsername;
-    @FXML
-    private Button btnSearch;
-    @FXML
-    private AutocompleteSearchField txtFldSearchText;
-    @FXML
-    private ComboBox<SortingOption> cmbSortOption;
-    @FXML
-    private ListView listViewResult;
-    @FXML
-    private ProgressIndicator progressIndicator;
-    @FXML
-    public ImageView imgFunFactTitle;
-    @FXML
-    public TextField txtNbrOfResults;
+    @FXML public ListView lstFunFacts;
+    @FXML private MainPaneController mainPaneController;
+    @FXML private Circle imgUserAvatar;
+    @FXML private Label lblUsername;
+    @FXML private Button btnSearch;
+    @FXML private AutocompleteSearchField txtFldSearchText;
+    @FXML private ComboBox<SortingOption> cmbSortOption;
+    @FXML private ListView listViewResult;
+    @FXML private ProgressIndicator progressIndicator;
+    @FXML public ImageView imgFunFactTitle;
+    @FXML public TextField txtNbrOfResults;
+    @FXML public TextArea txtAreaMessages;
 
     private ArrayList<Plant> searchResults;
 
@@ -64,8 +53,7 @@ public class SearchTabPaneController {
      * Method to initialize the GUI
      * @throws IOException
      */
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsername.setText(loggedInUser.getUser().getUsername());
         imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
@@ -101,8 +89,7 @@ public class SearchTabPaneController {
      * Method to add a plant to the logged in users library. Asks the user if it wants to add a nickname to the plant and receives a string if the answer is yes
      * @param plantAdd the selected plant to add
      */
-    @FXML
-    public void addPlantToCurrentUserLibrary(Plant plantAdd) {
+    @FXML public void addPlantToCurrentUserLibrary(Plant plantAdd) {
         String plantNickname = plantAdd.getCommonName();
 
         int answer = MessageBox.askYesNo(BoxTitle.Add, "Do you want to add a nickname for your plant?");
@@ -159,27 +146,20 @@ public class SearchTabPaneController {
     /**
      * Method to sent a message to the server to get the results from the database. Displays a message to the user that more info is on its way
      */
-    @FXML
-    private void searchButtonPressed() {
-        System.out.println("1");
+    @FXML private void searchButtonPressed() {
         btnSearch.setDisable(true);
         txtFldSearchText.addToHistory();
-        PopupBox.display(MessageText.holdOnGettingInfo.toString());
-        System.out.println("2");
+        //Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.holdOnGettingInfo.toString()));
         Thread searchThread = new Thread(() -> {
             Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
             ServerConnection connection = ServerConnection.getClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
-            System.out.println("3");
 
             if (apiResponse != null) {
-                System.out.println("4");
                 if (apiResponse.isSuccess()) {
-                    System.out.println("5");
                     searchResults = apiResponse.getPlantArray();
                     Platform.runLater(() -> txtNbrOfResults.setText(searchResults.size() + " results"));
                     if(searchResults.size() == 0) {
-                        System.out.println("6");
                         progressIndicator.progressProperty().unbind();
                         progressIndicator.setProgress(100);
                         btnSearch.setDisable(false);
@@ -187,7 +167,6 @@ public class SearchTabPaneController {
                         return;
                     }
                     Platform.runLater(() -> showResultsOnPane());
-                    System.out.println("7");
                 }
             }
             else {
@@ -196,20 +175,19 @@ public class SearchTabPaneController {
             btnSearch.setDisable(false);
         });
         searchThread.start();
-        System.out.println("8");
     }
 
     /**
      * Method to message the right controller-class that the log out-button has been pressed
      * @throws IOException
      */
-    @FXML
-    private void logoutButtonPressed() throws IOException {
+    @FXML private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
     }
 
     public PlantDetails getPlantDetails(Plant plant) {
-        PopupBox.display(MessageText.holdOnGettingInfo.toString());
+        //Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.holdOnGettingInfo.toString()));
+
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         ServerConnection connection = ServerConnection.getClientConnection();
@@ -223,8 +201,7 @@ public class SearchTabPaneController {
     /**
      * Method to rearranges the results based on selected sorting option
      */
-    @FXML
-    public void sortResults() {
+    @FXML public void sortResults() {
         SortingOption selectedOption;
         selectedOption = cmbSortOption.getValue();
         listViewResult.setItems(ListSorter.sort(selectedOption, listViewResult.getItems()));

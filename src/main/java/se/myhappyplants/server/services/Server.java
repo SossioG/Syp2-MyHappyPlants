@@ -62,7 +62,6 @@ public class Server implements Runnable {
             try {
                 Socket socket = serverSocket.accept();
                 ClientHandlerTask clientHandlerTask = new ClientHandlerTask(socket, responseController);
-                System.out.println("RUNS");
                 executor.submit(clientHandlerTask);
             }
             catch (IOException e) {

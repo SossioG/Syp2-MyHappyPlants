@@ -107,6 +107,8 @@ public class Message implements Serializable {
         this.success = success;
     }
 
+
+
     /**
      * Creates a message which can be used to send text.
      * @param messageType of the message.
