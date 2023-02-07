@@ -33,8 +33,7 @@ public class MainPaneController {
     /**
      * Constructor that has access to FXML variables
      */
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         myPlantsTabPaneController.setMainController(this);
         searchTabPaneController.setMainController(this);
         settingsTabPaneController.setMainController(this);
@@ -62,8 +61,7 @@ public class MainPaneController {
      *
      * @throws IOException
      */
-    @FXML
-    public void logoutButtonPressed() throws IOException {
+    @FXML public void logoutButtonPressed() throws IOException {
         String email = LoggedInUser.getInstance().getUser().getEmail();
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("resources/lastLogin.txt"))) {

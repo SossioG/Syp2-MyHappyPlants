@@ -1,6 +1,5 @@
 package se.myhappyplants.client.view;
 
-import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import se.myhappyplants.client.model.BoxTitle;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +20,6 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MessageBox {
 
-    //private static Stage window;
     private static VBox vBox;
 
     /**
@@ -61,7 +58,6 @@ public class MessageBox {
         window.setScene(scene);
         window.showAndWait();
     }
-
 
     /**
      * Displays a yes/no input box

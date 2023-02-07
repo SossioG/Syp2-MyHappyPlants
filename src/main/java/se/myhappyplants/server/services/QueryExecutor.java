@@ -32,8 +32,6 @@ public class QueryExecutor implements IQueryExecutor {
                 retries++;
             }
         } while (!isSuccess && retries < 3);
-
-        //throw new SQLException("No connection to database");
     }
 
     @Override
@@ -61,6 +59,7 @@ public class QueryExecutor implements IQueryExecutor {
                 return connection.getConnection().createStatement();
             }
             catch (SQLException sqlException) {
+                sqlException.printStackTrace();
                 connection.closeConnection();
                 retries++;
             }

@@ -136,9 +136,6 @@ public class UserRepository {
         }
 //      String query = "UPDATE [User] SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() + "';";
         String query = String.format("UPDATE tuser SET notification_activated = %s WHERE email = '%s';", notificationsActivated, user.getEmail());
-        //String query = "UPDATE tuser SET notification_activated = " + notificationsActivated + " WHERE email = '" + user.getEmail() +  "';";
-        //String query = "UPDATE tuser SET notification_activated = true WHERE email = '1@1.se';";
-
 
         try {
             database.executeUpdate(query);

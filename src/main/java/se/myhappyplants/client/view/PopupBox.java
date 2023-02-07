@@ -70,11 +70,11 @@ public class PopupBox extends Popup {
         window.show();
         AtomicReference<Double> opacity = new AtomicReference<>(1.0);
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(20), event -> {
+                new KeyFrame(Duration.millis(10), event -> {
                     window.getScene().getRoot().opacityProperty().set(opacity.updateAndGet(v -> (double) (v - 0.01)));
                 })
         );
-        timeline.setCycleCount(100);
+        timeline.setCycleCount(50);
         timeline.setOnFinished(action -> {
             if(toggleButton !=null){
                 toggleButton.setDisable(false);
@@ -83,7 +83,6 @@ public class PopupBox extends Popup {
             window.hide();
         });
         timeline.play();
-
     }
 
     /**

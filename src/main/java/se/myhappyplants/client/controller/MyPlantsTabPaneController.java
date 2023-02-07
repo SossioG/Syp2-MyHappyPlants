@@ -17,25 +17,13 @@ import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.LibraryPlantPane;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.client.view.PopupBox;
 import se.myhappyplants.shared.*;
 import se.myhappyplants.client.model.SetAvatar;
-
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.net.URL;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.net.URL;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,44 +35,23 @@ import java.util.ArrayList;
  */
 public class MyPlantsTabPaneController {
 
-    @FXML
-    public ImageView imgNotifications;
-
     private ArrayList<Plant> currentUserLibrary;
-
-    @FXML
-    private MainPaneController mainPaneController;
-
-    @FXML
-    private Label lblUsername;
-
-    @FXML
-    private Circle imgUserAvatar;
-
-    @FXML
-    private ComboBox<SortingOption> cmbSortOption;
-
-    @FXML
-    private ListView lstViewUserPlantLibrary;
-
-    @FXML
-    private ListView<String> lstViewNotifications;
-
-    @FXML
-    private Button btnWaterAll;
-
-    @FXML
-    private Button btnExpandAll;
-
-    @FXML
-    public Button btnCollapseAll;
+    @FXML public ImageView imgNotifications;
+    @FXML private MainPaneController mainPaneController;
+    @FXML private Label lblUsername;
+    @FXML private Circle imgUserAvatar;
+    @FXML private ComboBox<SortingOption> cmbSortOption;
+    @FXML private ListView lstViewUserPlantLibrary;
+    @FXML private ListView<String> lstViewNotifications;
+    @FXML private Button btnWaterAll;
+    @FXML private Button btnExpandAll;
+    @FXML public Button btnCollapseAll;
 
     /**
      * Method to initilize the variables
      */
 
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsername.setText(loggedInUser.getUser().getUsername());
         imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
@@ -92,7 +59,6 @@ public class MyPlantsTabPaneController {
         createCurrentUserLibraryFromDB();
         addCurrentUserLibraryToHomeScreen();
     }
-
 
     /**
      * Method to set the mainPaneController
@@ -113,8 +79,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to add a users plants to myPlantsTab
      */
-    @FXML
-    public void addCurrentUserLibraryToHomeScreen() {
+    @FXML public void addCurrentUserLibraryToHomeScreen() {
         ObservableList<LibraryPlantPane> obsListLibraryPlantPane = FXCollections.observableArrayList();
         if (currentUserLibrary == null) {
             disableButtons();
@@ -165,8 +130,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to create the logged in users library from the database
      */
-    @FXML
-    public void createCurrentUserLibraryFromDB() {
+    @FXML public void createCurrentUserLibraryFromDB() {
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ServerConnection connection = ServerConnection.getClientConnection();
@@ -187,9 +151,8 @@ public class MyPlantsTabPaneController {
      * Method to remove a selected plant from the database
      * @param plant
      */
-    @FXML
-    public void removePlantFromDB(Plant plant) {
-        Platform.runLater(() ->PopupBox.display(MessageText.removePlant.toString()));
+    @FXML public void removePlantFromDB(Plant plant) {
+        Platform.runLater(() -> MessageBox.display(BoxTitle.Delete, MessageText.removePlant.toString()));
         Thread removePlantThread = new Thread(() -> {
             currentUserLibrary.remove(plant);
             addCurrentUserLibraryToHomeScreen();
@@ -210,8 +173,7 @@ public class MyPlantsTabPaneController {
      * @param selectedPlant the plant that the user selects
      * @param plantNickname the nickname of the plant that the user chooses
      */
-    @FXML
-    public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
+    @FXML public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
         int plantsWithThisNickname = 1;
         String uniqueNickName = plantNickname;
         for (Plant plant : currentUserLibrary) {
@@ -224,7 +186,7 @@ public class MyPlantsTabPaneController {
         Date date = new Date(currentDateMilli);
         String imageURL = PictureRandomizer.getRandomPictureURL();
         Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date, imageURL);
-        PopupBox.display(MessageText.sucessfullyAddPlant.toString());
+        Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyAddPlant.toString()));
         addPlantToDB(plantToAdd);
     }
 
@@ -232,8 +194,7 @@ public class MyPlantsTabPaneController {
      * Method to save the plant to the database
      * @param plant the selected plant that the user has chosen
      */
-    @FXML
-    public void addPlantToDB(Plant plant) {
+    @FXML public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
             currentUserLibrary.add(plant);
             Message savePlant = new Message(MessageType.savePlant, LoggedInUser.getInstance().getUser(), plant);
@@ -251,8 +212,7 @@ public class MyPlantsTabPaneController {
      * Method to message the right controller-class that the log out-button has been pressed
      * @throws IOException
      */
-    @FXML
-    private void logoutButtonPressed() throws IOException {
+    @FXML private void logoutButtonPressed() throws IOException {
         mainPaneController.logoutButtonPressed();
     }
 
@@ -266,7 +226,7 @@ public class MyPlantsTabPaneController {
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         ServerConnection connection = ServerConnection.getClientConnection();
         Message response = connection.makeRequest(changeLastWatered);
-        PopupBox.display(MessageText.sucessfullyChangedDate.toString());
+        Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyChangedDate.toString()));
         if (!response.isSuccess()) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
         }
@@ -284,7 +244,7 @@ public class MyPlantsTabPaneController {
         Message changeNicknameInDB = new Message(MessageType.changeNickname, LoggedInUser.getInstance().getUser(), plant, newNickname);
         ServerConnection connection = ServerConnection.getClientConnection();
         Message response = connection.makeRequest(changeNicknameInDB);
-        PopupBox.display(MessageText.sucessfullyChangedPlant.toString());
+        Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyChangedPlant.toString()));
         if (!response.isSuccess()) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "It was not possible to change nickname for you plant. Try again."));
             return false;
@@ -333,8 +293,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to water all the plant at once
      */
-    @FXML
-    public void waterAll() {
+    @FXML public void waterAll() {
         btnWaterAll.setDisable(true);
         ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
         changeAllToWateredInDB();
@@ -347,8 +306,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to expand all the plants "flaps" at the same time
      */
-    @FXML
-    public void expandAll() {
+    @FXML public void expandAll() {
         btnExpandAll.setDisable(true);
         ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
         for (LibraryPlantPane lpp : libraryPlantPanes) {
@@ -361,8 +319,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to collaps att the plants "flaps" at the same time
      */
-    @FXML
-    public void collapseAll() {
+    @FXML public void collapseAll() {
         btnCollapseAll.setDisable(true);
         ObservableList<LibraryPlantPane> libraryPlantPanes = lstViewUserPlantLibrary.getItems();
         for (LibraryPlantPane lpp : libraryPlantPanes) {

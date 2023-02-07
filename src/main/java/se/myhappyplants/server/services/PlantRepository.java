@@ -25,7 +25,6 @@ public class PlantRepository {
     public ArrayList<Plant> getResult(String plantSearch) {
         ArrayList<Plant> plantList = new ArrayList<>();
         String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
-        System.out.println("Inside the db!!!");
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {

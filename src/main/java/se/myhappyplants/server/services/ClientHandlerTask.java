@@ -28,12 +28,9 @@ public class ClientHandlerTask implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Clienthandler runs");
         try {
-            System.out.println("action1");
             Message request = (Message) ois.readObject();
             Message response = responseController.getResponse(request);
-            System.out.println("action2");
             oos.writeObject(response);
             oos.flush();
         }
