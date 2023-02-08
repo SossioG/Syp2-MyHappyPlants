@@ -1,4 +1,4 @@
-package se.myhappyplants.client.controller;
+package mockcodefiles;
 
 import javafx.application.Platform;
 import se.myhappyplants.client.model.BoxTitle;

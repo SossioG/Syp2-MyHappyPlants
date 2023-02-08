@@ -1,12 +1,10 @@
-package se.myhappyplants.client.model;
-
-import javafx.application.Platform;
-import se.myhappyplants.client.view.MessageBox;
+package mockcodefiles;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterPaneControllerMock {
+public class RegisterPaneControllerPasswordMock
+{
 
     private String txtFldNewEmail;
     private String txtFldNewEmail1;
@@ -14,7 +12,7 @@ public class RegisterPaneControllerMock {
     private String passFldNewPassword;
     private String passFldNewPassword1;
 
-    public RegisterPaneControllerMock(String txtFldNewEmail, String txtFldNewEmail1, String txtFldNewUsername, String passFldNewPassword, String passFldNewPassword1) {
+    public RegisterPaneControllerPasswordMock(String txtFldNewEmail, String txtFldNewEmail1, String txtFldNewUsername, String passFldNewPassword, String passFldNewPassword1) {
         this.txtFldNewEmail = txtFldNewEmail;
         this.txtFldNewEmail1 = txtFldNewEmail1;
         this.txtFldNewUsername = txtFldNewUsername;
@@ -31,7 +29,7 @@ public class RegisterPaneControllerMock {
         loginInfoToCompare[4] = passFldNewPassword1;
         return loginInfoToCompare;
     }
-    public boolean validateRegistration(RegisterPaneControllerMock registerPaneControllerMock) {
+    public boolean validateRegistration(RegisterPaneControllerPasswordMock registerPaneControllerPasswordMock) {
         String[] loginInfoToCompare = this.getComponentsToVerify();
 
         if (!validateEmail(loginInfoToCompare[0])) {

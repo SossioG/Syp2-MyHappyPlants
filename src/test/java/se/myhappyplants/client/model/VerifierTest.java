@@ -1,17 +1,11 @@
 package se.myhappyplants.client.model;
-
-import javafx.scene.control.PasswordField;
+import mockcodefiles.RegisterPaneControllerPasswordMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import se.myhappyplants.client.controller.RegisterPaneController;
-
-import java.lang.reflect.Array;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class VerifierTest {
 
-    RegisterPaneControllerMock rcm = new RegisterPaneControllerMock("test@gmail.com",
+    RegisterPaneControllerPasswordMock rcm = new RegisterPaneControllerPasswordMock("test@gmail.com",
             "test@gmail.com",
             "testuser",
             "test",

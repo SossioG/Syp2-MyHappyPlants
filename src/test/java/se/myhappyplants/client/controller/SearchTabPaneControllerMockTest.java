@@ -1,15 +1,13 @@
 package se.myhappyplants.client.controller;
 
+import mockcodefiles.SearchTabPaneControllerMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import se.myhappyplants.server.StartServer;
 import se.myhappyplants.server.controller.ResponseController;
 import se.myhappyplants.server.services.*;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SearchTabPaneControllerMockTest {
 
