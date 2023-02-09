@@ -18,8 +18,12 @@ import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -37,6 +41,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private ProgressBar progressBar;
     private Button infoButton;
     private Button waterButton;
+    private Button plantSettings;
     private Button changeNicknameButton;
     private Button changePictureButton;
     private Button deleteButton;
@@ -47,6 +52,9 @@ public class LibraryPlantPane extends Pane implements PlantPane {
 
     public boolean extended;
     private boolean gotInfoOnPlant;
+
+    public boolean extendedSettings;
+    public boolean gotSettingsInfo;
 
     /**
      * Creates a simple pane with loading image
@@ -87,6 +95,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         initLastWateredLabel(plant);
         initProgressBar(plant);
         initWaterButton(plant);
+        initPlantSetttings(plant);
         initInfoButton();
         initChangeNicknameButton(plant);
         initChangePictureButton();
@@ -195,13 +204,35 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     public ProgressBar getProgressBar() {
         return progressBar;
     }
+
+
+    private void initPlantSetttings(Plant plant) {
+        this.plantSettings = new Button("Settings");
+        plantSettings.setLayoutX(450.0);
+        plantSettings.setLayoutY(55.0);
+        plantSettings.setMnemonicParsing(false);
+        plantSettings.setOnAction(action -> {
+            pressPlantSettingsButton();
+        });
+    }
+
+    public void pressPlantSettingsButton() {
+        plantSettings.setDisable(true);
+        if (!extendedSettings) {
+            expandPlantSettings();
+        }
+        else {
+            collapsePlantSettings();
+        }
+    }
+
     /**
      * Method to initiate the water button
      * @param plant
      */
     private void initWaterButton(Plant plant) {
         this.waterButton = new Button("Water");
-        waterButton.setLayoutX(400.0);
+        waterButton.setLayoutX(300.0);
         waterButton.setLayoutY(55.0);
         waterButton.setMnemonicParsing(false);
         waterButton.setOnAction(action -> {
@@ -225,7 +256,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     }
 
     /**
-     * Method to set off what happens when a user presses the info button
+     * Method to set off what happens when a user presses the info button.
      */
     public void pressInfoButton() {
         infoButton.setDisable(true);
@@ -242,7 +273,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
                 plantInfo.add("Family: " + plantDetails.getFamily());
                 plantInfo.add("Light: " + lightText);
                 plantInfo.add("Water: " + waterText);
-                plantInfo.add("Last watered: " + plant.getLastWatered());
+                plantInfo.add("Last watered: Approximately " + calcLastTimeWatered() + " days ago.");
                 listViewMoreInfo.setItems(plantInfo);
             }
             expand();
@@ -251,6 +282,30 @@ public class LibraryPlantPane extends Pane implements PlantPane {
             collapse();
         }
     }
+
+    /**
+     * Den här metoden beräknar (ungefär) hur många dagar sedan en planta var vattnad.
+     * @return Days passed after last watering time.
+     */
+    private String calcLastTimeWatered() {
+        LocalDate localDate = java.time.LocalDate.now();
+        String lclTime = localDate.toString();
+        String lastWatered = plant.getLastWatered().toString();
+        long calcAproxDay = 0;
+
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = format.parse(lclTime);
+            Date date2 = format.parse(lastWatered);
+            long diffDay = date1.getDate() - date2.getDate();
+            long diffMonth = date1.getMonth() - date2.getMonth();
+            long diffYear = date1.getYear() - date2.getYear();
+            calcAproxDay = diffDay + (diffMonth * 30);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return Long.toString(calcAproxDay);
+    }
     /**
      * Method to initiate the change nickname-button
      * @param plant to change the nickname on
@@ -258,7 +313,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private void initChangeNicknameButton(Plant plant) {
         this.changeNicknameButton = new Button("Change nickname");
         changeNicknameButton.setLayoutX(333.0);
-        changeNicknameButton.setLayoutY(250.0);
+        changeNicknameButton.setLayoutY(110.0);
         changeNicknameButton.setMnemonicParsing(false);
         changeNicknameButton.setOnAction(onPress -> {
             changeNickname(plant);
@@ -284,7 +339,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private void initChangePictureButton() {
         this.changePictureButton = new Button("Change picture");
         changePictureButton.setLayoutX(488.0);
-        changePictureButton.setLayoutY(250.0);
+        changePictureButton.setLayoutY(110.0);
         changePictureButton.setMnemonicParsing(false);
         changePictureButton.setOnAction(action ->
                 myPlantsTabPaneController.setNewPlantPicture(this));
@@ -309,7 +364,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private void initDeleteButton(Plant plant) {
         this.deleteButton = new Button("Delete plant");
         deleteButton.setLayoutX(625.0);
-        deleteButton.setLayoutY(250.0);
+        deleteButton.setLayoutY(110.0);
         deleteButton.setMnemonicParsing(false);
         deleteButton.setOnAction(onPress -> {
             removePlant(plant);
@@ -337,9 +392,43 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         plantInfo.add("Water: " + waterText);
         plantInfo.add("Last watered: " + plant.getLastWatered());
         this.setPrefHeight(92.0);
-        this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, waterButton, infoButton);
+        this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, plantSettings, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
 
+    }
+
+    public void expandPlantSettings() {
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(8.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v + 6.25))))
+        );
+        timeline.setCycleCount(32);
+        timeline.play();
+        timeline.setOnFinished(action -> {
+            plantSettings.setDisable(false);
+            this.setPrefHeight(152.0);
+            this.getChildren().addAll(changeNicknameButton, changePictureButton, deleteButton);
+        });
+        extendedSettings = true;
+
+        if(extended) {
+            collapse();
+        }
+    }
+
+    public void collapsePlantSettings() {
+        AtomicReference<Double> height = new AtomicReference<>(this.getHeight());
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(7.5), event -> this.setPrefHeight(height.updateAndGet(v -> (double) (v - 6.25))))
+        );
+        timeline.setCycleCount(32);
+        timeline.play();
+        this.getChildren().removeAll(changeNicknameButton, changePictureButton, deleteButton);
+        timeline.setOnFinished(action -> {
+            plantSettings.setDisable(false);
+            this.setPrefHeight(92.0);
+        });
+        extendedSettings = false;
     }
 
 
@@ -356,9 +445,14 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
             this.setPrefHeight(292.0);
-            this.getChildren().addAll(listViewMoreInfo, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton);
+            this.getChildren().addAll(listViewMoreInfo, datePicker, changeOKWaterButton);
         });
         extended = true;
+
+        if(extendedSettings) {
+            collapsePlantSettings();
+        }
+
     }
 
     /**
@@ -371,7 +465,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         );
         timeline.setCycleCount(32);
         timeline.play();
-        this.getChildren().removeAll(listViewMoreInfo, changeNicknameButton, changePictureButton, deleteButton, datePicker, changeOKWaterButton, lastWateredLabel);
+        this.getChildren().removeAll(listViewMoreInfo, datePicker, changeOKWaterButton, lastWateredLabel);
         timeline.setOnFinished(action -> {
             infoButton.setDisable(false);
             this.setPrefHeight(92.0);
