@@ -29,6 +29,7 @@ public class DatabaseConnection implements IDatabaseConnection {
         if (InetAddress.getLocalHost().getHostName().equals(PasswordsAndKeys.dbHostName)) {
             dbServerIp = "localhost";
         }
+
         String dbURL = String.format("jdbc:postgresql://%s/%s", dbServerIp, databaseName);
         this.conn = DriverManager.getConnection(dbURL, dbUser, dbPassword);
         return conn;
