@@ -1,4 +1,4 @@
-package se.myhappyplants.client.model;
+package se.myhappyplants.client.controller;
 
 import mockcodefiles.PlantLibraryMock;
 import org.junit.jupiter.api.Assertions;
