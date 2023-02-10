@@ -56,4 +56,11 @@ class RegistrationTest {
                 validPassword, validPassword + "a");
         Assertions.assertFalse(mock.validateRegistration(mock));
     }
+
+    @Test
+    void passwordDontMatchCapitalLetter(){
+        RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail, validUsername,
+                validPassword, "password1");
+        Assertions.assertFalse(mock.validateRegistration(mock));
+    }
 }
