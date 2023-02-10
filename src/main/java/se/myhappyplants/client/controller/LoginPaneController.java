@@ -88,7 +88,6 @@ public class LoginPaneController {
                 }
                 else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Sorry, we couldn't find an account with that email or you typed the password wrong. Try again or create a new account."));
-
                 }
             }
             else {
