@@ -3,9 +3,6 @@ package se.myhappyplants.client.model;
 import mockcodefiles.RegisterPaneControllerMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class RegistrationTest {
     /**
      * Reqid: ANV03F
