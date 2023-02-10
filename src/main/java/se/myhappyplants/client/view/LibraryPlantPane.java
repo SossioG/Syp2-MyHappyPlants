@@ -20,6 +20,7 @@ import se.myhappyplants.shared.PlantDetails;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -237,12 +238,14 @@ public class LibraryPlantPane extends Pane implements PlantPane {
                 String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
 
                 ObservableList<String> plantInfo = FXCollections.observableArrayList();
+                long difference = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-plant.getLastWatered().getTime());
+                String days = difference > 0 ? String.valueOf(difference) + " Days" : "Today";
                 plantInfo.add("Genus: " + plantDetails.getGenus());
                 plantInfo.add("Scientific name: " + plantDetails.getScientificName());
                 plantInfo.add("Family: " + plantDetails.getFamily());
                 plantInfo.add("Light: " + lightText);
                 plantInfo.add("Water: " + waterText);
-                plantInfo.add("Last watered: " + plant.getLastWatered());
+                plantInfo.add("Last watered: " + days);
                 listViewMoreInfo.setItems(plantInfo);
             }
             expand();
