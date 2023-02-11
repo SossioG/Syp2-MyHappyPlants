@@ -44,4 +44,9 @@ public class PlantLibraryMock {
         return true;
         //addPlantToDB(plantToAdd);
     }
+
+    public ArrayList<Plant> getCurrentUserLibrary()
+    {
+        return currentUserLibrary;
+    }
 }

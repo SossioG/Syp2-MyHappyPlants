@@ -3,6 +3,12 @@ import mockcodefiles.RegisterPaneControllerPasswordMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * ReqID: ANV12F
+ * Lösenord - MUST - Lösenord ska följa NIST (National Institute of Standards and Technology) standard för hur de ska konstrueras. Längden måste vara minst 8 tecken.
+ * Innehålla minst en stor bokstav och minst en siffra.
+ */
+
 class VerifierTest {
 
     RegisterPaneControllerPasswordMock rcm = new RegisterPaneControllerPasswordMock("test@gmail.com",

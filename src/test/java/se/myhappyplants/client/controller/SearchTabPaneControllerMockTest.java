@@ -5,21 +5,23 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import se.myhappyplants.server.controller.ResponseController;
 import se.myhappyplants.server.services.*;
-
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+
+/**
+ * ReqID: SÖK01F
+ * En användare ska kunna söka på olika växter.
+ */
 
 class SearchTabPaneControllerMockTest {
 
     SearchTabPaneControllerMock searchTabMock = new SearchTabPaneControllerMock();
-    //start Server for test to work
 
-    //todo kolla om strängen från DB är rätt.
     @Test
-    void test() throws UnknownHostException, SQLException {
-        searchTabMock.setSearchText("");
-        startServer();
-        Assertions.assertEquals(true,searchTabMock.searchButtonPressed());
+    void testSearchForPlant() throws UnknownHostException, SQLException {
+        searchTabMock.setSearchText("TestPlanta");
+        //startServer();
+        Assertions.assertTrue(searchTabMock.searchButtonPressed());
     }
 
     public static void startServer() throws UnknownHostException, SQLException {
