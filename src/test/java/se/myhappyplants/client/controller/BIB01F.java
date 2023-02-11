@@ -8,14 +8,12 @@ import se.myhappyplants.shared.Plant;
 
 import java.sql.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class PlantLibraryTest {
-    private Plant validPlant = new Plant("TestPlanta", "3", new Date(System.currentTimeMillis()));
+class BIB01F {
     /**
      * Reqid: BIB01F
-     * Tillägg i bibliotek - MUST  -En användare ska kunna lägga till en växt i sitt bibliotek.
+     * Tillägg i bibliotek: En användare ska kunna lägga till en växt i sitt bibliotek.
      */
+    private Plant validPlant = new Plant("TestPlanta", "3", new Date(System.currentTimeMillis()));
 
     @Test
     @DisplayName("If the database adds plant under valid conditions")

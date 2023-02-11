@@ -6,10 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import se.myhappyplants.client.model.Verifier;
 
-class RegistrationTest {
+class ANV03F {
     /**
      * Reqid: ANV03F
-     * Skapa konto - MUST  - En användare ska kunna skapa ett nytt konto genom att ange e-postadress, namn och lösenord.
+     * Skapa konto: En användare ska kunna skapa ett nytt konto genom att ange e-postadress, namn och lösenord.
      */
     private final String validEmail = "firstname.surname@gmail.com";
     private final String validUsername = "username123";
