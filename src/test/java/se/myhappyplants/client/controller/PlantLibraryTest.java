@@ -2,6 +2,7 @@ package se.myhappyplants.client.controller;
 
 import mockcodefiles.PlantLibraryMock;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import se.myhappyplants.shared.Plant;
 
@@ -17,12 +18,14 @@ class PlantLibraryTest {
      */
 
     @Test
+    @DisplayName("If the database adds plant under valid conditions")
     void validAdd(){
         PlantLibraryMock mock = new PlantLibraryMock();
         Assertions.assertTrue(mock.addPlantToCurrentUserLibrary(validPlant, true));
     }
 
     @Test
+    @DisplayName("If the database add plant despite not adding a nickname")
     void noSelectedNickname(){
         PlantLibraryMock mock = new PlantLibraryMock();
         Assertions.assertTrue(mock.addPlantToCurrentUserLibrary(validPlant, false));

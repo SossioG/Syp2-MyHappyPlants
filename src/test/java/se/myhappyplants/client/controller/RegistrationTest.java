@@ -2,6 +2,7 @@ package se.myhappyplants.client.controller;
 
 import mockcodefiles.RegisterPaneControllerMock;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import se.myhappyplants.client.model.Verifier;
 
@@ -18,6 +19,7 @@ class RegistrationTest {
 
 
     @Test
+    @DisplayName("Registration goes through with valid inserts")
     void validReg(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail,
                 validUsername, validPassword, validPassword);
@@ -25,6 +27,7 @@ class RegistrationTest {
     }
 
     @Test
+    @DisplayName("Registration does not go through with empty email insert")
     void emailCheckWhenEmptyStrings(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock("", "",
                 validUsername, validPassword, validPassword);
@@ -32,6 +35,7 @@ class RegistrationTest {
     }
 
     @Test
+    @DisplayName("Registration does not go through with empty username insert")
     void usernameEmptyStrings(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail, "",
                 validPassword, validPassword);
@@ -39,6 +43,7 @@ class RegistrationTest {
     }
 
     @Test
+    @DisplayName("Registration does not go through with first password insert being empty")
     void passwordFirstEmptyStrings(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail, validUsername,
                 "", validPassword);
@@ -46,6 +51,7 @@ class RegistrationTest {
     }
 
     @Test
+    @DisplayName("Registration does not go through with second password insert being empty")
     void passwordSecondEmptyStrings(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail, validUsername,
                 validPassword, "");
@@ -53,6 +59,7 @@ class RegistrationTest {
     }
 
     @Test
+    @DisplayName("Registration does not go through with not matching passwords")
     void passwordDontMatch(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail, validUsername,
                 validPassword, validPassword + "a");
@@ -60,6 +67,7 @@ class RegistrationTest {
     }
 
     @Test
+    @DisplayName("Registration does not go through when one password use one capital letter and not the other")
     void passwordDontMatchCapitalLetter(){
         RegisterPaneControllerMock mock = new RegisterPaneControllerMock(validEmail, validEmail, validUsername,
                 validPassword, "password1");
