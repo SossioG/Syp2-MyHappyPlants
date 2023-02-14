@@ -79,6 +79,7 @@ public class LoginPaneController {
                 }
                 else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Password and/or email is invalid."));
+
                 }
             }
             else {

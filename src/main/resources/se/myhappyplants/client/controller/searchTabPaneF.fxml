@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -12,10 +13,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
-
 <?import se.myhappyplants.client.view.AutocompleteSearchField?>
-<?import javafx.geometry.Insets?>
-<BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SearchTabPaneController">
+
+<BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SearchTabPaneController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
@@ -33,18 +33,18 @@
     <left>
         <Pane prefHeight="509.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
-                <!-- This is searchfield! This 'AutocompleteSearchField' section does not allow Scene-builder to open the file because it is not valid component in javafx.
-                    In order to open, comment this section and have in mind that it exists! Commented by Sossio, 2023-02-06. -->
-                <!-- -->
-                <AutocompleteSearchField fx:id="txtFldSearchText" layoutX="14.0" layoutY="10.0" onAction="#searchButtonPressed" prefHeight="30.0" prefWidth="441.0" promptText="Search..."><padding><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></padding></AutocompleteSearchField>
-
+                <AutocompleteSearchField fx:id="txtFldSearchText" layoutX="14.0" layoutY="10.0" onAction="#searchButtonPressed" prefHeight="30.0" prefWidth="441.0" promptText="Search...">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </AutocompleteSearchField>
                 <Button fx:id="btnSearch" layoutX="467.0" layoutY="10.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="23.0" text="Search" />
                 <ProgressIndicator fx:id="progressIndicator" layoutX="545.0" layoutY="10.0" progress="0.0" />
                 <ListView fx:id="listViewResult" accessibleRole="IMAGE_VIEW" fixedCellSize="-2.0" layoutX="14.0" layoutY="86.0" minHeight="50.0" prefHeight="384.0" prefWidth="765.0" />
-                <ListView fx:id="lstFunFacts" layoutX="786.0" layoutY="86.0" prefHeight="290.0" prefWidth="200.0" />
+                <ListView fx:id="lstFunFacts" layoutX="786.0" layoutY="86.0" prefHeight="296.0" prefWidth="200.0" />
                 <Label layoutX="522.0" layoutY="57.0" text="Sort by: " />
                 <ComboBox fx:id="cmbSortOption" layoutX="591.0" layoutY="50.0" onAction="#sortResults" prefHeight="30.0" prefWidth="186.0" promptText="Common name" />
-                <ListView fx:id="txtListViewMessages" layoutX="786.0" layoutY="388.0" prefHeight="82.0" prefWidth="200.0" />
+                <ListView layoutX="786.0" layoutY="388.0" prefHeight="82.0" prefWidth="200.0" />
                 <ImageView fitHeight="96.0" fitWidth="114.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../../Blommor/results.png" />
@@ -55,7 +55,7 @@
                         <Image url="@../../../../Blommor/funfacts.png" />
                     </image>
                 </ImageView>
-                <TextField fx:id="txtNbrOfResults" editable="false" layoutX="181.0" layoutY="53.0" pickOnBounds="false" style="-fx-background-color: transparent" />
+                <TextField fx:id="txtNbrOfResults" editable="false" style= "-fx-background-color: transparent" layoutX="181.0" layoutY="53.0" pickOnBounds="false" />
             </children>
         </Pane>
     </left>
