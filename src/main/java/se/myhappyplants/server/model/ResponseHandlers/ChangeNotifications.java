@@ -8,6 +8,8 @@ import se.myhappyplants.shared.User;
 /**
  * Class that handles the change of the notifications
  */
+
+//todo activate the mail class here
 public class ChangeNotifications implements IResponseHandler {
     private UserRepository userRepository;
 
