@@ -8,7 +8,8 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
 
 /* Class to demonstrate the use of Gmail Create Message API */
-public class MailWriter {
+public class EmailWriter
+{
 
     /**
      * Create a message from an email.
