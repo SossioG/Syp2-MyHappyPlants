@@ -14,6 +14,8 @@ import java.util.Properties;
 //   hämta notifications sträng från klienten som ska skrivas in i mailet
 public class Email
 {
+
+    //for testing only
     public static void main(String[]args) throws MessagingException {
         Email.createEmail("dannygazic@gmail.com","mau@diggins.se","notificationtest","testing");
     }

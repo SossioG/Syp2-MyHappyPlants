@@ -3,8 +3,9 @@ package se.myhappyplants.server.services;
 import com.google.api.services.gmail.model.Message;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
 
 /* Class to demonstrate the use of Gmail Create Message API */

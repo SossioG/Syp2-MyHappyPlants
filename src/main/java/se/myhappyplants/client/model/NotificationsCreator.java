@@ -2,7 +2,6 @@ package se.myhappyplants.client.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.shared.Plant;
 
@@ -37,6 +36,7 @@ public class NotificationsCreator {
             if (plantsThatNeedWater == 0) {
                 notificationStrings.add("All your plants are happy!");
             }
+
         } else {
             imgNotifications.setVisible(false);
             notificationStrings = null;
