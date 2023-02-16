@@ -1,10 +1,5 @@
 package mockcodefiles;
 
-import javafx.application.Platform;
-import se.myhappyplants.client.controller.RegisterPaneController;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.view.MessageBox;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
     public class RegisterPaneControllerMock {

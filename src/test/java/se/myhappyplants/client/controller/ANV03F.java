@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import se.myhappyplants.client.model.Verifier;
 
-class ANV03F {
+public class ANV03F {
     /**
      * Reqid: ANV03F
      * Skapa konto: En användare ska kunna skapa ett nytt konto genom att ange e-postadress, namn och lösenord.
