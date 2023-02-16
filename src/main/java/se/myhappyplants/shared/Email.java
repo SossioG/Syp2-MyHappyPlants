@@ -20,7 +20,7 @@ public class Email
         Email.createEmail("dannygazic@gmail.com","mau@diggins.se","notificationtest","testing");
     }
 
-    public static MimeMessage createEmail(String toEmailAddress,
+    public static void createEmail(String toEmailAddress,
                                           String fromEmailAddress,
                                           String subject,
                                           String bodyText)
@@ -47,7 +47,6 @@ public class Email
         email.setSubject(subject); //subject = notification
         email.setText(bodyText); //what the notification mail should say
         Transport.send(email); //send the mail
-        return email;
     }
 
 
