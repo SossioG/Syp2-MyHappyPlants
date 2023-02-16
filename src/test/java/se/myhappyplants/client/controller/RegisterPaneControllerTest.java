@@ -2,23 +2,23 @@ package se.myhappyplants.client.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-
-import javafx.scene.Scene;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
+import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 import se.myhappyplants.server.services.DatabaseConnection;
-import se.myhappyplants.server.services.IDatabaseConnection;
-import se.myhappyplants.server.services.QueryExecutor;
 
+import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 /**
@@ -29,22 +29,39 @@ import java.sql.ResultSet;
  */
 
 class RegisterPaneControllerTest extends ApplicationTest {
+    //Create a new user in the register pane.
+    static String regEmail = "testEmail@.se";
+    static String regUsername = "testUser123";
+    static String regPassword = "testPassword123";
 
     @Override
     public void start(Stage stage) throws Exception{
         //mainNode låter applikationen refresha efter varje test.
-        Parent mainNode = FXMLLoader.load(RegisterPaneController.class.getResource("registerPane" + ".fxml"));
+        URL fxml = RegisterPaneController.class.getResource("registerPane" + ".fxml");
+        Assertions.assertThat(fxml).isNotNull();
+        Parent mainNode = FXMLLoader.load(fxml);
         stage.setScene(new Scene(mainNode));
         stage.show();
         stage.toFront();
+        StartClient.setScene(stage.getScene());
     }
 
-    @Before
-    public void setUp() throws Exception{
+    @BeforeAll
+    static void deleteUser() {
+        DatabaseConnection connection = new DatabaseConnection("am3281");
+        String query = String.format("DELETE FROM tuser WHERE email = '%s'", regUsername);
 
+        try(Statement statement = connection.getConnection().createStatement()) {
+            statement.executeUpdate(query);
+        } catch(SQLException e) {
+            Assertions.fail("Database connection failed. Failed to delete test user.");
+        } finally {
+            connection.closeConnection();
+        }
     }
 
-    @After
+    // tearDown() körs efter varje test och stänger ner applikationen.
+    @AfterEach
     public void tearDown() throws Exception{
         FxToolkit.hideStage();
         release(new KeyCode[]{});
@@ -55,13 +72,7 @@ class RegisterPaneControllerTest extends ApplicationTest {
     //Test där ny användare registreras med giltig indata. Testanvändaren raderas från databasen.
     @Test
     public void registerNewUser(){
-
-        //Create a new user in the register pane.
-        String regEmail = "testEmail@.se";
-        String regUsername = "testUser123";
-        String regPassword = "testPassword123";
-
-
+        // Klicka igenom registreringen.
         clickOn("#txtFldNewEmail");
         write(regEmail);
         clickOn("#txtFldNewEmail1");
@@ -74,32 +85,30 @@ class RegisterPaneControllerTest extends ApplicationTest {
         write(regPassword);
         clickOn("#signUpButton");
 
-        //Check in database that new user has been added.
-        IDatabaseConnection conn = new DatabaseConnection("am3281");
-        QueryExecutor database = new QueryExecutor(conn);
-        try{
-            ResultSet result = database.executeQuery("select * from tuser where username = 'testUser123';");
-            Assertions.assertNotNull(result);
+        // Vänta på att FX är klar.
+        WaitForAsyncUtils.waitForFxEvents();
 
-            while (result.next()) {
-                String id = result.getString("id");
-                String username = result.getString("username");
-                String email = result.getString("email");
-                Assertions.assertNotNull(id);
-                Assertions.assertEquals(regUsername, username);
-                Assertions.assertEquals(regEmail, email);
-            }
-        }catch (Exception e){
-            Assertions.fail("Database connection failed. Could'nt select test user from DB.");
-        }
+        // Kolla i databasen om den nya användaren har lagts till.
+        DatabaseConnection connection = new DatabaseConnection("am3281");
+        String query = String.format("SELECT * FROM tuser WHERE username = '%s'", regUsername);
 
-        try{
-            ResultSet res = database.executeQuery("delete from tuser where username = 'testUser123';");
-        }catch (Exception e){
+        try(Statement statement = connection.getConnection().createStatement()) {
+            ResultSet result = statement.executeQuery(query);
+            result.next();
+
+            Integer id = result.getInt("id");
+            String username = result.getString("username");
+            String email = result.getString("email");
+
+            Assertions.assertThat(id).isNotNull().isInstanceOf(Integer.class);
+            Assertions.assertThat(regUsername).isEqualTo(username);
+            Assertions.assertThat(regEmail).isEqualTo(email);
+        } catch(SQLException e) {
             e.printStackTrace();
+            Assertions.fail("Database connection failed. Couldn't select test user from DB.");
+        } finally {
+            connection.closeConnection();
         }
-
-        conn.closeConnection();
     }
 
     //Försöker regristrera med ogiltiga mailadresser.
