@@ -29,6 +29,18 @@ public class KeyRobot {
     }
 
     public static void click(String query) {
+        click(query, 0);
+    }
+
+    public static void click(String query, int delay) {
+        if(delay > 0) {
+            try {
+                Thread.sleep(delay);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         WaitForAsyncUtils.waitForFxEvents();
         Bounds bounds = fxRobot.bounds(getNode(query)).query();
 
@@ -41,6 +53,18 @@ public class KeyRobot {
     }
 
     public static void writeText(String text) {
+        writeText(text, 0);
+    }
+
+    public static void writeText(String text, int delay) {
+        if(delay > 0) {
+            try {
+                Thread.sleep(delay);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         StringSelection stringSelection = new StringSelection(text);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
