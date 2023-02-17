@@ -146,7 +146,7 @@ class RegisterPaneControllerTest extends ApplicationTest {
         // Kolla i databasen om den nya användaren har lagts till.
         String query = String.format("SELECT * FROM tuser WHERE username = '%s'", regUsername);
 
-       try(ResultSet result = DBRobot.getQuery(query)) {
+        try(ResultSet result = DBRobot.getQuery(query)) {
             Assertions.assertThat(result.next()).isFalse();
         } catch(SQLException e) {
             Assertions.fail(e.getMessage());
