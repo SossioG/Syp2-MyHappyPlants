@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,6 +67,11 @@ class RegisterPaneControllerTest extends ApplicationTest {
         release(new MouseButton[]{});
     }
 
+    @AfterAll
+    static void closeConnection() {
+        DBRobot.closeConnection();
+    }
+
 
     private void enterRegFields(String email1, String email2, String username, String password1, String password2) throws AWTException {
         // Skriv in användaruppgifter i fälten.
@@ -105,8 +111,6 @@ class RegisterPaneControllerTest extends ApplicationTest {
             Assertions.assertThat(regEmail).isEqualTo(email);
         } catch(SQLException e) {
             Assertions.fail(e.getMessage());
-        } finally {
-            DBRobot.closeConnection();
         }
     }
 
@@ -167,8 +171,6 @@ class RegisterPaneControllerTest extends ApplicationTest {
             Assertions.assertThat(result.next()).isFalse();
         } catch(SQLException e) {
             Assertions.fail(e.getMessage());
-        } finally {
-            DBRobot.closeConnection();
         }
     }
 }
