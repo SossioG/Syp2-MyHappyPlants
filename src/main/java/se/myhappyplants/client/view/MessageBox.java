@@ -37,6 +37,7 @@ public class MessageBox {
 
         Label label = new Label();
         label.setText(message);
+        label.setId("messageLbl");
 
         Button okButton = new Button("OK");
         System.out.println("Outside");
@@ -45,6 +46,7 @@ public class MessageBox {
             window.close();
             System.out.println("Inside");
         });
+        okButton.setId("okButton");
 
         label.setStyle("-fx-font-size: 18px; -fx-padding: 20 20 20 20;");
         okButton.setStyle("-fx-font-size: 18px;");

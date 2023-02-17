@@ -32,7 +32,16 @@ public class KeyRobot {
         click(query, 0);
     }
 
-    public static void click(String query, int delay) {
+     public static void click(String query, int delay) {
+        Node node = getNode(query);
+        click(node, delay);
+    }
+
+    public static void click(Node node) {
+        click(node, 0);
+    }
+
+    public static void click(Node node, int delay) {
         if(delay > 0) {
             try {
                 Thread.sleep(delay);
@@ -42,7 +51,7 @@ public class KeyRobot {
         }
 
         WaitForAsyncUtils.waitForFxEvents();
-        Bounds bounds = fxRobot.bounds(getNode(query)).query();
+        Bounds bounds = fxRobot.bounds(node).query();
 
         double x = bounds.getMaxX() - bounds.getWidth() / 2;
         double y = bounds.getMaxY() - bounds.getHeight() / 2;
@@ -78,5 +87,41 @@ public class KeyRobot {
     public static void clickAndWrite(String query, String text) {
         click(query);
         writeText(text);
+    }
+
+    public static void clickAndWrite(Node node, String text) {
+        click(node);
+        writeText(text);
+    }
+
+    public static void clearText(String query) {
+        clearText(query, 0);
+    }
+
+    public static void clearText(String query, int delay) {
+        Node node = getNode(query);
+        clearText(node, delay);
+    }
+
+    public static void clearText(Node node) {
+        clearText(node, 0);
+    }
+
+    public static void clearText(Node node, int delay) {
+        if(delay > 0) {
+            try {
+                Thread.sleep(delay);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        click(node);
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_A);
+        robot.keyRelease(KeyEvent.VK_A);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_DELETE);
+        robot.keyRelease(KeyEvent.VK_DELETE);
     }
 }
