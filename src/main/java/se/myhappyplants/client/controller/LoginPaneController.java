@@ -3,6 +3,7 @@ package se.myhappyplants.client.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -11,6 +12,7 @@ import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.shared.Email;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.User;
@@ -28,8 +30,11 @@ import java.io.IOException;
 public class LoginPaneController {
 
     @FXML public Hyperlink registerLink;
+    @FXML public Hyperlink forgotPassword;
     @FXML private TextField txtFldEmail;
     @FXML private PasswordField passFldPassword;
+    @FXML private Button loginButton;
+    @FXML private Button verifyButton;
 
     /**
      * Switches to 'logged in' scene
@@ -52,6 +57,53 @@ public class LoginPaneController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML public void forgotPasswordPane()
+    {
+        passFldPassword.setVisible(false);
+        loginButton.setDisable(true);
+        loginButton.setVisible(false);
+        verifyButton.setDisable(false);
+        verifyButton.setVisible(true);
+
+    }
+
+    public void verifyMail()
+    {
+        Thread verificationThread = new Thread(() -> {
+            Message verificationCodeMessage = new Message(MessageType.verifymail, txtFldEmail.getText());
+            ServerConnection connection = ServerConnection.getClientConnection();
+            Message verificationResponse = connection.makeRequest(verificationCodeMessage);
+
+            if (verificationResponse != null) {
+                if (verificationResponse.isSuccess()) {
+
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
+
+                    try {
+                        switchToMainPane();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Password and/or email is invalid."));
+
+                }
+            }
+            else {
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+            }
+        });
+        verificationThread.start();
+    }
+
+    public void sendVerificationCode()
+    {
+        String mail = txtFldEmail.getText();
+        Email.createEmail(mail,);
     }
 
     /**

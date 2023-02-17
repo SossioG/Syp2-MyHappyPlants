@@ -12,6 +12,7 @@ public enum MessageType {
     changeNickname,
     changeNotifications,
     changePlantPicture,
+    verifymail,
     deleteAccount,
     deletePlant,
     getLibrary,

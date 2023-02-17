@@ -62,6 +62,23 @@ public class UserRepository {
         return isVerified;
     }
 
+    public boolean checkMatchingMail(String email)
+    {
+        boolean returnVal = true;
+        String query = String.format("SELECT email FROM tuser WHERE Exists email ='%s';", email);
+        try {
+            ResultSet resultSet = database.executeQuery(query);
+            if (resultSet.getString(null) null) {
+                resultSet.
+                returnVal = false;
+            }
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return returnVal;
+    }
+
     /**
      * Method to get information (id, username and notification status) about a specific user
      * @param email ??
