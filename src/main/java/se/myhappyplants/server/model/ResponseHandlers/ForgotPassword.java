@@ -14,13 +14,14 @@ public class ForgotPassword implements IResponseHandler {
         this.userRepository = userRepository;
     }
 
+    //if Server contains matching mail, return a true response
     @Override
     public Message getResponse(Message request) {
 
         Message response;
         String mail = request.getMessageText();
 
-        if () {
+        if (userRepository.checkMatchingMail(mail)) {
             response = new Message(true);
         } else {
             response = new Message(false);

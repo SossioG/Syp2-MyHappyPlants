@@ -14,14 +14,12 @@ import java.util.Properties;
 //   hämta notifications sträng från klienten som ska skrivas in i mailet
 public class Email
 {
-
     //for testing only
     public static void main(String[]args) throws MessagingException {
-        Email.createEmail("dannygazic@gmail.com","mau@diggins.se","notificationtest","testing");
+        Email.postEmail("","notificationtest","testing");
     }
 
-    public static void createEmail(String toEmailAddress,
-                                          String fromEmailAddress,
+    public static void postEmail(String toEmailAddress,
                                           String subject,
                                           String bodyText)
             throws MessagingException {
@@ -41,7 +39,7 @@ public class Email
 
         MimeMessage email = new MimeMessage(session);
 
-        email.setFrom(new InternetAddress(fromEmailAddress)); //input the applications mail
+        email.setFrom(new InternetAddress("mau@diggins.se")); //input the applications mail
         email.addRecipient(jakarta.mail.Message.RecipientType.TO,
                 new InternetAddress(toEmailAddress));   //the user to send mail to
         email.setSubject(subject); //subject = notification

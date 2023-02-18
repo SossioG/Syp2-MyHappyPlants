@@ -1,5 +1,6 @@
 package se.myhappyplants.client.controller;
 
+import jakarta.mail.MessagingException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,6 +70,10 @@ public class LoginPaneController {
 
     }
 
+    //todo generate a code on the server that is valid for ex 10 min for a specific mail adress.
+    //  Send verification code to that mail
+    //  if user Enters correct mail, send them their password on mail.
+
     public void verifyMail()
     {
         Thread verificationThread = new Thread(() -> {
@@ -78,19 +83,13 @@ public class LoginPaneController {
 
             if (verificationResponse != null) {
                 if (verificationResponse.isSuccess()) {
-
-                    Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Now logged in as " + LoggedInUser.getInstance().getUser().getUsername()));
-
-                    try {
-                        switchToMainPane();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    //make server generate a 6-Letter code that is valid for 10 min
+                    //sendVerificationCode(); //send code to user mail
+                    //switch to a verification code textbox
+                    //send code from textfield to server to check if code is right
                 }
                 else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Password and/or email is invalid."));
-
                 }
             }
             else {
@@ -100,10 +99,20 @@ public class LoginPaneController {
         verificationThread.start();
     }
 
+    //Send a generated Verification code to user
     public void sendVerificationCode()
     {
+        String generatedCode = "";
         String mail = txtFldEmail.getText();
-        Email.createEmail(mail,);
+        String code = String.format("Your Verification code is: " + "%s",generatedCode);
+        try
+        {
+            Email.postEmail(mail,"VerificationCode",code);
+        }
+        catch (MessagingException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
