@@ -13,6 +13,7 @@ import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
+import se.myhappyplants.server.services.HandleVerificationCodeTask;
 import se.myhappyplants.shared.Email;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;

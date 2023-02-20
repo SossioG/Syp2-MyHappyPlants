@@ -155,6 +155,10 @@ public class Message implements Serializable {
     public boolean isSuccess() {
         return success;
     }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
     public ArrayList<Plant> getPlantArray() {
         return plantArray;
     }

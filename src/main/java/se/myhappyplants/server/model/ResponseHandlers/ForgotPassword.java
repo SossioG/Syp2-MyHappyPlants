@@ -17,15 +17,16 @@ public class ForgotPassword implements IResponseHandler {
     //if Server contains matching mail, return a true response
     @Override
     public Message getResponse(Message request) {
-
         Message response;
         String mail = request.getMessageText();
 
+        System.out.println("Check the email: " + mail);
         if (userRepository.checkMatchingMail(mail)) {
-            response = new Message(true);
+            request.setSuccess(true);
         } else {
-            response = new Message(false);
+            request.setSuccess(false);
         }
+        response = request;
         return response;
     }
 }
