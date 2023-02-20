@@ -89,12 +89,12 @@ class RegisterPaneControllerTest extends ApplicationTest {
 
     private void enterRegFields(String email1, String email2, String username, String password1, String password2) {
         // Skriv in användaruppgifter i fälten.
-        if(email1 != null) KeyRobot.clickAndWrite("#txtFldNewEmail", email1);
-        if(email2 != null) KeyRobot.clickAndWrite("#txtFldNewEmail1", email2);
-        if(username != null) KeyRobot.clickAndWrite("#txtFldNewUsername", username);
-        if(password1 != null) KeyRobot.clickAndWrite("#passFldNewPassword", password1);
-        if(password2 != null) KeyRobot.clickAndWrite("#passFldNewPassword1", password2);
-        KeyRobot.click("#signUpButton");
+        if(email1 != null) KeyRobot.clickAndWrite("#txtFldNewEmail", email1, 0);
+        if(email2 != null) KeyRobot.clickAndWrite("#txtFldNewEmail1", email2, 0);
+        if(username != null) KeyRobot.clickAndWrite("#txtFldNewUsername", username, 0);
+        if(password1 != null) KeyRobot.clickAndWrite("#passFldNewPassword", password1, 0);
+        if(password2 != null) KeyRobot.clickAndWrite("#passFldNewPassword1", password2, 0);
+        KeyRobot.click("#signUpButton", 0);
 
         // Vänta på att FX är klar.
         WaitForAsyncUtils.waitForFxEvents();
