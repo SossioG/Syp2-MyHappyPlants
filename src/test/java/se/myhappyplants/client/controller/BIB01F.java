@@ -8,7 +8,7 @@ import se.myhappyplants.shared.Plant;
 
 import java.sql.Date;
 
-class BIB01F {
+public class BIB01F {
     /**
      * Reqid: BIB01F
      * Tillägg i bibliotek: En användare ska kunna lägga till en växt i sitt bibliotek.

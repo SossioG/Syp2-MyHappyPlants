@@ -1,16 +1,9 @@
 package se.myhappyplants.client.controller;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDetails;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class MyPlantsTabPaneControllerTest
+public class MyPlantsTabPaneControllerTest
 {
 
     MyPlantsTabPaneController tbc = new MyPlantsTabPaneController();

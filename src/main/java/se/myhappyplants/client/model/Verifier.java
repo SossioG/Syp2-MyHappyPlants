@@ -1,7 +1,6 @@
 package se.myhappyplants.client.model;
 
 import javafx.application.Platform;
-import se.myhappyplants.client.controller.LoginPaneController;
 import se.myhappyplants.client.controller.RegisterPaneController;
 import se.myhappyplants.client.view.MessageBox;
 import java.util.regex.Matcher;
@@ -64,7 +63,7 @@ public class Verifier {
      * @param email input email from user in application
      * @return true if the email contains @, false if it is not valid
      */
-    private boolean validateEmail(String email) {
+    public boolean validateEmail(String email) {
         final String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * Innehålla minst en stor bokstav och minst en siffra.
  */
 
-class VerifierTest {
+public class VerifierTest {
 
     RegisterPaneControllerPasswordMock rcm = new RegisterPaneControllerPasswordMock("test@gmail.com",
             "test@gmail.com",

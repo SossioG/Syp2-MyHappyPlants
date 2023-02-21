@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * En användare ska kunna söka på olika växter.
  */
 
-class SearchTabPaneControllerMockTest {
+public class SearchTabPaneControllerMockTest {
 
     SearchTabPaneControllerMock searchTabMock = new SearchTabPaneControllerMock();
 

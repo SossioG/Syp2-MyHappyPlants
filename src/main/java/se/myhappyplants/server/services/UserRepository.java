@@ -3,7 +3,6 @@ package se.myhappyplants.server.services;
 import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.shared.User;
 
-import java.net.UnknownHostException;
 import java.sql.*;
 
 /**

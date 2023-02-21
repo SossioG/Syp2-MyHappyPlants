@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 
-class INF10F {
+public class INF10F {
     /**
      * Reqid: INF10F
      * Visa Antal dagar sedan senaste vattning
@@ -14,7 +14,7 @@ class INF10F {
 
     @Test
     @DisplayName("Checks if watering assesment matches the waterfrequence of the plant")
-    void waterfrequenceCalculations(){
+    public void waterfrequenceCalculations(){
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
 

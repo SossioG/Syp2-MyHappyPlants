@@ -28,6 +28,10 @@ public class StartClient extends Application {
         return window;
     }
 
+    public static void setScene(Scene scene) {
+        StartClient.scene = scene;
+    }
+
     /**
      * Starts the application by opening window. Method handles close on request.
      *
