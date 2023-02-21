@@ -13,7 +13,6 @@ import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.RootName;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.server.services.HandleVerificationCodeTask;
 import se.myhappyplants.shared.Email;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.MessageType;
@@ -23,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Controls the inputs from a user that hasn't logged in
@@ -84,10 +85,15 @@ public class LoginPaneController {
 
             if (verificationResponse != null) {
                 if (verificationResponse.isSuccess()) {
+
                     //make server generate a 6-Letter code that is valid for 10 min
+
                     //sendVerificationCode(); //send code to user mail
+
                     //switch to a verification code textbox
+
                     //send code from textfield to server to check if code is right
+
                 }
                 else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Password and/or email is invalid."));
