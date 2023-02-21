@@ -11,6 +11,7 @@ public class DBRobot {
 
     public static void closeConnection() {
         connection.closeConnection();
+        connection = null;
     }
 
     private static void connect() {
