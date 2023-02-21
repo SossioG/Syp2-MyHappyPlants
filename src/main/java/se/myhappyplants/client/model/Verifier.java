@@ -65,7 +65,7 @@ public class Verifier {
      * @return true if the email contains @, false if it is not valid
      */
     private boolean validateEmail(String email) {
-        final String regex = "^(.+)@(.+)$";
+        final String regex =  "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();

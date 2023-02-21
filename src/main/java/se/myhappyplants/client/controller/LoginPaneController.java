@@ -22,8 +22,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Controls the inputs from a user that hasn't logged in
@@ -83,6 +81,7 @@ public class LoginPaneController {
             ServerConnection connection = ServerConnection.getClientConnection();
             Message verificationResponse = connection.makeRequest(verificationCodeMessage);
 
+            System.out.println(verificationResponse.isSuccess());
             if (verificationResponse != null) {
                 if (verificationResponse.isSuccess()) {
 
@@ -96,7 +95,7 @@ public class LoginPaneController {
 
                 }
                 else {
-                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Password and/or email is invalid."));
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Email is invalid."));
                 }
             }
             else {

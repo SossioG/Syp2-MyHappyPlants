@@ -6,6 +6,7 @@ import se.myhappyplants.shared.User;
 import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Class responsible for calling the database about users.
@@ -66,11 +67,18 @@ public class UserRepository {
     //checks if database has entered mail adress
     public boolean checkMatchingMail(String email)
     {
-        String query = String.format("SELECT email FROM tuser WHERE Exists email ='%s';", email);
+        System.out.println("runs");
+        String query = String.format("SELECT EXISTS(SELECT * FROM tuser WHERE email = '%s';", email);
+        int result = 0;
         try {
             ResultSet resultSet = database.executeQuery(query);
 
-            if (resultSet.getString(email).toLowerCase().contains(email.toLowerCase())) {
+            while(resultSet.next())
+            {
+                result = Integer.parseInt(resultSet.getString(1));
+            }
+            System.out.println(result);
+            if (result == 1) {
                 return true;
             }
             else
