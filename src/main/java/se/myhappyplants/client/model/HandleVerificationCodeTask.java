@@ -1,22 +1,13 @@
-package se.myhappyplants.server.services;
+package se.myhappyplants.client.model;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class HandleVerificationCodeTask implements Runnable
 {
     private int code;
-    private boolean validCode;
-
-    private Socket socket;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
 
     public HandleVerificationCodeTask()
     {
-        this.validCode = false;
     }
 
     //todo Generate code valid for 10 min

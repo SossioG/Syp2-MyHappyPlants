@@ -76,8 +76,6 @@ public class UserRepository {
             {
                 result = resultSet.getBoolean(1);
             }
-
-            System.out.println(result);
             if (result) {
                 return true;
             }

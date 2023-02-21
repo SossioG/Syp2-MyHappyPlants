@@ -8,9 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.RootName;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Email;
@@ -33,9 +31,11 @@ public class LoginPaneController {
     @FXML public Hyperlink registerLink;
     @FXML public Hyperlink forgotPassword;
     @FXML private TextField txtFldEmail;
+    @FXML private TextField verificationCodeField;
     @FXML private PasswordField passFldPassword;
     @FXML private Button loginButton;
     @FXML private Button verifyButton;
+    @FXML private Button verificationCodeBtn;
 
     /**
      * Switches to 'logged in' scene
@@ -70,30 +70,25 @@ public class LoginPaneController {
 
     }
 
-    //todo generate a code on the server that is valid for ex 10 min for a specific mail adress.
-    //  Send verification code to that mail
-    //  if user Enters correct mail, send them their password on mail.
+    //todo:
+    //  generate a 6-Letter code which is valid for 10 min
+    //  sendVerificationCode(); //send code to user mail
+    //  send code from textfield to server to check if code is right
 
     public void verifyMail()
     {
+        String mail = txtFldEmail.getText();
         Thread verificationThread = new Thread(() -> {
-            Message verificationCodeMessage = new Message(MessageType.verifyMail, txtFldEmail.getText());
+            Message verificationCodeMessage = new Message(MessageType.verifyMail, mail);
             ServerConnection connection = ServerConnection.getClientConnection();
             Message verificationResponse = connection.makeRequest(verificationCodeMessage);
 
-            System.out.println(verificationResponse.isSuccess());
             if (verificationResponse != null) {
-
                 if (verificationResponse.isSuccess()) {
-                    System.out.println("success");
-                    //make server generate a 6-Letter code that is valid for 10 min
-
-                    //sendVerificationCode(); //send code to user mail
-
-                    //switch to a verification code textbox
-
-                    //send code from textfield to server to check if code is right
-
+                    System.out.println("Email found on server");
+                    disableEmailVerificationMenu();
+                    enableVerificationCodeMenu();
+                    generateVerificationCode();
                 }
                 else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Email is invalid."));
@@ -106,20 +101,51 @@ public class LoginPaneController {
         verificationThread.start();
     }
 
-    //Send a generated Verification code to user
-    public void sendVerificationCode()
+    public void generateVerificationCode()
     {
-        String generatedCode = "";
-        String mail = txtFldEmail.getText();
-        String code = String.format("Your Verification code is: " + "%s",generatedCode);
+        int verificationCode;
         try
         {
-            Email.postEmail(mail,"VerificationCode",code);
+            HandleVerificationCodeTask threadTask = new HandleVerificationCodeTask();
+            Thread thread = new Thread(threadTask);
+            thread.start();
+            thread.join();
+            verificationCode = threadTask.getCode();
+            sendVerificationCode(verificationCode);
+            //new Thread(new SendVerificationCodeTask(verificationCode,txtFldEmail.getText())).start();
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendVerificationCode(int code)
+    {
+        String codeMsg = String.format("Your Verification code is: " + "%s",code);
+        try
+        {
+            Email.postEmail(txtFldEmail.getText(),"VerificationCode",codeMsg);
         }
         catch (MessagingException e)
         {
             e.printStackTrace();
         }
+    }
+
+    public void disableEmailVerificationMenu()
+    {
+        txtFldEmail.setDisable(true);
+        txtFldEmail.setVisible(false);
+        verifyButton.setDisable(true);
+        verifyButton.setVisible(false);
+    }
+
+    public void enableVerificationCodeMenu()
+    {
+        verificationCodeField.setDisable(false);
+        verificationCodeField.setVisible(true);
+        verificationCodeBtn.setDisable(false);
+        verificationCodeBtn.setVisible(true);
     }
 
     /**

@@ -16,7 +16,7 @@ public class Email
 {
     //for testing only
     public static void main(String[]args) throws MessagingException {
-        Email.postEmail("","notificationtest","testing");
+        Email.postEmail("dannygazic@gmail.com","notificationtest","hello");
     }
 
     public static void postEmail(String toEmailAddress,

@@ -25,6 +25,12 @@
             <version>2.1.1</version>
         </dependency>
 
+        <!-- https://github.com/eclipse-ee4j/angus-mail -->
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <!-- https://github.com/jeremyh/jBCrypt -->
         <dependency>
