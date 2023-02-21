@@ -67,18 +67,18 @@ public class UserRepository {
     //checks if database has entered mail adress
     public boolean checkMatchingMail(String email)
     {
-        System.out.println("runs");
-        String query = String.format("SELECT EXISTS(SELECT * FROM tuser WHERE email = '%s';", email);
-        int result = 0;
+        String query = String.format("SELECT EXISTS(SELECT * FROM tuser WHERE email = '%s');", email);
+        boolean result = false;
         try {
             ResultSet resultSet = database.executeQuery(query);
 
-            while(resultSet.next())
+            if(resultSet.next())
             {
-                result = Integer.parseInt(resultSet.getString(1));
+                result = resultSet.getBoolean(1);
             }
+
             System.out.println(result);
-            if (result == 1) {
+            if (result) {
                 return true;
             }
             else

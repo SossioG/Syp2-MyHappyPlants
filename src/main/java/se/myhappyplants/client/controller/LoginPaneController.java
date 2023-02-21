@@ -77,14 +77,15 @@ public class LoginPaneController {
     public void verifyMail()
     {
         Thread verificationThread = new Thread(() -> {
-            Message verificationCodeMessage = new Message(MessageType.verifymail, txtFldEmail.getText());
+            Message verificationCodeMessage = new Message(MessageType.verifyMail, txtFldEmail.getText());
             ServerConnection connection = ServerConnection.getClientConnection();
             Message verificationResponse = connection.makeRequest(verificationCodeMessage);
 
             System.out.println(verificationResponse.isSuccess());
             if (verificationResponse != null) {
-                if (verificationResponse.isSuccess()) {
 
+                if (verificationResponse.isSuccess()) {
+                    System.out.println("success");
                     //make server generate a 6-Letter code that is valid for 10 min
 
                     //sendVerificationCode(); //send code to user mail
