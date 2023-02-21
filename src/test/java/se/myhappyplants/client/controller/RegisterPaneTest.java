@@ -37,7 +37,7 @@ import java.sql.SQLException;
  *
  */
 
-class RegisterPaneControllerTest extends ApplicationTest {
+class RegisterPaneTest extends ApplicationTest {
     //Create a new user in the register pane.
     static String validEmail = "testuser@example.com";
     static String validUsername = "TestUsername";
@@ -145,8 +145,8 @@ class RegisterPaneControllerTest extends ApplicationTest {
             String email = result.getString("email");
 
             Assertions.assertThat(id).isNotNull().isInstanceOf(Integer.class);
-            Assertions.assertThat(RegisterPaneControllerTest.validUsername).isEqualTo(username);
-            Assertions.assertThat(RegisterPaneControllerTest.validEmail).isEqualTo(email);
+            Assertions.assertThat(validUsername).isEqualTo(username);
+            Assertions.assertThat(validEmail).isEqualTo(email);
         } catch(SQLException e) {
             Assertions.fail(e.getMessage());
         }
