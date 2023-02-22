@@ -6,7 +6,6 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-
 import java.util.Properties;
 
 //todo hämta users mail adress och assign till mail
@@ -36,7 +35,6 @@ public class Email
         };
 
         Session session = Session.getInstance(props, auth);
-
         MimeMessage email = new MimeMessage(session);
 
         email.setFrom(new InternetAddress("mau@diggins.se")); //input the applications mail
