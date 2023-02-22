@@ -19,8 +19,8 @@ class INF10F {
         Date date = new Date(currentDateMilli);
 
         // 86400000 = millis in one day * 10 = 864000000
-        Plant plant = new Plant("Lisa", "1", date, 864000000L);
-        Assertions.assertEquals("Needs water in 10 days", plant.getDaysUntilWater());
+        PlantDepricated plantDepricated = new PlantDepricated("Lisa", "1", date, 864000000L);
+        Assertions.assertEquals("Needs water in 10 days", plantDepricated.getDaysUntilWater());
     }
 
     @Test
@@ -30,8 +30,8 @@ class INF10F {
         Date date = new Date(currentDateMilli);
 
         // 86400000 = millis in one day * 100 = 8640000000L
-        Plant plant = new Plant("Lisa", "1", date, 8640000000L);
-        Assertions.assertEquals("Needs water in 100 days", plant.getDaysUntilWater());
+        PlantDepricated plantDepricated = new PlantDepricated("Lisa", "1", date, 8640000000L);
+        Assertions.assertEquals("Needs water in 100 days", plantDepricated.getDaysUntilWater());
     }
 
     @Test
@@ -41,7 +41,7 @@ class INF10F {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
 
-        Plant plant = new Plant("Lisa", "1", date);
+        PlantDepricated plantDepricated = new PlantDepricated("Lisa", "1", date);
         Assertions.fail("You need to water this plant now!");
     }
 
@@ -52,7 +52,7 @@ class INF10F {
         Date date = new Date(currentDateMilli);
 
         // 86400000 = millis in one day * 100 = 8640000000L
-        Plant plant = new Plant("Lisa", "1", date, 10000);
-        Assertions.assertEquals("You need to water this plant now!", plant.getDaysUntilWater());
+        PlantDepricated plantDepricated = new PlantDepricated("Lisa", "1", date, 10000);
+        Assertions.assertEquals("You need to water this plant now!", plantDepricated.getDaysUntilWater());
     }
 }

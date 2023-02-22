@@ -16,8 +16,8 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.SearchTabPaneController;
 
 import se.myhappyplants.client.model.ImageLibrary;
+import se.myhappyplants.shared.PlantDepricated;
 import se.myhappyplants.shared.WaterCalculator;
-import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.PlantDetails;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -34,7 +34,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Button infoButton;
     private Button addButton;
 
-    private Plant plant;
+    private PlantDepricated plantDepricated;
     private SearchTabPaneController searchTabPaneController;
     private ListView listView;
     private ImageView imgViewPlusSign;
@@ -44,11 +44,11 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Constructor to initialize some variables and sets off the initialization
      * @param searchTabPaneController
      * @param imgPath
-     * @param plant
+     * @param plantDepricated
      */
-    public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {
+    public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, PlantDepricated plantDepricated) {
         this.searchTabPaneController = searchTabPaneController;
-        this.plant = plant;
+        this.plantDepricated = plantDepricated;
         initImage(imgPath);
         initCommonName();
         initScientificName();
@@ -78,7 +78,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to initialize the common name label
      */
     private void initCommonName() {
-        this.commonName = new Label(plant.getCommonName());
+        this.commonName = new Label(plantDepricated.getCommonName());
         commonName.setLayoutX(60.0);
         commonName.setLayoutY(20.0);
         commonName.prefHeight(17.0);
@@ -88,7 +88,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to initialize scientific name label
      */
     private void initScientificName() {
-        this.scientificName = new Label(plant.getScientificName());
+        this.scientificName = new Label(plantDepricated.getScientificName());
         scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -112,7 +112,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
         addButton.setLayoutX(705.0);
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
-        addButton.setOnAction(action -> searchTabPaneController.addPlantToCurrentUserLibrary(plant));
+        addButton.setOnAction(action -> searchTabPaneController.addPlantToCurrentUserLibrary(plantDepricated));
     }
 
     /**
@@ -136,7 +136,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 commonName.setDisable(true);
                 if (!extended) {
                     if (!gotInfoOnPlant) {
-                        PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plant);
+                        PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plantDepricated);
                         String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
                         long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
                         String waterText = WaterTextFormatter.getWaterString(waterInMilli);
@@ -178,7 +178,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to update the image
      */
     public void updateImage() {
-        Image img = new Image(String.valueOf(plant.getImageURL()));
+        Image img = new Image(String.valueOf(plantDepricated.getImageURL()));
         image.setImage(img);
     }
 
@@ -186,8 +186,8 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Getter method to get the plant
      * @return
      */
-    public Plant getPlant() {
-        return plant;
+    public PlantDepricated getPlant() {
+        return plantDepricated;
     }
 
     /**

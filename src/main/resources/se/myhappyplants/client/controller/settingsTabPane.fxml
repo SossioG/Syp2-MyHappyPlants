@@ -33,7 +33,7 @@
         <AnchorPane prefHeight="391.0" prefWidth="800.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
             <children>
                 <Label layoutX="204.0" layoutY="78.0" text="Notifications " />
-                <Label layoutX="204.0" layoutY="140.0" text="Fun facts about plants " />
+                <Label layoutX="204.0" layoutY="140.0" text="Fun facts about plantDepricateds " />
                 <Label layoutX="206.0" layoutY="194.0" text="Change profile picture" />
                 <ToggleButton fx:id="tglBtnChangeNotification" layoutX="118.0" layoutY="74.0" mnemonicParsing="false" onAction="#changeNotificationsSetting" prefHeight="25.0" prefWidth="76.0" selected="true" text="On" />
                 <ToggleButton fx:id="tglBtnChangeFunFacts" layoutX="118.0" layoutY="136.0" mnemonicParsing="false" onAction="#changeFunFactsSetting" prefHeight="25.0" prefWidth="77.0" selected="true" text="On" />

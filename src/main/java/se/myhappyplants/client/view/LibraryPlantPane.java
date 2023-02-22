@@ -13,12 +13,15 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.PictureRandomizer;
-import se.myhappyplants.shared.WaterCalculator;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDepricated;
+import se.myhappyplants.shared.WaterCalculator;
 import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -45,7 +48,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private Button changeOKWaterButton;
     private ListView listViewMoreInfo;
     private Label daysUntilWaterlbl;
-
     public boolean extended;
     private boolean gotInfoOnPlant;
 
@@ -76,13 +78,13 @@ public class LibraryPlantPane extends Pane implements PlantPane {
      * plant library
      *
      * @param myPlantsTabPaneController MyPlantsTabController which contains logic for elements to use
-     * @param plant                     plant object from user's library
+     * @param plant             plant object from user's library
      */
     public LibraryPlantPane(MyPlantsTabPaneController myPlantsTabPaneController, Plant plant) {
         this.myPlantsTabPaneController = myPlantsTabPaneController;
         this.plant = plant;
         this.image = new ImageView();
-        Image img = new Image(plant.getImageURL());
+        Image img = new Image(plant.getDefaultImage().getThumbnail());
         initImages(img);
         initNicknameLabel(plant);
         initLastWateredLabel(plant);
@@ -127,7 +129,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
 
 
     public void updateImage() {
-        Image img = new Image(plant.getImageURL());
+        Image img = new Image(plant.getDefaultImage().getThumbnail());
         image.setImage(img);
     }
 
@@ -148,10 +150,10 @@ public class LibraryPlantPane extends Pane implements PlantPane {
 
     /**
      * Method to initiate the nickname label
-     * @param plant
+     * @param plantDepricated
      */
-    private void initNicknameLabel(Plant plant) {
-        nickname = new Label(plant.getNickname());
+    private void initNicknameLabel(Plant plantDepricated) {
+        nickname = new Label(plantDepricated.getNickname());
         nickname.setLayoutX(0);
         nickname.setLayoutY(70);
         nickname.setPrefWidth(145);
@@ -166,7 +168,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         this.lastWateredLabel = new Label();
         lastWateredLabel.setLayoutY(226);
         lastWateredLabel.setLayoutX(10);
-        Date lastWateredDate = plant.getLastWatered();
+        Date lastWateredDate = plant.getLast_watered();
         lastWateredLabel.setText("Last watered: " + lastWateredDate.toString());
     }
 
@@ -177,6 +179,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private void initProgressBar(Plant plant) {
         daysUntilWaterlbl = new Label();
         String daysUntilWaterText = plant.getDaysUntilWater();
+
         daysUntilWaterlbl.setText(daysUntilWaterText);
         daysUntilWaterlbl.setLayoutX(350.0);
         daysUntilWaterlbl.setLayoutY(5.0);
@@ -205,6 +208,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         waterButton.setLayoutX(400.0);
         waterButton.setLayoutY(55.0);
         waterButton.setMnemonicParsing(false);
+        Date date = (Date) LocalDate.now();
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             setColorProgressBar(100);
@@ -232,20 +236,20 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         infoButton.setDisable(true);
         if (!extended) {
             if (!gotInfoOnPlant) {
-                PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
-                long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
-                String waterText = WaterTextFormatter.getWaterString(waterInMilli);
-                String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+                //PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
+                //long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
+                //String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                //String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+
 
                 ObservableList<String> plantInfo = FXCollections.observableArrayList();
-                long difference = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-plant.getLastWatered().getTime());
-                String days = difference > 0 ? String.valueOf(difference) + " Days" : "Today";
-                plantInfo.add("Genus: " + plantDetails.getGenus());
-                plantInfo.add("Scientific name: " + plantDetails.getScientificName());
-                plantInfo.add("Family: " + plantDetails.getFamily());
-                plantInfo.add("Light: " + lightText);
-                plantInfo.add("Water: " + waterText);
-                plantInfo.add("Last watered: " + days);
+                //long difference = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()- plantDepricated.getLastWatered().getTime());
+                //String days = difference > 0 ? String.valueOf(difference) + " Days" : "Today";
+                plantInfo.add("Common name: " + plant.getCommon_name());
+                plantInfo.add("Scientific name: " + Arrays.stream(plant.getScientific_name()).findFirst());
+                plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst() );
+                plantInfo.add("Water: " + plant.getWatering());
+                plantInfo.add("Last watered: " + plant.getLast_watered().toString());
                 listViewMoreInfo.setItems(plantInfo);
             }
             expand();
@@ -328,7 +332,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         listViewMoreInfo.setLayoutY(this.getHeight() + 100.0);
         listViewMoreInfo.setPrefWidth(725.0);
         listViewMoreInfo.setPrefHeight(140.0);
-        PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plant);
+        PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plantDepricated);
         long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
         String waterText = WaterTextFormatter.getWaterString(waterInMilli);
         String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
@@ -338,7 +342,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         plantInfo.add("Family: " + plantDetails.getFamily());
         plantInfo.add("Light: " + lightText);
         plantInfo.add("Water: " + waterText);
-        plantInfo.add("Last watered: " + plant.getLastWatered());
+        plantInfo.add("Last watered: " + plantDepricated.getLastWatered());
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
@@ -431,8 +435,11 @@ public class LibraryPlantPane extends Pane implements PlantPane {
      * @param plant the selected plant
      */
     private void changeDate(Plant plant) {
-        LocalDate date = datePicker.getValue();
-        plant.setLastWatered(date);
+        LocalDate localDate = datePicker.getValue();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+
+        plant.setLast_watered(date);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         myPlantsTabPaneController.changeLastWateredInDB(plant, date);

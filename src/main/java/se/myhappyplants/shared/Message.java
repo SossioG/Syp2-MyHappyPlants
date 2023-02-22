@@ -1,8 +1,8 @@
 package se.myhappyplants.shared;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class that can be used for communication between Client/Server.
@@ -17,8 +17,9 @@ public class Message implements Serializable {
     private String messageText;
     private User user;
     private boolean success;
-    private LocalDate date;
+    private Date date;
     private ArrayList<Plant> plantArray;
+    private PlantDepricated plantDepricated; //Remove
     private Plant plant;
     private String newNickname;
     private PlantDetails plantDetails;
@@ -77,11 +78,11 @@ public class Message implements Serializable {
      * Creates a message that can be used to send a user, a plant and a date.
      * @param messageType of the message.
      * @param user user.
-     * @param plant plant.
+     * @param plantDepricated plant.
      * @param date current date.
      */
-    public Message(MessageType messageType, User user, Plant plant, LocalDate date) {
-        this(messageType, user, plant);
+    public Message(MessageType messageType, User user, Plant plantDepricated, Date date) {
+        this(messageType, user, plantDepricated);
         this.date = date;
     }
 
@@ -89,17 +90,16 @@ public class Message implements Serializable {
      * Creates a message that can be used to send a user, a plant and it's new nickname.
      * @param messageType of the message.
      * @param user user.
-     * @param plant plant.
+     * @param plantDepricated plant.
      * @param newNickname of the user.
      */
-    public Message(MessageType messageType, User user, Plant plant, String newNickname) {
-        this(messageType, user, plant);
+    public Message(MessageType messageType, User user, Plant plantDepricated, String newNickname) {
+        this(messageType, user, plantDepricated);
         this.newNickname = newNickname;
     }
 
     /**
      * Creates a message that can be used to send an array of plants.
-     * @param plantArray list of plants as arraylist.
      * @param success message.
      */
     public Message(ArrayList<Plant> plantArray, boolean success) {
@@ -165,7 +165,7 @@ public class Message implements Serializable {
     public Plant getPlant() {
         return plant;
     }
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
     public boolean getNotifications() {

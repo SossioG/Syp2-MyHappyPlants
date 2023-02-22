@@ -1,172 +1,115 @@
 package se.myhappyplants.shared;
 
-import se.myhappyplants.client.model.PictureRandomizer;
-
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Class defining a plant.
- * Created by: Frida Jacobsson.
- * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström.
- */
 public class Plant implements Serializable {
-
-    private static final long serialVersionUID = 867522155232174497L;
-    private String plantId;
-    private String commonName;
-    private String scientificName;
-    private String familyName;
-    private String imageURL;
+    private int id;
+    private String common_name;
+    private String[] scientific_name;
+    private String[] sunlight;
+    private String watering;
+    private DefaultImage defaultImage;
     private String nickname;
-    private Date lastWatered;
-    private long waterFrequency;
+    private Date last_watered;
 
-    /**
-     * Creates a plant object from information in the Species database.
-     * @param plantId unique plant id.
-     * @param commonName common name.
-     * @param scientificName scientific name.
-     * @param familyName family name.
-     * @param imageURL image location.
-     */
-    public Plant(String plantId, String commonName, String scientificName, String familyName, String imageURL) {
-        this.plantId = plantId;
-        this.commonName = commonName;
-        this.scientificName = scientificName;
-        this.familyName = familyName;
-        this.imageURL = imageURL;
-    }
-    public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency) {
-        this.nickname = nickname;
-        this.plantId = plantId;
-        this.lastWatered = lastWatered;
-        this.waterFrequency = waterFrequency;
-    }
-    public Plant(String nickname, String plantID, Date lastWatered) {
-        this.nickname = nickname;
-        this.plantId = plantID;
-        this.lastWatered = lastWatered;
+    public int getId() {
+        return id;
     }
 
-    /**
-     * Creates a plant object from a users library in the MyHappyPlants database.
-     * @param nickname of the user.
-     * @param plantId unique plant id in Species database.
-     * @param lastWatered date the plant was last watered.
-     * @param waterFrequency how often the plant needs water in milliseconds.
-     * @param imageURL image location.
-     */
-    public Plant(String nickname, String plantId, Date lastWatered, long waterFrequency, String imageURL) {
-        this.nickname = nickname;
-        this.plantId = plantId;
-        this.lastWatered = lastWatered;
-        this.waterFrequency = waterFrequency;
-        this.imageURL = imageURL;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    /**
-     * Creates a plant object that can be used to update a users library in the MyHappyPlants database.
-     * @param nickname of the user.
-     * @param plantId unique plant id.
-     * @param lastWatered date the plant was last watered.
-     * @param imageURL image location.
-     */
-    public Plant(String nickname, String plantId, Date lastWatered, String imageURL) {
-        this.nickname = nickname;
-        this.plantId = plantId;
-        this.lastWatered = lastWatered;
-        this.imageURL = imageURL;
+    public String getCommon_name() {
+        return common_name;
     }
 
-
-    /**
-     * Method to return to string.
-     * @return string format.
-     */
-    public String toString() {
-        String toString = String.format("Common name: %s \tFamily name: %s \tScientific name: %s ", commonName, familyName, scientificName);
-        return toString;
+    public void setCommon_name(String common_name) {
+        this.common_name = common_name;
     }
 
-    // getters and setters
+    public String[] getScientific_name() {
+        return scientific_name;
+    }
+
+    public void setScientific_name(String[] scientific_name) {
+        this.scientific_name = scientific_name;
+    }
+
+    public String[] getSunlight() {
+        return sunlight;
+    }
+
+    public void setSunlight(String[] sunlight) {
+        this.sunlight = sunlight;
+    }
+
+    public DefaultImage getDefaultImage() {
+        return defaultImage;
+    }
+
+    public void setDefaultImage(DefaultImage defaultImage) {
+        this.defaultImage = defaultImage;
+    }
+
+    public String getWatering() {
+        return watering;
+    }
+
+    public void setWatering(String watering) {
+        this.watering = watering;
+    }
+
     public String getNickname() {
         return nickname;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-    public String getCommonName() {
-        return commonName;
+
+    public Date getLast_watered() {
+        return last_watered;
     }
-    public String getScientificName() {
-        return scientificName;
+
+    public void setLast_watered(Date last_watered) {
+        this.last_watered = last_watered;
     }
-    public String getPlantId() {
-        return plantId;
-    }
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-    public String getImageURL() {
-        if(imageURL == null) {
-            imageURL = PictureRandomizer.getRandomPictureURL();
+
+    public long getMillisFrequency(){
+        long amountOfDaysMillis;
+        if (watering == "frequenct"){
+            amountOfDaysMillis = 86400000;
+        } else if (watering == "average"){
+            amountOfDaysMillis = 259200000;
+        } else if (watering == "minimum"){
+            amountOfDaysMillis = 864000000;
+        } else {
+            amountOfDaysMillis = -1; // No watering needed
         }
-        String httpImageURL = imageURL.replace("https", "http");
-        return httpImageURL;
+        return amountOfDaysMillis;
     }
-    public Date getLastWatered() {
-        return lastWatered;
-    }
-    public void setLastWatered(LocalDate localDate) {
-        Date date = java.sql.Date.valueOf(localDate);
-        this.lastWatered = date;
+
+    public String getDaysUntilWater() {
+        if(getMillisFrequency() == -1){
+            return "Din planta behöver ej vatten";
+        } else {
+            long diffInMillies = Math.abs(last_watered.getTime() - LocalDateTime.now().getHour() - getMillisFrequency());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            return "Antal dagar till vattning: " + String.valueOf(diff);
+        }
     }
 
     /**
-     * Compares the length of time since the plant was watered
-     * with recommended frequency of watering. Returns a decimal value
-     * that can be used in a progress bar or indicator.
-     * @return Double between 0.02 (max time elapsed) and 1.0 (min time elapsed)
+     * TODO: Fixa metoden här
+     * @return
      */
     public double getProgress() {
-        long difference = System.currentTimeMillis() - lastWatered.getTime();
-        difference -= 43000000l;
-        double progress = 1.0 - ((double) difference / (double) waterFrequency);
-        if (progress <= 0.02) {
-            progress = 0.02;
-        }
-        else if (progress >= 0.95) {
-            progress = 1.0;
-        }
-        return progress;
-    }
-
-    /**
-     * Converts time since last water from milliseconds
-     * into days, then returns the value as an explanation text.
-     * @return Days since last water.
-     */
-    public String getDaysUntilWater() {
-        long millisSinceLastWatered = System.currentTimeMillis() - lastWatered.getTime();
-        long millisUntilNextWatering = waterFrequency - millisSinceLastWatered;
-        long millisInADay = 86400000;
-
-        double daysExactlyUntilWatering = (double) millisUntilNextWatering / (double) millisInADay;
-
-        int daysUntilWatering = (int) daysExactlyUntilWatering;
-        double decimals = daysExactlyUntilWatering - (int) daysExactlyUntilWatering;
-
-        if (decimals > 0.5) {
-            daysUntilWatering = (int) daysExactlyUntilWatering + 1;
-        }
-
-        String strToReturn = String.format("Needs water in %d days", daysUntilWatering);
-        if (getProgress() == 0.02 || daysUntilWatering == 0) {
-            strToReturn = "You need to water this plant now!";
-        }
-
-        return strToReturn;
+        return 1.0;
     }
 }

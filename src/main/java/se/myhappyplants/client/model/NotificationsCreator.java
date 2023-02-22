@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.PlantDepricated;
 
 import java.util.ArrayList;
 

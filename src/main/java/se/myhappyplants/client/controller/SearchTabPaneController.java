@@ -17,11 +17,8 @@ import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.*;
 import se.myhappyplants.client.model.SetAvatar;
-import se.myhappyplants.shared.PlantDetails;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +44,7 @@ public class SearchTabPaneController {
     @FXML public TextField txtNbrOfResults;
     @FXML public TextArea txtAreaMessages;
 
-    private ArrayList<Plant> searchResults;
+    private ArrayList<PlantDepricated> searchResults;
 
     /**
      * Method to initialize the GUI
@@ -87,16 +84,16 @@ public class SearchTabPaneController {
 
     /**
      * Method to add a plant to the logged in users library. Asks the user if it wants to add a nickname to the plant and receives a string if the answer is yes
-     * @param plantAdd the selected plant to add
+     * @param plantDepricatedAdd the selected plant to add
      */
-    @FXML public void addPlantToCurrentUserLibrary(Plant plantAdd) {
-        String plantNickname = plantAdd.getCommonName();
+    @FXML public void addPlantToCurrentUserLibrary(PlantDepricated plantDepricatedAdd) {
+        String plantNickname = plantDepricatedAdd.getCommonName();
 
         int answer = MessageBox.askYesNo(BoxTitle.Add, "Do you want to add a nickname for your plant?");
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
-        mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
+        mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantDepricatedAdd, plantNickname);
     }
 
     /**
@@ -104,8 +101,8 @@ public class SearchTabPaneController {
      */
     private void showResultsOnPane() {
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (Plant plant : searchResults) {
-            searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plant));
+        for (PlantDepricated plantDepricated : searchResults) {
+            searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plantDepricated));
         }
         listViewResult.getItems().clear();
         listViewResult.setItems(searchPlantPanes);
@@ -116,8 +113,8 @@ public class SearchTabPaneController {
                     protected Object call() {
                         long i = 1;
                         for (SearchPlantPane spp : searchPlantPanes) {
-                            Plant Plant = spp.getPlant();
-                            if (Plant.getImageURL().equals("")) {
+                            PlantDepricated PlantDepricated = spp.getPlant();
+                            if (PlantDepricated.getImageURL().equals("")) {
                                 spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                             }
                             else {

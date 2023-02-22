@@ -84,7 +84,7 @@ public class SettingsTabPaneController {
         });
         changeNotificationsThread.start();
         ButtonText.setButtonText(tglBtnChangeNotification);
-        mainPaneController.getMyPlantsTabPaneController().createCurrentUserLibraryFromDB();
+        mainPaneController.getMyPlantsTabPaneController().createCurrentUserLibrary();
     }
 
     /**

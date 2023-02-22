@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +55,7 @@ public class MyPlantsTabPaneController {
         lblUsername.setText(loggedInUser.getUser().getUsername());
         imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
-        createCurrentUserLibraryFromDB();
+        createCurrentUserLibrary();
         addCurrentUserLibraryToHomeScreen();
     }
 
@@ -130,7 +129,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to create the logged in users library from the database
      */
-    @FXML public void createCurrentUserLibraryFromDB() {
+    @FXML public void createCurrentUserLibrary() {
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ServerConnection connection = ServerConnection.getClientConnection();
@@ -162,7 +161,7 @@ public class MyPlantsTabPaneController {
 
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
-                createCurrentUserLibraryFromDB();
+                createCurrentUserLibrary();
             }
         });
         removePlantThread.start();
@@ -170,14 +169,14 @@ public class MyPlantsTabPaneController {
 
     /**
      * Method to add a plant to the logged in users library with a nickname.
-     * @param selectedPlant the plant that the user selects
+     * @param selectedPlantDepricated the plant that the user selects
      * @param plantNickname the nickname of the plant that the user chooses
      */
-    @FXML public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
+    @FXML public void addPlantToCurrentUserLibrary(PlantDepricated selectedPlantDepricated, String plantNickname) {
         int plantsWithThisNickname = 1;
         String uniqueNickName = plantNickname;
-        for (Plant plant : currentUserLibrary) {
-            if (plant.getNickname().equals(uniqueNickName)) {
+        for (PlantDepricated plantDepricated : currentUserLibrary) {
+            if (plantDepricated.getNickname().equals(uniqueNickName)) {
                 plantsWithThisNickname++;
                 uniqueNickName = plantNickname + plantsWithThisNickname;
             }
@@ -185,14 +184,13 @@ public class MyPlantsTabPaneController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         String imageURL = PictureRandomizer.getRandomPictureURL();
-        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date, imageURL);
+        PlantDepricated plantDepricatedToAdd = new PlantDepricated(uniqueNickName, selectedPlantDepricated.getPlantId(), date, imageURL);
         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyAddPlant.toString()));
-        addPlantToDB(plantToAdd);
+        addPlantToDB(plantDepricatedToAdd);
     }
 
     /**
      * Method to save the plant to the database
-     * @param plant the selected plant that the user has chosen
      */
     @FXML public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
@@ -203,7 +201,7 @@ public class MyPlantsTabPaneController {
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
-            createCurrentUserLibraryFromDB();
+            createCurrentUserLibrary();
         });
         addPlantThread.start();
     }
@@ -218,11 +216,10 @@ public class MyPlantsTabPaneController {
 
     /**
      * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
-     *
-     * @param plant instance of the plant which to change last watered date
+     *  @param plant instance of the plant which to change last watered date
      * @param date  new date to change to
      */
-    public void changeLastWateredInDB(Plant plant, LocalDate date) {
+    public void changeLastWateredInDB(Plant plant, java.util.Date date) {
         Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
         ServerConnection connection = ServerConnection.getClientConnection();
         Message response = connection.makeRequest(changeLastWatered);
@@ -230,7 +227,7 @@ public class MyPlantsTabPaneController {
         if (!response.isSuccess()) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
         }
-        createCurrentUserLibraryFromDB();
+        createCurrentUserLibrary();
         showNotifications();
     }
 
@@ -341,7 +338,7 @@ public class MyPlantsTabPaneController {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
             btnWaterAll.setDisable(false);
-            createCurrentUserLibraryFromDB();
+            createCurrentUserLibrary();
             showNotifications();
         });
         waterAllThread.start();
