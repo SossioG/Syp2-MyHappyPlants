@@ -4,8 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -28,6 +26,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static se.myhappyplants.shared.MessageBoxTest.assertMessageAndClick;
 
 
 /**
@@ -99,17 +99,6 @@ class RegisterPaneTest extends ApplicationTest {
 
         // Vänta på att FX är klar.
         WaitForAsyncUtils.waitForFxEvents();
-    }
-
-    private void assertMessageAndClick(String expected) {
-        Node messageLbl = KeyRobot.getNode("#messageLbl");
-        Assertions.assertThat(messageLbl).isNotNull().isInstanceOf(Label.class);
-        Assertions.assertThat(((Label) messageLbl).getText()).isEqualTo(expected);
-
-        Node okButton = KeyRobot.getNode("#okButton");
-        Assertions.assertThat(okButton).isNotNull().isInstanceOf(Button.class);
-
-        KeyRobot.click(okButton);
     }
 
     private void assertUserNotExists() {
