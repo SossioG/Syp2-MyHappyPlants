@@ -83,6 +83,10 @@ public class StartClient extends Application {
         return fxmlLoader.load();
     }
 
+    public static Scene getScene(){
+        return scene;
+    }
+
     /**
      * Alternative run method (not needed)
      * @param args

@@ -40,6 +40,7 @@ public class MessageBox {
         label.setId("messageLbl");
 
         Button okButton = new Button("OK");
+        okButton.setId("okButton");
         System.out.println("Outside");
         okButton.setOnAction(action -> {
             window.hide();

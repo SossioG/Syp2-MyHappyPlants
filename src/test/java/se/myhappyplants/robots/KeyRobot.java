@@ -2,6 +2,7 @@ package se.myhappyplants.robots;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import org.testfx.api.FxRobot;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -66,13 +67,7 @@ public class KeyRobot {
     }
 
     public static void writeText(String text, int delay) {
-        if(delay > 0) {
-            try {
-                Thread.sleep(delay);
-            } catch(InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
 
         StringSelection stringSelection = new StringSelection(text);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -84,7 +79,15 @@ public class KeyRobot {
         robot.keyRelease(KeyEvent.VK_CONTROL);
     }
 
-    public static void clickAndWrite(String query, String text) {
+    public static void clickAndWrite(String query, String text, int delay) {
+        if(delay > 0) {
+            try {
+                Thread.sleep(delay);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         click(query);
         writeText(text);
     }
@@ -123,5 +126,29 @@ public class KeyRobot {
         robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_DELETE);
         robot.keyRelease(KeyEvent.VK_DELETE);
+    }
+
+    public static void pressEnter() {
+        try{
+            Thread.sleep(2000);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+
+
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    //Press and realse a button.
+    public static void press(int keyEvent) {
+        try{
+            Thread.sleep(1000);
+            robot.keyPress(keyEvent);
+            robot.keyRelease(keyEvent);
+
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 }
