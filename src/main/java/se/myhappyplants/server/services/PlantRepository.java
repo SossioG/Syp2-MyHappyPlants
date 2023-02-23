@@ -48,6 +48,7 @@ public class PlantRepository {
         return mapper.readValue(getResponse.body(), Plants.class).getPlants();
     }
 
+    /*
     public PlantDetails getPlantDetails(Plant plant) {
         String query = "SELECT genus, scientific_name, light, water_frequency, family FROM species WHERE id = '" + plantDepricated.getPlantId() + "';";
         try {
@@ -70,11 +71,12 @@ public class PlantRepository {
         }
         return plantDetails;
     }
-
+    */
 
 
     //DB-metoder GAMLA
 
+    /*
     public ArrayList<PlantDepricated> getResult(String plantSearch) {
         ArrayList<PlantDepricated> plantDepricatedList = new ArrayList<>();
         String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
@@ -94,9 +96,9 @@ public class PlantRepository {
             plantDepricatedList = null;
         }
         return plantDepricatedList;
-    }
+    } */
 
-
+    /*
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
@@ -105,9 +107,9 @@ public class PlantRepository {
         catch (NumberFormatException e) {
             return false;
         }
-    }
+    } */
 
-    public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
+   /* public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
         long waterFrequency = -1;
         String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
         try {
@@ -122,5 +124,5 @@ public class PlantRepository {
             throwables.printStackTrace();
         }
         return waterFrequency;
-    }
+    } */
 }

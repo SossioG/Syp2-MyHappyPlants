@@ -4,8 +4,6 @@ import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDepricated;
-import se.myhappyplants.shared.PlantDetails;
 /**
  * Class that gets the plant details
  */
@@ -21,12 +19,12 @@ public class GetPlantDetails implements IResponseHandler {
         Message response;
         Plant plant = request.getPlant();
         try {
-            PlantDetails plantDetails = plantRepository.getPlantDetails(plant);
-            response = new Message(plantDetails, true);
+         //   PlantDetails plantDetails = plantRepository.getPlantDetails(plant);
+        //    response = new Message(plantDetails, true);
         } catch (Exception e) {
             response = new Message(false);
             e.printStackTrace();
         }
-        return response;
+        return null;
     }
 }

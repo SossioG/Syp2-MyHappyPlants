@@ -4,8 +4,6 @@ import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDepricated;
-
 import java.util.ArrayList;
 /**
  * Class that handles the request of a search

@@ -4,7 +4,6 @@ import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDepricated;
 import se.myhappyplants.shared.User;
 /**
  * Class that handles the chang of a nickname of a plant

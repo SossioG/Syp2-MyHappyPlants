@@ -4,7 +4,6 @@ import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDepricated;
 import se.myhappyplants.shared.User;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class GetLibrary implements IResponseHandler {
         Message response;
         User user = request.getUser();
         try {
-            ArrayList<Plant> userLibrary = userPlantRepository.getUserLibraryy(user);
+            ArrayList<Plant> userLibrary = userPlantRepository.getUserLibrary(user);
             for (Plant plant : userLibrary){
             }
             response = new Message(userLibrary, true);

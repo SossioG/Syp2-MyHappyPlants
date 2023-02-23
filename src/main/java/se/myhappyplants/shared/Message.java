@@ -19,7 +19,6 @@ public class Message implements Serializable {
     private boolean success;
     private Date date;
     private ArrayList<Plant> plantArray;
-    private PlantDepricated plantDepricated; //Remove
     private Plant plant;
     private String newNickname;
     private PlantDetails plantDetails;
@@ -78,11 +77,11 @@ public class Message implements Serializable {
      * Creates a message that can be used to send a user, a plant and a date.
      * @param messageType of the message.
      * @param user user.
-     * @param plantDepricated plant.
+     * @param plant plant.
      * @param date current date.
      */
-    public Message(MessageType messageType, User user, Plant plantDepricated, Date date) {
-        this(messageType, user, plantDepricated);
+    public Message(MessageType messageType, User user, Plant plant, Date date) {
+        this(messageType, user, plant);
         this.date = date;
     }
 
@@ -90,11 +89,11 @@ public class Message implements Serializable {
      * Creates a message that can be used to send a user, a plant and it's new nickname.
      * @param messageType of the message.
      * @param user user.
-     * @param plantDepricated plant.
+     * @param plant plant.
      * @param newNickname of the user.
      */
-    public Message(MessageType messageType, User user, Plant plantDepricated, String newNickname) {
-        this(messageType, user, plantDepricated);
+    public Message(MessageType messageType, User user, Plant plant, String newNickname) {
+        this(messageType, user, plant);
         this.newNickname = newNickname;
     }
 

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -169,14 +170,14 @@ public class MyPlantsTabPaneController {
 
     /**
      * Method to add a plant to the logged in users library with a nickname.
-     * @param selectedPlantDepricated the plant that the user selects
+     * @param selectedPlant the plant that the user selects
      * @param plantNickname the nickname of the plant that the user chooses
      */
-    @FXML public void addPlantToCurrentUserLibrary(PlantDepricated selectedPlantDepricated, String plantNickname) {
+    @FXML public void addPlantToCurrentUserLibrary(Plant selectedPlant, String plantNickname) {
         int plantsWithThisNickname = 1;
         String uniqueNickName = plantNickname;
-        for (PlantDepricated plantDepricated : currentUserLibrary) {
-            if (plantDepricated.getNickname().equals(uniqueNickName)) {
+        for (Plant plant : currentUserLibrary) {
+            if (plant.getNickname().equals(uniqueNickName)) {
                 plantsWithThisNickname++;
                 uniqueNickName = plantNickname + plantsWithThisNickname;
             }
@@ -184,9 +185,9 @@ public class MyPlantsTabPaneController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         String imageURL = PictureRandomizer.getRandomPictureURL();
-        PlantDepricated plantDepricatedToAdd = new PlantDepricated(uniqueNickName, selectedPlantDepricated.getPlantId(), date, imageURL);
+        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getId(), LocalDate.now(), imageURL);
         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyAddPlant.toString()));
-        addPlantToDB(plantDepricatedToAdd);
+        addPlantToDB(plantToAdd);
     }
 
     /**
@@ -216,11 +217,11 @@ public class MyPlantsTabPaneController {
 
     /**
      * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
-     *  @param plant instance of the plant which to change last watered date
+     * @param plant instance of the plant which to change last watered date
      * @param date  new date to change to
      */
-    public void changeLastWateredInDB(Plant plant, java.util.Date date) {
-        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
+    public void changeLastWateredInDB(Plant plant, LocalDate date) {
+        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, String.valueOf(date));
         ServerConnection connection = ServerConnection.getClientConnection();
         Message response = connection.makeRequest(changeLastWatered);
         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyChangedDate.toString()));
@@ -276,7 +277,8 @@ public class MyPlantsTabPaneController {
      * @param plant the selected plant
      * @return an instance of the class PlantDetails
      */
-    public PlantDetails getPlantDetails(Plant plant) {
+    /*
+    public PlantDetails getPlantDetailsMyPlantsTab(Plant plant) {
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         ServerConnection connection = ServerConnection.getClientConnection();
@@ -285,7 +287,7 @@ public class MyPlantsTabPaneController {
             plantDetails = response.getPlantDetails();
         }
         return plantDetails;
-    }
+    } */
 
     /**
      * Method to water all the plant at once
@@ -361,7 +363,7 @@ public class MyPlantsTabPaneController {
                     Files.delete(newPictureFile.toPath());
                     Files.copy(selectedImage.toPath(), newPictureFile.toPath());
                 }
-                lpp.getPlant().setImageURL(newPictureFile.toURI().toURL().toString());
+                lpp.getPlant().getDefaultImage().setThumbnail(newPictureFile.toURI().toURL().toString());
                 lpp.updateImage();
                 Thread changePlantPictureThread = new Thread(() -> {
                     Message changePlantPicture = new Message(MessageType.changePlantPicture, LoggedInUser.getInstance().getUser(), lpp.getPlant());

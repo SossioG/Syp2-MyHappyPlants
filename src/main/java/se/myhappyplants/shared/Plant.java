@@ -2,6 +2,7 @@ package se.myhappyplants.shared;
 
 import java.io.Serializable;
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -15,7 +16,16 @@ public class Plant implements Serializable {
     private String watering;
     private DefaultImage defaultImage;
     private String nickname;
-    private Date last_watered;
+    private LocalDate last_watered;
+
+    public Plant(String uniqueNickName, int id, LocalDate date, String imageURL) {
+        this.nickname = uniqueNickName;
+        this.id = id;
+        this.last_watered = date;
+        DefaultImage defaultImage = new DefaultImage();
+        defaultImage.setThumbnail(imageURL);
+
+    }
 
     public int getId() {
         return id;
@@ -73,11 +83,11 @@ public class Plant implements Serializable {
         this.nickname = nickname;
     }
 
-    public Date getLast_watered() {
+    public LocalDate getLast_watered() {
         return last_watered;
     }
 
-    public void setLast_watered(Date last_watered) {
+    public void setLast_watered(LocalDate last_watered) {
         this.last_watered = last_watered;
     }
 
@@ -99,8 +109,8 @@ public class Plant implements Serializable {
         if(getMillisFrequency() == -1){
             return "Din planta behöver ej vatten";
         } else {
-            long diffInMillies = Math.abs(last_watered.getTime() - LocalDateTime.now().getHour() - getMillisFrequency());
-            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+           // long diffInMillies = Math.abs(last_watered() - LocalDateTime.now().getHour() - getMillisFrequency());
+            long diff = TimeUnit.DAYS.convert(86400000, TimeUnit.MILLISECONDS);
             return "Antal dagar till vattning: " + String.valueOf(diff);
         }
     }

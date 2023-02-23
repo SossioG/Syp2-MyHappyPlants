@@ -44,7 +44,7 @@ public class SearchTabPaneController {
     @FXML public TextField txtNbrOfResults;
     @FXML public TextArea txtAreaMessages;
 
-    private ArrayList<PlantDepricated> searchResults;
+    private ArrayList<Plant> searchResults;
 
     /**
      * Method to initialize the GUI
@@ -84,16 +84,16 @@ public class SearchTabPaneController {
 
     /**
      * Method to add a plant to the logged in users library. Asks the user if it wants to add a nickname to the plant and receives a string if the answer is yes
-     * @param plantDepricatedAdd the selected plant to add
+     * @param plantAdd the selected plant to add
      */
-    @FXML public void addPlantToCurrentUserLibrary(PlantDepricated plantDepricatedAdd) {
-        String plantNickname = plantDepricatedAdd.getCommonName();
+    @FXML public void addPlantToCurrentUserLibrary(Plant plantAdd) {
+        String plantNickname = plantAdd.getCommon_name();
 
         int answer = MessageBox.askYesNo(BoxTitle.Add, "Do you want to add a nickname for your plant?");
         if (answer == 1) {
             plantNickname = MessageBox.askForStringInput("Add a nickname", "Nickname:");
         }
-        mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantDepricatedAdd, plantNickname);
+        mainPaneController.getMyPlantsTabPaneController().addPlantToCurrentUserLibrary(plantAdd, plantNickname);
     }
 
     /**
@@ -101,8 +101,8 @@ public class SearchTabPaneController {
      */
     private void showResultsOnPane() {
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (PlantDepricated plantDepricated : searchResults) {
-            searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plantDepricated));
+        for (Plant plant: searchResults) {
+            searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
         listViewResult.setItems(searchPlantPanes);
@@ -113,8 +113,8 @@ public class SearchTabPaneController {
                     protected Object call() {
                         long i = 1;
                         for (SearchPlantPane spp : searchPlantPanes) {
-                            PlantDepricated PlantDepricated = spp.getPlant();
-                            if (PlantDepricated.getImageURL().equals("")) {
+                            Plant plant = spp.getPlant();
+                            if (plant.getDefaultImage().getThumbnail().equals("")) {
                                 spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                             }
                             else {

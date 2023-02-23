@@ -14,16 +14,12 @@ import se.myhappyplants.client.controller.MyPlantsTabPaneController;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.PictureRandomizer;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDepricated;
-import se.myhappyplants.shared.WaterCalculator;
-import se.myhappyplants.shared.PlantDetails;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -150,10 +146,10 @@ public class LibraryPlantPane extends Pane implements PlantPane {
 
     /**
      * Method to initiate the nickname label
-     * @param plantDepricated
+     * @param plant
      */
-    private void initNicknameLabel(Plant plantDepricated) {
-        nickname = new Label(plantDepricated.getNickname());
+    private void initNicknameLabel(Plant plant) {
+        nickname = new Label(plant.getNickname());
         nickname.setLayoutX(0);
         nickname.setLayoutY(70);
         nickname.setPrefWidth(145);
@@ -168,7 +164,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         this.lastWateredLabel = new Label();
         lastWateredLabel.setLayoutY(226);
         lastWateredLabel.setLayoutX(10);
-        Date lastWateredDate = plant.getLast_watered();
+        LocalDate lastWateredDate = plant.getLast_watered();
         lastWateredLabel.setText("Last watered: " + lastWateredDate.toString());
     }
 
@@ -208,11 +204,11 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         waterButton.setLayoutX(400.0);
         waterButton.setLayoutY(55.0);
         waterButton.setMnemonicParsing(false);
-        Date date = (Date) LocalDate.now();
+        LocalDate date = LocalDate.now();
         waterButton.setOnAction(action -> {
             progressBar.setProgress(100);
             setColorProgressBar(100);
-            myPlantsTabPaneController.changeLastWateredInDB(plant, java.time.LocalDate.now());
+            myPlantsTabPaneController.changeLastWateredInDB(plant, date);
             setColorProgressBar(100);
         });
     }
@@ -332,17 +328,18 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         listViewMoreInfo.setLayoutY(this.getHeight() + 100.0);
         listViewMoreInfo.setPrefWidth(725.0);
         listViewMoreInfo.setPrefHeight(140.0);
-        PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetails(plantDepricated);
+        /*PlantDetails plantDetails = myPlantsTabPaneController.getPlantDetailsMyPlantsTab(plantDepricated);
         long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
         String waterText = WaterTextFormatter.getWaterString(waterInMilli);
-        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
+        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight()); */
         ObservableList<String> plantInfo = FXCollections.observableArrayList();
-        plantInfo.add("Genus: " + plantDetails.getGenus());
-        plantInfo.add("Scientific name: " + plantDetails.getScientificName());
-        plantInfo.add("Family: " + plantDetails.getFamily());
-        plantInfo.add("Light: " + lightText);
-        plantInfo.add("Water: " + waterText);
-        plantInfo.add("Last watered: " + plantDepricated.getLastWatered());
+        plantInfo.add("Common name: " + plant.getCommon_name());
+        plantInfo.add("Scientific name: " + Arrays.stream(plant.getScientific_name()).findFirst());
+        plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst() );
+        plantInfo.add("Water: " + plant.getWatering());
+        plantInfo.add("Last watered: " + plant.getLast_watered().toString());
+        listViewMoreInfo.setItems(plantInfo);
+
         this.setPrefHeight(92.0);
         this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
@@ -435,9 +432,8 @@ public class LibraryPlantPane extends Pane implements PlantPane {
      * @param plant the selected plant
      */
     private void changeDate(Plant plant) {
-        LocalDate localDate = datePicker.getValue();
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        LocalDate date = datePicker.getValue();
+
 
         plant.setLast_watered(date);
         progressBar.setProgress(plant.getProgress());

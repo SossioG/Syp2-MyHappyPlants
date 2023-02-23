@@ -3,7 +3,7 @@ package se.myhappyplants.server.model.ResponseHandlers;
 import se.myhappyplants.server.model.IResponseHandler;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.PlantDepricated;
+import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 /**
  * Class that saved a users plant
@@ -19,8 +19,8 @@ public class SavePlant implements IResponseHandler {
     public Message getResponse(Message request) {
         Message response;
         User user = request.getUser();
-        PlantDepricated plantDepricated = request.getPlant();
-        if (userPlantRepository.savePlant(user, plantDepricated)) {
+        Plant plant = request.getPlant();
+        if (userPlantRepository.savePlant(user, plant)) {
             response = new Message(true);
 
         } else {
