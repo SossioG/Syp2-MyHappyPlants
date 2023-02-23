@@ -5,11 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +34,7 @@ import java.net.URL;
 import java.security.Key;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -90,10 +93,25 @@ class MyPlantsTabPaneControllerTest extends ApplicationTest {
 
     }
 
-    //@Test
-    @DisplayName("Test")
+    @Test
+    @DisplayName("Sort by nickname")
     public void sortByNickname(){
-        //cmbSortOption
+        selectSortingOption(0);
+
+        Node n = StartClient.getScene().lookup("#lstViewUserPlantLibrary");
+        ListView view = (ListView) n;
+        ObservableList<LibraryPlantPane> list = view.getItems();
+
+        String currentNickname;
+        String previousNickname = "a";
+
+        for(LibraryPlantPane plant : list){
+            currentNickname = plant.getPlant().getNickname();
+            Assertions.assertThat(currentNickname.compareTo(previousNickname) >= 1);
+            System.out.println("currenNickname: " + currentNickname + " : PreviousNickname " + previousNickname );
+
+            previousNickname = currentNickname;
+        }
     }
 
     @Test
@@ -104,29 +122,47 @@ class MyPlantsTabPaneControllerTest extends ApplicationTest {
         Node n = StartClient.getScene().lookup("#lstViewUserPlantLibrary");
         ListView view = (ListView) n;
         ObservableList<LibraryPlantPane> list = view.getItems();
+
+        int previous = -1;
+        int current = 0;
+
         for(LibraryPlantPane plant : list){
-            System.out.println(plant.getPlant().getNickname());
+            current = plant.getPlant().getNumberDaysUntilWater();
+
+            Assertions.assertThat(current >= previous);
+
+            System.out.println("Current Water: " + current + " : Previous Water " + previous );
+
+            previous = current;
         }
 
 
     }
 
-    //@Test
+    @Test
     @DisplayName("Expand all plants")
     public void expandAll(){
         //btnExpandAll
+
+        Node expandButton = KeyRobot.getNode("#btnExpandAll");
+        Assertions.assertThat(expandButton).isNotNull().isInstanceOf(Button.class);
     }
 
-    //@Test
+    @Test
     @DisplayName("Collapse all plants")
     public void collapseAll(){
         //btnCollapseAll
+        Node collapseButton = KeyRobot.getNode("#btnCollapseAll");
+        Assertions.assertThat(collapseButton).isNotNull().isInstanceOf(Button.class);
+
     }
 
-    //@Test
+    @Test
     @DisplayName("Water all plants")
     public void waterAll(){
         //btnWaterAll
+        Node btnWaterAll = KeyRobot.getNode("#btnWaterAll");
+        Assertions.assertThat(btnWaterAll).isNotNull().isInstanceOf(Button.class);
     }
 
     //@Test
