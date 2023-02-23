@@ -11,10 +11,15 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.RegisterPaneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.RegisterPaneController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
+                <ImageView fitHeight="135.0" fitWidth="130.0" layoutX="428.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../Blommor/register.png" />
+                    </image>
+                </ImageView>
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="371.0" layoutX="334.0" layoutY="153.0" stroke="BLACK" strokeType="INSIDE" width="333.0" />
                 <Label fx:id="goBackIcon" layoutX="40.0" layoutY="38.0" onMouseClicked="#swapToLogin" text="&lt; Go Back" />
                 <TextField fx:id="txtFldNewEmail" layoutX="366.0" layoutY="204.0" prefHeight="35.0" prefWidth="267.0" promptText="youraddress@example.com" />
@@ -22,7 +27,7 @@
                 <TextField fx:id="txtFldNewUsername" layoutX="367.0" layoutY="314.0" prefHeight="35.0" prefWidth="267.0" promptText="username" />
                 <PasswordField fx:id="passFldNewPassword" layoutX="367.0" layoutY="369.0" prefHeight="35.0" prefWidth="267.0" promptText="password" />
                 <PasswordField fx:id="passFldNewPassword1" layoutX="367.0" layoutY="424.0" prefHeight="35.0" prefWidth="268.0" promptText="confirm password" />
-                <Button defaultButton="true" layoutX="461.0" layoutY="476.0" mnemonicParsing="false" onAction="#registerButtonPressed" styleClass="defaultButton" text="Sign up" />
+                <Button fx:id="signUpButton" defaultButton="true" layoutX="461.0" layoutY="476.0" mnemonicParsing="false" onAction="#registerButtonPressed" styleClass="defaultButton" text="Sign up" />
                 <ImageView fitHeight="113.0" fitWidth="97.0" layoutX="587.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../../../../Blommor/blomma11.1.png" />
                 </ImageView>
@@ -43,11 +48,6 @@
                 </ImageView>
                 <ImageView fitHeight="109.0" fitWidth="170.0" layoutX="800.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fitHeight="92.0" fitWidth="101.0" layoutX="717.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fitHeight="135.0" fitWidth="130.0" layoutX="428.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../../Blommor/register.png" />
-                    </image>
-                </ImageView>
                 <ImageView fitHeight="139.0" fitWidth="228.0" layoutX="351.0" layoutY="7.0">
                     <image>
                         <Image url="@../../../../Blommor/Logotyp.png" />
