@@ -34,8 +34,6 @@ public class DBRobot {
 
         try(Statement statement = connection.getConnection().createStatement()) {
             statement.execute(query);
-        } finally {
-            connection.closeConnection();
         }
     }
 }

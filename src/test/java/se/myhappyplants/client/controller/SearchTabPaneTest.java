@@ -1,35 +1,42 @@
 package se.myhappyplants.client.controller;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import org.awaitility.Awaitility;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.assertions.api.Assertions;
-import static org.assertj.core.api.Assertions.*;
-//import org.junit.jupiter.api.Assertions;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.ListViewMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.util.WaitForAsyncUtils;
+import se.myhappyplants.client.model.LoggedInUser;
+import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.robots.DBRobot;
 import se.myhappyplants.robots.KeyRobot;
 import se.myhappyplants.server.StartServer;
 import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
 import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.User;
+
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-///nya
-import javafx.scene.control.Button;
 import java.util.ArrayList;
-import static org.hamcrest.MatcherAssert.assertThat;
+
 import static org.testfx.api.FxAssert.verifyThat;
-import javafx.scene.control.ListView;
 
 
 /**
@@ -47,9 +54,20 @@ public class SearchTabPaneTest extends ApplicationTest {
     private ProgressIndicator progressIndicator;
     private ArrayList<Plant> searchResults;
 
+    private final String email = "settings@pane.test";
+    private final String username = "settingspanetest";
+    private final String password = "Kaffekopp1";
 
     @Override
     public void start(Stage stage) throws Exception {
+        Message loginMessage = new Message(MessageType.login, new User(email, password));
+        ServerConnection connection = ServerConnection.getClientConnection();
+        Message loginResponse = connection.makeRequest(loginMessage);
+
+        Assertions.assertThat(loginResponse).isNotNull();
+        Assertions.assertThat(loginResponse.isSuccess()).isTrue();
+        LoggedInUser.getInstance().setUser(loginResponse.getUser());
+
         //mainNode låter applikationen refresha efter varje test.
         URL fxml = RegisterPaneController.class.getResource("searchTabPane" + ".fxml");
         Assertions.assertThat(fxml).isNotNull();
@@ -71,11 +89,11 @@ public class SearchTabPaneTest extends ApplicationTest {
     @BeforeEach
     void login() {
         // Insert a test user into the test database
-        String query = String.format("INSERT INTO users (id,username,email,password, notification_activated, fun_fact_activated) VALUES ('30', 'testuser', 'testuser@example.com', 'testuser123', true, true);" );
+        String query = String.format("INSERT INTO tuser (id,username,email,password, notification_activated, fun_facts_activated) VALUES ('30', 'testuser', 'testuser@example.com', 'testuser123', true, true);" );
         try {
             DBRobot.runQuery(query);
-            }catch (SQLException e) {
-                throw new RuntimeException("Database connection failed. Failed to add test user.", e);
+        }catch (SQLException e) {
+            throw new RuntimeException("Database connection failed. Failed to add test user.", e);
         }
 
         /**  Simulate user actions to log in */
@@ -98,7 +116,7 @@ public class SearchTabPaneTest extends ApplicationTest {
     }
     @AfterEach
     void deleteUser() {
-        String query = String.format("DELETE FROM users WHERE id = '30';");
+        String query = String.format("DELETE FROM tuser WHERE id = '30';");
         try {
             DBRobot.runQuery(query);
         } catch(SQLException e) {
