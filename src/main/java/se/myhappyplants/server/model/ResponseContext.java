@@ -47,6 +47,7 @@ public class ResponseContext {
         responders.put(MessageType.savePlant, new SavePlant(userPlantRepository));
         responders.put(MessageType.search, new Search(plantRepository));
         responders.put(MessageType.verifyMail, new ForgotPassword(userRepository));
+        responders.put(MessageType.updatePassword, new UpdatePassword(userRepository));
     }
 
     public IResponseHandler getResponseHandler(MessageType messageType) {

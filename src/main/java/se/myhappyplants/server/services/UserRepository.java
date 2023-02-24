@@ -89,6 +89,13 @@ public class UserRepository {
         }
     }
 
+    //do db connection here
+    public boolean updateUserPassword(String password, String mail)
+    {
+        String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';)",password, mail); //test if query works in DB
+        return false;
+    }
+
     /**
      * Method to get information (id, username and notification status) about a specific user
      * @param email ??

@@ -153,6 +153,10 @@ public class LoginPaneController {
         }
     }
 
+    //replace old password in DB
+    //go back to Login screen
+    //update DB
+    //Use UserRepository to update DB
     public void resetPassword()
     {
         String newPw = newFldPassword.getText();
@@ -162,19 +166,33 @@ public class LoginPaneController {
         if (Objects.equals(newPw, cnfNewPw))
         {
             password = cnfNewPw;
-            //replace old password in DB
-            //go back to Login screen
+
             hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-            String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';)",hashedPassword,txtFldEmail.getText());
-            //update DB
-            try {
-                database.executeUpdate(query); //need database access
-                success = true;
-            }
-            catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
+            //figure out where to put.
+
+            String finalHashedPassword = hashedPassword;
+            Thread updatePasswordThread = new Thread(() -> {
+                Message updatePasswordMessage = new Message(MessageType.updatePassword, finalHashedPassword, txtFldEmail.getText());
+                ServerConnection connection = ServerConnection.getClientConnection();
+                Message updatePasswordResponse = connection.makeRequest(updatePasswordMessage);
+
+                if (updatePasswordResponse != null) {
+                    if (updatePasswordResponse.isSuccess()) {
+                        System.out.println("Password Updated in DB");
+
+                        //switch to login pane
+                    }
+                    else {
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Error: Password not updated"));
+                    }
+                }
+                else {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+                }
+
+            });
+            updatePasswordThread.start();
         }
     }
 

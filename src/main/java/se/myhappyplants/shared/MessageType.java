@@ -14,6 +14,7 @@ public enum MessageType {
     changePlantPicture,
     verifyMail,
     deleteAccount,
+    updatePassword,
     deletePlant,
     getLibrary,
     getMorePlantInfo,
