@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
@@ -16,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -153,33 +155,26 @@ public class LoginPaneController {
 
     public void resetPassword()
     {
-        String newCode = newFldPassword.getText();
-        String cnfNewCode = newConfirmFldPassword.getText();
-
-        if (Objects.equals(newCode, cnfNewCode))
+        String newPw = newFldPassword.getText();
+        String cnfNewPw = newConfirmFldPassword.getText();
+        String password = "";
+        String hashedPassword = "";
+        if (Objects.equals(newPw, cnfNewPw))
         {
-            //hash the password
-            //connect to DB
+            password = cnfNewPw;
             //replace old password in DB
-            //go back to register screen
+            //go back to Login screen
+            hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-            //use this to hash pw and store new password in db
-            /*
-            public boolean saveUser(User user) {
-        boolean success = false;
-        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-        String sqlSafeUsername = user.getUsername().replace("'", "''");
-        String query = String.format("INSERT INTO tuser (username, email, password, notification_activated, fun_facts_activated) VALUES ('%s', '%s', '%s',true,true);", sqlSafeUsername, user.getEmail(), hashedPassword);
-        try {
-            database.executeUpdate(query);
-            success = true;
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return success;
-    }
-             */
+            String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';)",hashedPassword,txtFldEmail.getText());
+            //update DB
+            try {
+                database.executeUpdate(query); //need database access
+                success = true;
+            }
+            catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
     }
 
