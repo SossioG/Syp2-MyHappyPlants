@@ -1,6 +1,5 @@
 package se.myhappyplants.client.controller;
 
-import jakarta.mail.MessagingException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,8 +16,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Controls the inputs from a user that hasn't logged in
@@ -35,6 +33,12 @@ public class LoginPaneController {
     @FXML private Button loginButton;
     @FXML private Button verifyButton;
     @FXML private Button verificationCodeBtn;
+    @FXML private PasswordField newFldPassword;
+    @FXML private PasswordField newConfirmFldPassword;
+    @FXML private Button newPasswordBtn;
+
+    private int verificationCode;
+    private long timeDifference;
 
     /**
      * Switches to 'logged in' scene
@@ -87,7 +91,7 @@ public class LoginPaneController {
                     System.out.println("Email found on server");
                     disableEmailVerificationMenu();
                     enableVerificationCodeMenu();
-                    generateVerificationCode();
+                    verificationCode = generateVerificationCode();
                 }
                 else {
                     Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Email is invalid."));
@@ -100,44 +104,73 @@ public class LoginPaneController {
         verificationThread.start();
     }
 
-    public void generateVerificationCode()
+    public int generateVerificationCode()
     {
         int verificationCode;
         try
         {
             HandleVerificationCodeTask threadTask = new HandleVerificationCodeTask();
-            Thread thread = new Thread(threadTask);
+            Thread thread = new Thread(threadTask); //generate Verification code
             thread.start();
             thread.join();
-            verificationCode = threadTask.getCode();
-            sendVerificationCode(verificationCode);
-
-            //new Thread(new SendVerificationCodeTask(verificationCode,txtFldEmail.getText())).start();
+            verificationCode = threadTask.getCode(); //store Code
+            new Thread(new SendVerificationCodeTask(verificationCode,txtFldEmail.getText())).start(); //send code
+            timeDifference = System.currentTimeMillis(); //get current time to see if response is within 10 min.
+            return verificationCode;
         } catch (InterruptedException e)
         {
             e.printStackTrace();
         }
+        return -1;
+    }
+    //todo if code is matching then send a reset password the user can log in with
+    //  have new password, confirm password
+    public void verifyMatchingVerCode()
+    {
+        int txtFieldCode = Integer.parseInt(verificationCodeField.getText());
+        long currentTime = System.currentTimeMillis();
+        if(verificationCode != -1)
+        {
+            if(currentTime - timeDifference <= 600000) //check if code has been out for 10 minutes
+            {
+                if(txtFieldCode == verificationCode)
+                {
+                    disableVerificationCodeMenu();
+                    enableResetPasswordMenu();
+                }
+                else
+                {
+                    System.out.println("Error: Wrong code");
+                }
+            }
+            else
+            {
+                System.out.println("Code has Expired!"); //tell user code has expired
+            }
+        }
     }
 
-    public void sendVerificationCode(int code)
+    public void resetPassword()
     {
-        String codeMsg = String.format("Your Verification code is: " + "%s",code);
-        try
-        {
-            Email.postEmail(txtFldEmail.getText(),"VerificationCode",codeMsg);
-        }
-        catch (MessagingException e)
-        {
-            e.printStackTrace();
-        }
 
+    }
 
-        /* //seperate thread solution
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(new EmailTest(txtFldEmail.getText(), "VerificationCode",codeMsg));
-        executor.shutdown();
+    public void enableResetPasswordMenu()
+    {
+        newFldPassword.setDisable(false);
+        newFldPassword.setVisible(true);
+        newConfirmFldPassword.setDisable(false);
+        newConfirmFldPassword.setVisible(true);
+        newPasswordBtn.setDisable(false);
+        newPasswordBtn.setVisible(true);
+    }
 
-         */
+    public void disableVerificationCodeMenu()
+    {
+        verificationCodeField.setDisable(true);
+        verificationCodeField.setVisible(false);
+        verificationCodeBtn.setDisable(true);
+        verificationCodeBtn.setVisible(false);
     }
 
     public void disableEmailVerificationMenu()
