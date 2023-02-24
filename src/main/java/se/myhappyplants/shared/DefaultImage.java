@@ -1,8 +1,12 @@
 package se.myhappyplants.shared;
+import java.io.Serializable;
 
-public class DefaultImage {
+public class DefaultImage implements Serializable {
     private String thumbnail;
 
+    public DefaultImage() {
+
+    }
     public String getThumbnail() {
         return thumbnail;
     }

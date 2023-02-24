@@ -18,6 +18,9 @@ public class Plant implements Serializable {
     private String nickname;
     private LocalDate last_watered;
 
+    public Plant(){
+    }
+
     public Plant(String uniqueNickName, int id, LocalDate date, String imageURL) {
         this.nickname = uniqueNickName;
         this.id = id;
