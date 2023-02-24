@@ -10,10 +10,8 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class responsible for calling the database about plants.
@@ -45,7 +43,9 @@ public class PlantRepository {
 
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
-        return mapper.readValue(getResponse.body(), Plants.class).getPlants();
+        System.out.println(getResponse.body());
+        ArrayList<Plant> plants = mapper.readValue(getResponse.body(), Plants.class).getPlants();
+        return plants;
     }
 
     /*

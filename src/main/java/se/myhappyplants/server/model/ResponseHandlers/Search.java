@@ -19,6 +19,7 @@ public class Search implements IResponseHandler {
     public Message getResponse(Message request) {
         Message response;
         String searchText = request.getMessageText();
+
         try {
             ArrayList<Plant> plants = plantRepository.getPlantlist(searchText);
             response = new Message(plants, true);

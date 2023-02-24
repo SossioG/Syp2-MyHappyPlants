@@ -243,7 +243,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
                 //String days = difference > 0 ? String.valueOf(difference) + " Days" : "Today";
                 plantInfo.add("Common name: " + plant.getCommon_name());
                 plantInfo.add("Scientific name: " + Arrays.stream(plant.getScientific_name()).findFirst());
-                plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst() );
+                plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst());
                 plantInfo.add("Water: " + plant.getWatering());
                 plantInfo.add("Last watered: " + plant.getLast_watered().toString());
                 listViewMoreInfo.setItems(plantInfo);
