@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -152,7 +153,34 @@ public class LoginPaneController {
 
     public void resetPassword()
     {
+        String newCode = newFldPassword.getText();
+        String cnfNewCode = newConfirmFldPassword.getText();
 
+        if (Objects.equals(newCode, cnfNewCode))
+        {
+            //hash the password
+            //connect to DB
+            //replace old password in DB
+            //go back to register screen
+
+            //use this to hash pw and store new password in db
+            /*
+            public boolean saveUser(User user) {
+        boolean success = false;
+        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        String sqlSafeUsername = user.getUsername().replace("'", "''");
+        String query = String.format("INSERT INTO tuser (username, email, password, notification_activated, fun_facts_activated) VALUES ('%s', '%s', '%s',true,true);", sqlSafeUsername, user.getEmail(), hashedPassword);
+        try {
+            database.executeUpdate(query);
+            success = true;
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return success;
+    }
+             */
+        }
     }
 
     public void enableResetPasswordMenu()
