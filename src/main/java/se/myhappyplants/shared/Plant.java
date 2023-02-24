@@ -1,5 +1,7 @@
 package se.myhappyplants.shared;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.time.Clock;
 import java.time.LocalDate;
@@ -14,6 +16,7 @@ public class Plant implements Serializable {
     private String[] scientific_name;
     private String[] sunlight;
     private String watering;
+    @JsonProperty("default_image")
     private DefaultImage defaultImage;
     private String nickname;
     private LocalDate last_watered;
