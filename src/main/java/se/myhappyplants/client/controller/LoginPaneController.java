@@ -7,19 +7,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
-import se.myhappyplants.shared.*;
+import se.myhappyplants.shared.Message;
+import se.myhappyplants.shared.MessageType;
+import se.myhappyplants.shared.User;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Controls the inputs from a user that hasn't logged in
@@ -76,11 +77,6 @@ public class LoginPaneController {
 
     }
 
-    //todo:
-    //  generate a 6-Letter code which is valid for 10 min
-    //  sendVerificationCode(); //send code to user mail
-    //  send code from textfield to server to check if code is right
-
     public void verifyMail()
     {
         String mail = txtFldEmail.getText();
@@ -126,8 +122,7 @@ public class LoginPaneController {
         }
         return -1;
     }
-    //todo if code is matching then send a reset password the user can log in with
-    //  have new password, confirm password
+
     public void verifyMatchingVerCode()
     {
         int txtFieldCode = Integer.parseInt(verificationCodeField.getText());
@@ -153,10 +148,6 @@ public class LoginPaneController {
         }
     }
 
-    //replace old password in DB
-    //go back to Login screen
-    //update DB
-    //Use UserRepository to update DB
     public void resetPassword()
     {
         String newPw = newFldPassword.getText();
@@ -169,8 +160,6 @@ public class LoginPaneController {
 
             hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-            //figure out where to put.
-
             String finalHashedPassword = hashedPassword;
             Thread updatePasswordThread = new Thread(() -> {
                 Message updatePasswordMessage = new Message(MessageType.updatePassword, finalHashedPassword, txtFldEmail.getText());
@@ -180,8 +169,7 @@ public class LoginPaneController {
                 if (updatePasswordResponse != null) {
                     if (updatePasswordResponse.isSuccess()) {
                         System.out.println("Password Updated in DB");
-
-                        //switch to login pane
+                        swapToLogin();
                     }
                     else {
                         Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Error: Password not updated"));
@@ -271,6 +259,14 @@ public class LoginPaneController {
      */
     @FXML private void switchToMainPane() throws IOException {
         StartClient.setRoot(String.valueOf(RootName.mainPane));
+    }
+
+    public void swapToLogin() {
+        try {
+            StartClient.setRoot(RootName.loginPane.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

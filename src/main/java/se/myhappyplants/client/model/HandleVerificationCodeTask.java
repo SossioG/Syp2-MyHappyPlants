@@ -10,10 +10,6 @@ public class HandleVerificationCodeTask implements Runnable
     {
     }
 
-    //todo Generate code valid for 10 min
-    // listen for user input on a socket
-    // return true/false if code is correct
-
     @Override
     public void run()
     {

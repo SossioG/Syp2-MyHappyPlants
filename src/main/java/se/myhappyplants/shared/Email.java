@@ -40,8 +40,8 @@ public class Email
         email.setFrom(new InternetAddress("mau@diggins.se")); //input the applications mail
         email.addRecipient(jakarta.mail.Message.RecipientType.TO,
                 new InternetAddress(toEmailAddress));   //the user to send mail to
-        email.setSubject(subject); //subject = notification
-        email.setText(bodyText); //what the notification mail should say
+        email.setSubject(subject); //subject
+        email.setText(bodyText); //what the mail should say
         Transport.send(email); //send the mail
     }
 
