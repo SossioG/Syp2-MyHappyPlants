@@ -174,17 +174,4 @@ public class KeyRobot {
         // WaitForAsyncUtils.waitForFxEvents();
         label.setText(text);
     }
-
-    public static void pressEnter() {
-        WaitForAsyncUtils.waitForFxEvents();
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-    }
-
-    //Press and realse a button.
-    public static void press(int keyEvent) {
-        WaitForAsyncUtils.waitForFxEvents();
-        robot.keyPress(keyEvent);
-        robot.keyRelease(keyEvent);
-    }
 }

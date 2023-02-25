@@ -9,31 +9,32 @@ import java.sql.Statement;
 public class DBRobot {
     private static DatabaseConnection connection = null;
 
-    private DBRobot() {}
-
     public static void closeConnection() {
-        if(connection != null) {
-            connection.closeConnection();
-            connection = null;
-        }
+        connection.closeConnection();
     }
 
     private static void connect() {
-        if(connection == null) connection = new DatabaseConnection("am3281");
+        connection = new DatabaseConnection("am3281");
     }
 
     public static ResultSet getQuery(String query) throws SQLException {
-        connect();
+        if(connection == null) {
+            connect();
+        }
 
         Statement statement = connection.getConnection().createStatement();
         return statement.executeQuery(query);
     }
 
     public static void runQuery(String query) throws SQLException {
-        connect();
+        if(connection == null) {
+            connect();
+        }
 
         try(Statement statement = connection.getConnection().createStatement()) {
             statement.execute(query);
+        } finally {
+            connection.closeConnection();
         }
     }
 }
