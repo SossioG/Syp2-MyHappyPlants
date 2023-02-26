@@ -48,7 +48,6 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     private Button changeOKWaterButton;
     private ListView listViewMoreInfo;
     private Label daysUntilWaterlbl;
-
     public boolean extended;
     private boolean gotInfoOnPlant;
 
@@ -225,6 +224,10 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         }
     }
 
+    public boolean hasExtendedSettings(){
+        return extendedSettings;
+    }
+
     /**
      * Method to initiate the water button
      * @param plant
@@ -282,6 +285,14 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         else {
             collapse();
         }
+    }
+
+    public ListView getListViewMoreInfo(){
+        return listViewMoreInfo;
+    }
+
+    public boolean isExtended() {
+        return extended;
     }
 
     /**
@@ -522,12 +533,16 @@ public class LibraryPlantPane extends Pane implements PlantPane {
      * Method to change the date of the last watered date
      * @param plant the selected plant
      */
-    private void changeDate(Plant plant) {
+    public void changeDate(Plant plant) {
         LocalDate date = datePicker.getValue();
         plant.setLastWatered(date);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         myPlantsTabPaneController.changeLastWateredInDB(plant, date);
+    }
+
+    public void setDatePicker(LocalDate date){
+        datePicker.setValue(date);
     }
 
     /**
@@ -537,5 +552,21 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     @Override
     public Plant getPlant() {
         return plant;
+    }
+
+    public void pressChangeNicknameButton(Plant plant) {
+        if(hasExtendedSettings()){
+            changeNickname(plant);
+        }
+    }
+
+    public void pressDeletePlantButton(Plant plant) {
+        if(hasExtendedSettings()){
+            removePlant(plant);
+        }
+    }
+
+    public Label getNickname() {
+        return nickname;
     }
 }
