@@ -4,18 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class Plant implements Serializable {
     private int id;
-    private String common_name;
-    private String[] scientific_name;
+    @JsonProperty("common_name")
+    private String commonName;
+    @JsonProperty("scientific_name")
+    private String[] scientificName;
     private String[] sunlight;
     private String watering;
     @JsonProperty("default_image")
     private DefaultImage defaultImage;
     private String nickname;
-    private LocalDate last_watered;
+    @JsonProperty("last_watered")
+    private LocalDate lastWatered;
 
     public Plant(){
     }
@@ -23,7 +27,7 @@ public class Plant implements Serializable {
     public Plant(String uniqueNickName, int id, LocalDate date, String imageURL) {
         this.nickname = uniqueNickName;
         this.id = id;
-        this.last_watered = date;
+        this.lastWatered = date;
         DefaultImage defaultImage = new DefaultImage();
         defaultImage.setThumbnail(imageURL);
 
@@ -38,19 +42,19 @@ public class Plant implements Serializable {
     }
 
     public String getCommonName() {
-        return common_name;
+        return commonName;
     }
 
     public void setCommonName(String common_name) {
-        this.common_name = common_name;
+        this.commonName = common_name;
     }
 
     public String[] getScientificName() {
-        return scientific_name;
+        return scientificName;
     }
 
     public void setScientificName(String[] scientific_name) {
-        this.scientific_name = scientific_name;
+        this.scientificName = scientific_name;
     }
 
     public String[] getSunlight() {
@@ -86,11 +90,11 @@ public class Plant implements Serializable {
     }
 
     public LocalDate getLastWatered() {
-        return last_watered;
+        return lastWatered;
     }
 
     public void setLastWatered(LocalDate last_watered) {
-        this.last_watered = last_watered;
+        this.lastWatered = last_watered;
     }
 
     public long getMillisFrequency(){
@@ -123,5 +127,10 @@ public class Plant implements Serializable {
      */
     public double getProgress() {
         return 1.0;
+    }
+
+    @Override
+    public String toString() {
+        return "Plant{\n" + "id=" + id + ",\n common_name='" + commonName + '\'' + ",\n scientific_name=" + Arrays.toString(scientificName) + ",\n sunlight=" + Arrays.toString(sunlight) + ",\n watering='" + watering + '\'' + ",\n defaultImage=" + defaultImage + ",\n nickname='" + nickname + '\'' + ",\n last_watered=" + lastWatered + "\n}";
     }
 }
