@@ -52,6 +52,7 @@ public class SearchTabPaneController {
     /**
      * Method to initialize the GUI
      * @throws IOException
+     * the components in this GUI-dashboard
      */
     @FXML public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
@@ -86,7 +87,8 @@ public class SearchTabPaneController {
     }
 
     /**
-     * Method to add a plant to the logged in users library. Asks the user if it wants to add a nickname to the plant and receives a string if the answer is yes
+     * Method to add a plant to the logged in users library. Asks the user if it wants to add a nickname to the plant
+     * and receives a string if the answer is yes
      * @param plantAdd the selected plant to add
      */
     @FXML public void addPlantToCurrentUserLibrary(Plant plantAdd) {

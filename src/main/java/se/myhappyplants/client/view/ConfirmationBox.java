@@ -35,12 +35,14 @@ public class ConfirmationBox {
         label.setText(message);
 
         Button yesButton = new Button("Yes");
+        yesButton.setId("yesButton");
         yesButton.setOnAction(action -> {
             answer = true;
             window.close();
         });
 
         Button noButton = new Button("No");
+        noButton.setId("noButton");
         noButton.setOnAction(action -> {
             answer = false;
             window.close();

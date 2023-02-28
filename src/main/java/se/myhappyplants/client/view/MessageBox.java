@@ -40,6 +40,7 @@ public class MessageBox {
         label.setId("messageLbl");
 
         Button okButton = new Button("OK");
+        okButton.setId("okButton");
         System.out.println("Outside");
         okButton.setOnAction(action -> {
             window.hide();
@@ -81,14 +82,17 @@ public class MessageBox {
 
         Label label = new Label();
         label.setText(question);
+        label.setId("messageLbl");
 
         Button yesButton = new Button("Yes");
+        yesButton.setId("yesButton");
         yesButton.setOnAction(action -> {
             answer.set(1);
             window.close();
         });
 
         Button noButton = new Button("No");
+        noButton.setId("noButton");
         noButton.setOnAction(action -> {
             answer.set(0);
             window.close();
@@ -138,6 +142,7 @@ public class MessageBox {
         textField.setMinHeight(10);
 
         Button enterButton = new Button("Enter");
+        enterButton.setId("enterButton");
         enterButton.setOnAction(action -> {
             input.set(textField.getText());
             window.close();

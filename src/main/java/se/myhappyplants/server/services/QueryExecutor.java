@@ -32,6 +32,7 @@ public class QueryExecutor implements IQueryExecutor {
                 retries++;
             }
         } while (!isSuccess && retries < 3);
+
     }
 
     @Override

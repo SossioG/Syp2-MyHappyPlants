@@ -169,4 +169,21 @@ public class Plant implements Serializable {
 
         return strToReturn;
     }
+
+    public int getNumberDaysUntilWater(){
+        long millisSinceLastWatered = System.currentTimeMillis() - lastWatered.getTime();
+        long millisUntilNextWatering = waterFrequency - millisSinceLastWatered;
+        long millisInADay = 86400000;
+
+        double daysExactlyUntilWatering = (double) millisUntilNextWatering / (double) millisInADay;
+
+        int daysUntilWatering = (int) daysExactlyUntilWatering;
+        double decimals = daysExactlyUntilWatering - (int) daysExactlyUntilWatering;
+
+        if (decimals > 0.5) {
+            daysUntilWatering = (int) daysExactlyUntilWatering + 1;
+        }
+
+        return daysUntilWatering;
+    }
 }

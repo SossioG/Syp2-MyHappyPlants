@@ -23,14 +23,18 @@ public class DBRobot {
     }
 
     public static ResultSet getQuery(String query) throws SQLException {
-        connect();
+        if(connection == null) {
+            connect();
+        }
 
         Statement statement = connection.getConnection().createStatement();
         return statement.executeQuery(query);
     }
 
     public static void runQuery(String query) throws SQLException {
-        connect();
+        if(connection == null) {
+            connect();
+        }
 
         try(Statement statement = connection.getConnection().createStatement()) {
             statement.execute(query);
