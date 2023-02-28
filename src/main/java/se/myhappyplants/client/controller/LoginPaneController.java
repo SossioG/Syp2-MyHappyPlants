@@ -3,12 +3,13 @@ package se.myhappyplants.client.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import se.myhappyplants.client.model.BoxTitle;
-import se.myhappyplants.client.model.LoggedInUser;
-import se.myhappyplants.client.model.RootName;
+import javafx.scene.input.MouseEvent;
+import org.mindrot.jbcrypt.BCrypt;
+import se.myhappyplants.client.model.*;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.shared.Message;
@@ -19,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Controls the inputs from a user that hasn't logged in
@@ -28,8 +30,19 @@ import java.io.IOException;
 public class LoginPaneController {
 
     @FXML public Hyperlink registerLink;
+    @FXML public Hyperlink forgotPassword;
     @FXML private TextField txtFldEmail;
+    @FXML private TextField verificationCodeField;
     @FXML private PasswordField passFldPassword;
+    @FXML private Button loginButton;
+    @FXML private Button verifyButton;
+    @FXML private Button verificationCodeBtn;
+    @FXML private PasswordField newFldPassword;
+    @FXML private PasswordField newConfirmFldPassword;
+    @FXML private Button newPasswordBtn;
+
+    private int verificationCode;
+    private long timeDifference;
 
     /**
      * Switches to 'logged in' scene
@@ -52,6 +65,157 @@ public class LoginPaneController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML public void forgotPasswordPane()
+    {
+        passFldPassword.setVisible(false);
+        loginButton.setDisable(true);
+        loginButton.setVisible(false);
+        verifyButton.setDisable(false);
+        verifyButton.setVisible(true);
+
+    }
+
+    public void verifyMail()
+    {
+        String mail = txtFldEmail.getText();
+        Thread verificationThread = new Thread(() -> {
+            Message verificationCodeMessage = new Message(MessageType.verifyMail, mail);
+            ServerConnection connection = ServerConnection.getClientConnection();
+            Message verificationResponse = connection.makeRequest(verificationCodeMessage);
+
+            if (verificationResponse != null) {
+                if (verificationResponse.isSuccess()) {
+                    System.out.println("Email found on server");
+                    disableEmailVerificationMenu();
+                    enableVerificationCodeMenu();
+                    verificationCode = generateVerificationCode();
+                }
+                else {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Email is invalid."));
+                }
+            }
+            else {
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+            }
+        });
+        verificationThread.start();
+    }
+
+    public int generateVerificationCode()
+    {
+        int verificationCode;
+        try
+        {
+            HandleVerificationCodeTask threadTask = new HandleVerificationCodeTask();
+            Thread thread = new Thread(threadTask); //generate Verification code
+            thread.start();
+            thread.join();
+            verificationCode = threadTask.getCode(); //store Code
+            new Thread(new SendVerificationCodeTask(verificationCode,txtFldEmail.getText())).start(); //send code
+            timeDifference = System.currentTimeMillis(); //get current time to see if response is within 10 min.
+            return verificationCode;
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void verifyMatchingVerCode()
+    {
+        int txtFieldCode = Integer.parseInt(verificationCodeField.getText());
+        long currentTime = System.currentTimeMillis();
+        if(verificationCode != -1)
+        {
+            if(currentTime - timeDifference <= 600000) //check if code has been out for 10 minutes
+            {
+                if(txtFieldCode == verificationCode)
+                {
+                    disableVerificationCodeMenu();
+                    enableResetPasswordMenu();
+                }
+                else
+                {
+                    System.out.println("Error: Wrong code");
+                }
+            }
+            else
+            {
+                System.out.println("Code has Expired!"); //tell user code has expired
+            }
+        }
+    }
+
+    public void resetPassword()
+    {
+        String newPw = newFldPassword.getText();
+        String cnfNewPw = newConfirmFldPassword.getText();
+        String password = "";
+        String hashedPassword = "";
+        if (Objects.equals(newPw, cnfNewPw))
+        {
+            password = cnfNewPw;
+
+            hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+            String finalHashedPassword = hashedPassword;
+            Thread updatePasswordThread = new Thread(() -> {
+                Message updatePasswordMessage = new Message(MessageType.updatePassword, finalHashedPassword, txtFldEmail.getText());
+                ServerConnection connection = ServerConnection.getClientConnection();
+                Message updatePasswordResponse = connection.makeRequest(updatePasswordMessage);
+
+                if (updatePasswordResponse != null) {
+                    if (updatePasswordResponse.isSuccess()) {
+                        System.out.println("Password Updated in DB");
+                        swapToLogin();
+                    }
+                    else {
+                        Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "Error: Password not updated"));
+                    }
+                }
+                else {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+                }
+
+            });
+            updatePasswordThread.start();
+        }
+    }
+
+    public void enableResetPasswordMenu()
+    {
+        newFldPassword.setDisable(false);
+        newFldPassword.setVisible(true);
+        newConfirmFldPassword.setDisable(false);
+        newConfirmFldPassword.setVisible(true);
+        newPasswordBtn.setDisable(false);
+        newPasswordBtn.setVisible(true);
+    }
+
+    public void disableVerificationCodeMenu()
+    {
+        verificationCodeField.setDisable(true);
+        verificationCodeField.setVisible(false);
+        verificationCodeBtn.setDisable(true);
+        verificationCodeBtn.setVisible(false);
+    }
+
+    public void disableEmailVerificationMenu()
+    {
+        txtFldEmail.setDisable(true);
+        txtFldEmail.setVisible(false);
+        verifyButton.setDisable(true);
+        verifyButton.setVisible(false);
+    }
+
+    public void enableVerificationCodeMenu()
+    {
+        verificationCodeField.setDisable(false);
+        verificationCodeField.setVisible(true);
+        verificationCodeBtn.setDisable(false);
+        verificationCodeBtn.setVisible(true);
     }
 
     /**
@@ -95,6 +259,14 @@ public class LoginPaneController {
      */
     @FXML private void switchToMainPane() throws IOException {
         StartClient.setRoot(String.valueOf(RootName.mainPane));
+    }
+
+    public void swapToLogin() {
+        try {
+            StartClient.setRoot(RootName.loginPane.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

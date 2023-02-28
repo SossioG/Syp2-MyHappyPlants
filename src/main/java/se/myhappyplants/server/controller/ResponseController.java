@@ -36,7 +36,6 @@ public class ResponseController {
     public Message getResponse(Message request) throws IOException, InterruptedException {
         Message response;
         MessageType messageType = request.getMessageType();
-
         IResponseHandler responseHandler = responseContext.getResponseHandler(messageType);
         response = responseHandler.getResponse(request);
         return response;

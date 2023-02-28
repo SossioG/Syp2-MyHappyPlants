@@ -18,8 +18,7 @@ public class Verifier {
      */
     public boolean validateRegistration(RegisterPaneController registerPaneController) {
         String[] loginInfoToCompare = registerPaneController.getComponentsToVerify();
-
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 5; i++) {
             if(loginInfoToCompare[i].isEmpty()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Make sure to fill all boxes."));
                 return false;
@@ -33,28 +32,19 @@ public class Verifier {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Password must be at least 8 characters."));
             return false;
         }
-
         if (!Pattern.matches(".*[A-Z].*", loginInfoToCompare[3])) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Password must contain one character with uppercase."));
             return false;
         }
-
         if (!Pattern.matches(".*[0-9].*", loginInfoToCompare[3])) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Password must contain one digit."));
             return false;
         }
-
         if (!loginInfoToCompare[1].equals(loginInfoToCompare[0])) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter the same email twice."));
             return false;
         }
-        if (!loginInfoToCompare[4].equals(loginInfoToCompare[3])) {
-            Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter the same password twice."));
-            return false;
-        }
-
         return true;
-
     }
 
     /**

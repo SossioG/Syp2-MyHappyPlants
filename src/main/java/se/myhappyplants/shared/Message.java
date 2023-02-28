@@ -15,6 +15,7 @@ public class Message implements Serializable {
     private MessageType messageType;
     private boolean notifications;
     private String messageText;
+    private String secondString;
     private User user;
     private boolean success;
     private LocalDate date;
@@ -119,6 +120,12 @@ public class Message implements Serializable {
         this.messageText = messageText;
     }
 
+    public Message(MessageType messageType, String messageText, String secondString) {
+        this.messageType = messageType;
+        this.messageText = messageText;
+        this.secondString = secondString;
+    }
+
     /**
      * Creates a message which can be used to send a user and a boolean value.
      * @param user user.
@@ -154,6 +161,16 @@ public class Message implements Serializable {
     }
     public boolean isSuccess() {
         return success;
+    }
+    public String getSecondString() {
+        return secondString;
+    }
+    public void setSecondString(String secondString) {
+        this.secondString = secondString;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
     public ArrayList<Plant> getPlantArray() {
         return plantArray;

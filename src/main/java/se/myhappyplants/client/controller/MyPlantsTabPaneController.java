@@ -42,7 +42,7 @@ public class MyPlantsTabPaneController {
     @FXML private Circle imgUserAvatar;
     @FXML private ComboBox<SortingOption> cmbSortOption;
     @FXML private ListView lstViewUserPlantLibrary;
-    @FXML private ListView<String> lstViewNotifications;
+    @FXML private ListView<String> lstViewNotifications; //has notifications
     @FXML private Button btnWaterAll;
     @FXML private Button btnExpandAll;
     @FXML public Button btnCollapseAll;
@@ -67,7 +67,6 @@ public class MyPlantsTabPaneController {
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
-
     /**
      * Getter-method to get the mainPaneController
      * @return MainPaneController
@@ -122,6 +121,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to show the notification
      */
+
     public void showNotifications() {
         ObservableList<String> notificationStrings = NotificationsCreator.getNotificationsStrings(currentUserLibrary, imgNotifications);
         Platform.runLater(() -> lstViewNotifications.setItems(notificationStrings));

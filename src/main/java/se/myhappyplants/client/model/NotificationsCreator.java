@@ -19,6 +19,8 @@ public class NotificationsCreator {
      * @param imgNotifications
      * @return ObservableList<String> to set in the listView in the GUI
      */
+
+    //todo use this class to create a mime message (Email) object
     public static ObservableList<String> getNotificationsStrings (ArrayList<Plant> currentUserLibrary, ImageView imgNotifications) {
 
         ObservableList<String> notificationStrings = FXCollections.observableArrayList();
@@ -34,6 +36,7 @@ public class NotificationsCreator {
             if (plantsThatNeedWater == 0) {
                 notificationStrings.add("All your plants are happy!");
             }
+
         } else {
             imgNotifications.setVisible(false);
             notificationStrings = null;

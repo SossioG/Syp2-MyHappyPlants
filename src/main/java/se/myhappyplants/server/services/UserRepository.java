@@ -4,6 +4,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.shared.User;
 
 import java.sql.*;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Class responsible for calling the database about users.
@@ -59,6 +61,47 @@ public class UserRepository {
             sqlException.printStackTrace();
         }
         return isVerified;
+    }
+
+    //checks if database has entered mail adress
+    public boolean checkMatchingMail(String email)
+    {
+        String query = String.format("SELECT EXISTS(SELECT * FROM tuser WHERE email = '%s');", email);
+        boolean result = false;
+        try {
+            ResultSet resultSet = database.executeQuery(query);
+
+            if(resultSet.next())
+            {
+                result = resultSet.getBoolean(1);
+            }
+            if (result) {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateUserPassword(String password, String mail)
+    {
+        String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';",password, mail); //test if query works in DB
+        try
+        {
+            database.executeUpdate(query);
+            return true;
+        }
+        catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 
     /**
