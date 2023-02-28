@@ -380,8 +380,4 @@ public class MyPlantsTabPaneController {
             }
         }
     }
-
-    public ListView getLstViewUserPlantLibrary() {
-        return lstViewUserPlantLibrary;
-    }
 }
