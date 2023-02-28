@@ -38,9 +38,9 @@ import java.util.ArrayList;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
-
 /**
         @author Yara Rajjoub
+        @updated by Émile Priller
  */
 
 
@@ -179,6 +179,11 @@ public class SearchTabPaneTest extends ApplicationTest {
     @Test
     public void addPlantToCurrentUserLibrary() {
         //To test if successfully added the plant to library
+    }
+
+    @Test
+    public void nameAPlant() {
+        //To test if successfully named the plant to
     }
     @Test
     public void showFunFact() {

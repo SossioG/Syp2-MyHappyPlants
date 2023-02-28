@@ -86,8 +86,8 @@ class MyPlantsTabPaneControllerTest extends ApplicationTest {
     private void selectSortingOption(int itemNumber){
         KeyRobot.click("#cmbSortOption");
         sleep(1000);
-        for(int i = 0; i <= itemNumber; i++)
-            KeyRobot.press(KeyEvent.VK_DOWN);
+        for(int i = 0; i <= itemNumber; i++);
+        KeyRobot.press(KeyEvent.VK_DOWN);
 
         KeyRobot.pressEnter();
 
