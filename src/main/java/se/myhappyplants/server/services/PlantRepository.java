@@ -1,12 +1,16 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.shared.WaterCalculator;
-import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDetails;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import se.myhappyplants.shared.*;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -16,36 +20,37 @@ import java.util.ArrayList;
  */
 public class PlantRepository {
 
+    static final ObjectMapper mapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final String token = "sk-S5oz63f4cd6f8ebb590";
     private IQueryExecutor database;
 
     public PlantRepository(IQueryExecutor database) {
         this.database = database;
     }
 
-    public ArrayList<Plant> getResult(String plantSearch) {
-        ArrayList<Plant> plantList = new ArrayList<>();
-        String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            while (resultSet.next()) {
-                String plantId = resultSet.getString("id");
-                String commonName = resultSet.getString("common_name");
-                String scientificName = resultSet.getString("scientific_name");
-                String familyName = resultSet.getString("family");
-                String imageURL = resultSet.getString("image_url");
-                plantList.add(new Plant(plantId, commonName, scientificName, familyName, imageURL));
-            }
+    public ArrayList<Plant> getPlantlist(String searchtext) throws URISyntaxException, IOException, InterruptedException {
+        String uritext;
+        if(!searchtext.isEmpty()){
+            uritext = "https://perenual.com/api/species-list?key=" + token + "&q=" + searchtext;
+        } else{
+            uritext = "https://perenual.com/api/species-list?page=1&key=" + token;
         }
-        catch (SQLException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
-            plantList = null;
-        }
-        return plantList;
+        HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(uritext))
+                .header("Content-Type","application/json")
+                .build();
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
+        System.out.println(getResponse.body());
+        ArrayList<Plant> plants = mapper.readValue(getResponse.body(), Plants.class).getPlants();
+        return plants;
     }
 
+    /*
     public PlantDetails getPlantDetails(Plant plant) {
-        PlantDetails plantDetails = null;
-        String query = "SELECT genus, scientific_name, light, water_frequency, family FROM species WHERE id = '" + plant.getPlantId() + "';";
+        String query = "SELECT genus, scientific_name, light, water_frequency, family FROM species WHERE id = '" + plantDepricated.getPlantId() + "';";
         try {
             ResultSet resultSet = database.executeQuery(query);
             while (resultSet.next()) {
@@ -66,7 +71,34 @@ public class PlantRepository {
         }
         return plantDetails;
     }
+    */
 
+
+    //DB-metoder GAMLA
+
+    /*
+    public ArrayList<PlantDepricated> getResult(String plantSearch) {
+        ArrayList<PlantDepricated> plantDepricatedList = new ArrayList<>();
+        String query = "SELECT id, common_name, scientific_name, family, image_url FROM species WHERE scientific_name LIKE ('%" + plantSearch + "%') OR common_name LIKE ('%" + plantSearch + "%');";
+        try {
+            ResultSet resultSet = database.executeQuery(query);
+            while (resultSet.next()) {
+                String plantId = resultSet.getString("id");
+                String commonName = resultSet.getString("common_name");
+                String scientificName = resultSet.getString("scientific_name");
+                String familyName = resultSet.getString("family");
+                String imageURL = resultSet.getString("image_url");
+                plantDepricatedList.add(new PlantDepricated(plantId, commonName, scientificName, familyName, imageURL));
+            }
+        }
+        catch (SQLException sqlException) {
+            System.out.println(sqlException.fillInStackTrace());
+            plantDepricatedList = null;
+        }
+        return plantDepricatedList;
+    } */
+
+    /*
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
@@ -75,9 +107,9 @@ public class PlantRepository {
         catch (NumberFormatException e) {
             return false;
         }
-    }
+    } */
 
-    public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
+   /* public long getWaterFrequency(String plantId) throws IOException, InterruptedException {
         long waterFrequency = -1;
         String query = "SELECT water_frequency FROM species WHERE id = '" + plantId + "';";
         try {
@@ -92,5 +124,5 @@ public class PlantRepository {
             throwables.printStackTrace();
         }
         return waterFrequency;
-    }
+    } */
 }

@@ -23,11 +23,15 @@ public class GetLibrary implements IResponseHandler {
         User user = request.getUser();
         try {
             ArrayList<Plant> userLibrary = userPlantRepository.getUserLibrary(user);
+            for (Plant plant : userLibrary){
+            }
             response = new Message(userLibrary, true);
         } catch (Exception e) {
             response = new Message(false);
             e.printStackTrace();
         }
+
+
         return response;
     }
 }

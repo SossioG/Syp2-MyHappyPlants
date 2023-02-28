@@ -156,13 +156,13 @@ public class SearchTabPaneTest extends ApplicationTest {
         // Assert that the search results are correct
         Plant result = listViewResult.getItems().get(0);
 
-        String plantId =result.getPlantId();
+        String plantId = Integer.toString(result.getId());
         Assertions.assertThat(plantId).isEqualTo("262017");
 
         String commonName = result.getCommonName();
         Assertions.assertThat(commonName).isEqualTo("Meadowsweet");
 
-        String scientificName = result.getScientificName();
+        String[] scientificName = result.getScientificName();
         Assertions.assertThat(scientificName).isEqualTo("Filipendula ulmaria");
 
         // Extract familyName from the toString method
@@ -171,7 +171,7 @@ public class SearchTabPaneTest extends ApplicationTest {
         String familyName = toStringParts[1].substring("Family name: ".length());
         Assertions.assertThat(familyName).isEqualTo("Rosaceae");
 
-       String imageURL = result.getImageURL();
+       String imageURL = result.getDefaultImage().getThumbnail();
        Assertions.assertThat(imageURL).isEqualTo("https://bs.plantnet.org/image/o/53c73903dc455a3d734b193dad7d9d8c4ec0e324");
     }
 

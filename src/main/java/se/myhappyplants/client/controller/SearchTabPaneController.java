@@ -17,11 +17,8 @@ import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.AutocompleteSearchField;
 import se.myhappyplants.client.view.MessageBox;
 import se.myhappyplants.client.view.SearchPlantPane;
-import se.myhappyplants.shared.Message;
-import se.myhappyplants.shared.MessageType;
-import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.*;
 import se.myhappyplants.client.model.SetAvatar;
-import se.myhappyplants.shared.PlantDetails;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -106,7 +103,7 @@ public class SearchTabPaneController {
      */
     private void showResultsOnPane() {
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
-        for (Plant plant : searchResults) {
+        for (Plant plant: searchResults) {
             searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
@@ -118,8 +115,8 @@ public class SearchTabPaneController {
                     protected Object call() {
                         long i = 1;
                         for (SearchPlantPane spp : searchPlantPanes) {
-                            Plant Plant = spp.getPlant();
-                            if (Plant.getImageURL().equals("")) {
+                            Plant plant = spp.getPlant();
+                            if (plant.getDefaultImage().getThumbnail().equals("")) {
                                 spp.setDefaultImage(ImageLibrary.getDefaultPlantImage().toURI().toString());
                             }
                             else {

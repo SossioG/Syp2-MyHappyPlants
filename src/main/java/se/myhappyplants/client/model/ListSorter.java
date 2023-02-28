@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import se.myhappyplants.client.view.PlantPane;
 
+import java.util.Arrays;
+
 /**
  * Class that sorts lists of plant panes according to different options
  * Created by: Christopher O'Driscoll
@@ -102,8 +104,8 @@ public class ListSorter {
     private static ObservableList<PlantPane> sortByScientificName() {
 
         listToBeSorted.sort((pane1, pane2) -> {
-            String s1 = pane1.getPlant().getScientificName();
-            String s2 = pane2.getPlant().getScientificName();
+            String s1 = Arrays.stream(pane1.getPlant().getScientificName()).findFirst().toString();
+            String s2 = Arrays.stream(pane2.getPlant().getScientificName()).findFirst().toString();
             return s1.compareToIgnoreCase(s2);
         });
         return listToBeSorted;

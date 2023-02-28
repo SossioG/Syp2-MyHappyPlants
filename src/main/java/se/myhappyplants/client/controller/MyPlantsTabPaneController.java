@@ -56,7 +56,7 @@ public class MyPlantsTabPaneController {
         lblUsername.setText(loggedInUser.getUser().getUsername());
         imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
-        createCurrentUserLibraryFromDB();
+        createCurrentUserLibrary();
         addCurrentUserLibraryToHomeScreen();
     }
 
@@ -130,7 +130,7 @@ public class MyPlantsTabPaneController {
     /**
      * Method to create the logged in users library from the database
      */
-    @FXML public void createCurrentUserLibraryFromDB() {
+    @FXML public void createCurrentUserLibrary() {
         Thread getLibraryThread = new Thread(() -> {
             Message getLibrary = new Message(MessageType.getLibrary, LoggedInUser.getInstance().getUser());
             ServerConnection connection = ServerConnection.getClientConnection();
@@ -162,7 +162,7 @@ public class MyPlantsTabPaneController {
 
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
-                createCurrentUserLibraryFromDB();
+                createCurrentUserLibrary();
             }
         });
         removePlantThread.start();
@@ -185,14 +185,13 @@ public class MyPlantsTabPaneController {
         long currentDateMilli = System.currentTimeMillis();
         Date date = new Date(currentDateMilli);
         String imageURL = PictureRandomizer.getRandomPictureURL();
-        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getPlantId(), date, imageURL);
+        Plant plantToAdd = new Plant(uniqueNickName, selectedPlant.getId(), LocalDate.now(), imageURL);
         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyAddPlant.toString()));
         addPlantToDB(plantToAdd);
     }
 
     /**
      * Method to save the plant to the database
-     * @param plant the selected plant that the user has chosen
      */
     @FXML public void addPlantToDB(Plant plant) {
         Thread addPlantThread = new Thread(() -> {
@@ -203,7 +202,7 @@ public class MyPlantsTabPaneController {
             if (!response.isSuccess()) {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
-            createCurrentUserLibraryFromDB();
+            createCurrentUserLibrary();
         });
         addPlantThread.start();
     }
@@ -218,19 +217,18 @@ public class MyPlantsTabPaneController {
 
     /**
      * Method to change last watered date in database, send a request to server and get a boolean respons depending on the result
-     *
      * @param plant instance of the plant which to change last watered date
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
-        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, date);
+        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, String.valueOf(date));
         ServerConnection connection = ServerConnection.getClientConnection();
         Message response = connection.makeRequest(changeLastWatered);
         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyChangedDate.toString()));
         if (!response.isSuccess()) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
         }
-        createCurrentUserLibraryFromDB();
+        createCurrentUserLibrary();
         showNotifications();
     }
 
@@ -279,7 +277,8 @@ public class MyPlantsTabPaneController {
      * @param plant the selected plant
      * @return an instance of the class PlantDetails
      */
-    public PlantDetails getPlantDetails(Plant plant) {
+    /*
+    public PlantDetails getPlantDetailsMyPlantsTab(Plant plant) {
         PlantDetails plantDetails = null;
         Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
         ServerConnection connection = ServerConnection.getClientConnection();
@@ -288,7 +287,7 @@ public class MyPlantsTabPaneController {
             plantDetails = response.getPlantDetails();
         }
         return plantDetails;
-    }
+    } */
 
     /**
      * Method to water all the plant at once
@@ -341,7 +340,7 @@ public class MyPlantsTabPaneController {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
             }
             btnWaterAll.setDisable(false);
-            createCurrentUserLibraryFromDB();
+            createCurrentUserLibrary();
             showNotifications();
         });
         waterAllThread.start();
@@ -364,7 +363,7 @@ public class MyPlantsTabPaneController {
                     Files.delete(newPictureFile.toPath());
                     Files.copy(selectedImage.toPath(), newPictureFile.toPath());
                 }
-                lpp.getPlant().setImageURL(newPictureFile.toURI().toURL().toString());
+                lpp.getPlant().getDefaultImage().setThumbnail(newPictureFile.toURI().toURL().toString());
                 lpp.updateImage();
                 Thread changePlantPictureThread = new Thread(() -> {
                     Message changePlantPicture = new Message(MessageType.changePlantPicture, LoggedInUser.getInstance().getUser(), lpp.getPlant());

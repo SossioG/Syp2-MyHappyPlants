@@ -6,40 +6,32 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import org.assertj.core.api.Assert;
-import org.assertj.core.internal.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 import se.myhappyplants.client.view.LibraryPlantPane;
-import se.myhappyplants.robots.DBRobot;
 import se.myhappyplants.robots.KeyRobot;
-import java.awt.event.KeyEvent;
-import javafx.scene.control.ListView;
 import se.myhappyplants.server.StartServer;
-import se.myhappyplants.shared.Plant;
 
-
-import java.awt.AWTException;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.security.Key;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -122,11 +114,11 @@ class MyPlantsTabPaneControllerTest extends ApplicationTest {
 
         ObservableList<LibraryPlantPane> plantList = getPlantList();
 
-        int previous = -1;
-        int current = 0;
+        double previous = -1;
+        double current = 0;
 
         for(LibraryPlantPane plant : plantList){
-            current = plant.getPlant().getNumberDaysUntilWater();
+            current = plant.getPlant().getProgress();
             Assertions.assertThat(current >= previous);
             previous = current;
         }

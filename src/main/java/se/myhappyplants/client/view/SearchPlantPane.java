@@ -16,10 +16,9 @@ import javafx.util.Duration;
 import se.myhappyplants.client.controller.SearchTabPaneController;
 
 import se.myhappyplants.client.model.ImageLibrary;
-import se.myhappyplants.shared.WaterCalculator;
 import se.myhappyplants.shared.Plant;
-import se.myhappyplants.shared.PlantDetails;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -34,6 +33,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Button infoButton;
     private Button addButton;
 
+   // private PlantDepricated plantDepricated;
     private Plant plant;
     private SearchTabPaneController searchTabPaneController;
     private ListView listView;
@@ -88,7 +88,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to initialize scientific name label
      */
     private void initScientificName() {
-        this.scientificName = new Label(plant.getScientificName());
+        this.scientificName = new Label(Arrays.stream(plant.getScientificName()).findFirst().toString());
         scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -136,16 +136,15 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 commonName.setDisable(true);
                 if (!extended) {
                     if (!gotInfoOnPlant) {
-                        PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plant);
+                        /*PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plantDepricated);
                         String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
                         long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
-                        String waterText = WaterTextFormatter.getWaterString(waterInMilli);
+                        String waterText = WaterTextFormatter.getWaterString(waterInMilli); */
                         ObservableList<String> plantInfo = FXCollections.observableArrayList();
-                        plantInfo.add("Genus: " +plantDetails.getGenus());
-                        plantInfo.add("Scientific name: "+plantDetails.getScientificName());
-                        plantInfo.add("Family: "+plantDetails.getFamily());
-                        plantInfo.add("Light: " +lightText);
-                        plantInfo.add("Water: "+waterText);
+                        plantInfo.add("Common name: " + plant.getCommonName());
+                        plantInfo.add("Scientific name: "+ Arrays.stream(plant.getScientificName()).findFirst());
+                        plantInfo.add("Light: " + Arrays.stream(plant.getSunlight()).findFirst());
+                        plantInfo.add("Water: "+ plant.getWatering());
                         listView.setItems(plantInfo);
                     }
                     extendPaneMoreInfoPlant();
@@ -178,7 +177,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to update the image
      */
     public void updateImage() {
-        Image img = new Image(String.valueOf(plant.getImageURL()));
+        Image img = new Image(String.valueOf(plant.getDefaultImage().getThumbnail()));
         image.setImage(img);
     }
 

@@ -5,6 +5,7 @@ import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.shared.Message;
 import se.myhappyplants.shared.Plant;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 /**
@@ -23,7 +24,7 @@ public class ChangeLastWatered implements IResponseHandler {
         Message response;
         Plant plant = request.getPlant();
         String nickname = plant.getNickname();
-        LocalDate lastWatered = request.getDate();
+        Date lastWatered = (Date) request.getDate();
         if (userPlantRepository.changeLastWatered(request.getUser(), nickname, lastWatered)) {
             response = new Message(true);
         } else {
