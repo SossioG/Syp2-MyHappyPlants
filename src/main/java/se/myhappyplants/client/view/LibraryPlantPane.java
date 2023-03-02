@@ -541,8 +541,9 @@ public class LibraryPlantPane extends Pane implements PlantPane {
     public void changeDate(Plant plant) {
         LocalDate date = datePicker.getValue();
 
-
         plant.setLastWatered(date);
+        String daysUntilWaterText = plant.getDaysUntilWater();
+        daysUntilWaterlbl.setText(daysUntilWaterText);
         progressBar.setProgress(plant.getProgress());
         setColorProgressBar(plant.getProgress());
         myPlantsTabPaneController.changeLastWateredInDB(plant, date);

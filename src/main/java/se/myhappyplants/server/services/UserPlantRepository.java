@@ -146,6 +146,7 @@ public class UserPlantRepository {
         try {
             database.executeUpdate(query);
             dateChanged = true;
+            System.out.println("Updated last watered with date: " + date.toString() + " plant: " + nickname);
         }
         catch (SQLException sqlException) {
             sqlException.printStackTrace();

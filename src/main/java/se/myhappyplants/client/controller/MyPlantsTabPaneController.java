@@ -221,7 +221,7 @@ public class MyPlantsTabPaneController {
      * @param date  new date to change to
      */
     public void changeLastWateredInDB(Plant plant, LocalDate date) {
-        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, String.valueOf(date));
+        Message changeLastWatered = new Message(MessageType.changeLastWatered, LoggedInUser.getInstance().getUser(), plant, java.sql.Date.valueOf(date));
         ServerConnection connection = ServerConnection.getClientConnection();
         Message response = connection.makeRequest(changeLastWatered);
         Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.sucessfullyChangedDate.toString()));

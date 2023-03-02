@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class Plant implements Serializable {
     private int id;
     @JsonProperty("common_name")
@@ -98,35 +100,109 @@ public class Plant implements Serializable {
     }
 
     public long getMillisFrequency(){
-        long amountOfDaysMillis;
-        if (watering == "frequenct"){
+        long amountOfDaysMillis = 0;
+        if (watering == "Frequent"){
             amountOfDaysMillis = 86400000;
-        } else if (watering == "average"){
+        } else if (watering == "Average"){
             amountOfDaysMillis = 259200000;
-        } else if (watering == "minimum"){
+        } else if (watering == "Minimum"){
             amountOfDaysMillis = 864000000;
-        } else {
-            amountOfDaysMillis = -1; // No watering needed
+        } else if (watering == "None"){
+            amountOfDaysMillis = 803520000; // No watering needed
         }
         return amountOfDaysMillis;
     }
 
+
     public String getDaysUntilWater() {
-        if(getMillisFrequency() == -1){
-            return "Din planta behöver ej vatten";
-        } else {
-           // long diffInMillies = Math.abs(last_watered() - LocalDateTime.now().getHour() - getMillisFrequency());
-            long diff = TimeUnit.DAYS.convert(86400000, TimeUnit.MILLISECONDS);
-            return "Antal dagar till vattning: " + String.valueOf(diff);
-        }
+
+        int days = getDaysUntilWatering();
+        if(days == 0)
+            return "Din planta behöver vattnas!";
+        else
+            return "Antal dagar till vattning: " + days;
     }
 
-    /**
-     * TODO: Fixa metoden här
-     * @return
-     */
     public double getProgress() {
-        return 1.0;
+
+        int daysUntilWater = getDaysUntilWatering();
+        double progress = 1.0;
+
+        switch (watering){
+            case "Frequent": //Var 3:de dag.
+                progress = daysUntilWater / (double) 3;
+                if(daysUntilWater < 0){
+                    progress = 0.0;
+                }
+                break;
+
+            case "Average": //Var 7:de dag.
+                progress = daysUntilWater / (double) 7;
+                if(daysUntilWater < 0){
+                    progress = 0.0;
+                }
+
+                break;
+
+            case "Minimum": //Var 21:de dag.
+                progress = daysUntilWater / (double) 21;
+                if(daysUntilWater < 0){
+                    progress = 0.0;
+                }
+
+                break;
+
+            case "None": //Var 93:de dag.
+                progress = daysUntilWater / (double) 93;
+                if(daysUntilWater < 0){
+                    progress = 0.0;
+                }
+
+                break;
+
+        }
+
+        return progress;
+    }
+
+    private int getDaysUntilWatering(){
+
+        LocalDate today = LocalDate.now();
+        LocalDate needsWater;
+        int daysTillWater = 0;
+
+        switch (watering) {
+            case "Frequent": //Var 3:de dag.
+                needsWater = lastWatered.plusDays(3);
+                daysTillWater = Long.valueOf(DAYS.between(today, needsWater)).intValue();
+                if(daysTillWater <= 0)
+                    daysTillWater = 0;
+                break;
+
+            case "Average": //Var 7:de dag.
+                needsWater = lastWatered.plusDays(7);
+                daysTillWater = Long.valueOf(DAYS.between(today, needsWater)).intValue();
+                if(daysTillWater <= 0)
+                    daysTillWater = 0;
+                break;
+
+            case "Minimum": //Var 21:de dag.
+                needsWater = lastWatered.plusDays(21);
+                daysTillWater = Long.valueOf(DAYS.between(today, needsWater)).intValue();
+                if(daysTillWater <= 0)
+                    daysTillWater = 0;
+                break;
+
+            case "None": //Var 93:de dag.
+                needsWater = lastWatered.plusDays(93);
+                daysTillWater = Long.valueOf(DAYS.between(today, needsWater)).intValue();
+                if(daysTillWater <= 0)
+                    daysTillWater = 0;
+                break;
+
+        }
+        return daysTillWater;
+
     }
 
     @Override
