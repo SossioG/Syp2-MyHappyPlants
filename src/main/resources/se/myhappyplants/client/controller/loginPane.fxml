@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
     <top>
         <AnchorPane prefHeight="89.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
@@ -24,16 +24,22 @@
     <center>
         <Pane prefHeight="442.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
+
+                <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="430.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../Blommor/login.png" />
+                    </image>
+                </ImageView>
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="272.0" layoutX="259.0" layoutY="177.0" stroke="BLACK" strokeType="INSIDE" width="478.0" />
                 <TextField fx:id="txtFldEmail" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Email" />
-                <TextField fx:id="verificationCodeField" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" disable="true" visible="false" promptText="Verification Code" />
+                <TextField fx:id="verificationCodeField" disable="true" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="Verification Code" visible="false" />
                 <PasswordField fx:id="passFldPassword" layoutX="330.0" layoutY="304.0" prefHeight="39.0" prefWidth="336.0" promptText="Password" />
-                <PasswordField fx:id="newFldPassword" layoutX="330.0" layoutY="244.0" disable="true" visible="false" prefHeight="39.0" prefWidth="336.0" promptText="New Password" />
-                <PasswordField fx:id="newConfirmFldPassword" layoutX="330.0" layoutY="300.0" disable="true" visible="false" prefHeight="39.0" prefWidth="336.0" promptText="Confirm New Password" />
+                <PasswordField fx:id="newFldPassword" disable="true" layoutX="330.0" layoutY="244.0" prefHeight="39.0" prefWidth="336.0" promptText="New Password" visible="false" />
+                <PasswordField fx:id="newConfirmFldPassword" disable="true" layoutX="330.0" layoutY="300.0" prefHeight="39.0" prefWidth="336.0" promptText="Confirm New Password" visible="false" />
                 <Button fx:id="loginButton" defaultButton="true" layoutX="441.0" layoutY="358.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="36.0" prefWidth="94.0" styleClass="defaultButton" text="Log in" />
-                <Button fx:id="verifyButton" defaultButton="true" layoutX="385" layoutY="358.0" disable="true" visible="false" mnemonicParsing="false" onAction="#verifyMail" prefHeight="36.0" prefWidth="220" styleClass="defaultButton" text="Send Verification Code" />
-                <Button fx:id="verificationCodeBtn" defaultButton="true" layoutX="441.0" layoutY="358.0" mnemonicParsing="false" disable="true" visible="false" onAction="#verifyMatchingVerCode" prefHeight="36.0" prefWidth="120.0" styleClass="defaultButton" text="Verify Code" />
-                <Button fx:id="newPasswordBtn" defaultButton="true" layoutX="420.0" layoutY="358.0" mnemonicParsing="false" disable="true" visible="false" onAction="#resetPassword" prefHeight="36.0" prefWidth="140.0" styleClass="defaultButton" text="Reset Password" />
+                <Button fx:id="verifyButton" defaultButton="true" disable="true" layoutX="385" layoutY="358.0" mnemonicParsing="false" onAction="#verifyMail" prefHeight="36.0" prefWidth="220" styleClass="defaultButton" text="Send Verification Code" visible="false" />
+                <Button fx:id="verificationCodeBtn" defaultButton="true" disable="true" layoutX="441.0" layoutY="358.0" mnemonicParsing="false" onAction="#verifyMatchingVerCode" prefHeight="36.0" prefWidth="120.0" styleClass="defaultButton" text="Verify Code" visible="false" />
+                <Button fx:id="newPasswordBtn" defaultButton="true" disable="true" layoutX="420.0" layoutY="358.0" mnemonicParsing="false" onAction="#resetPassword" prefHeight="36.0" prefWidth="140.0" styleClass="defaultButton" text="Reset Password" visible="false" />
                 <Hyperlink fx:id="registerLink" layoutX="387.0" layoutY="407.0" onAction="#swapToRegister" text="No account? Register here!"> </Hyperlink>
                 <Hyperlink fx:id="forgotPassword" layoutX="387.0" layoutY="425.0" onAction="#forgotPasswordPane" text="Forgot password? click here"> </Hyperlink>
                 <ImageView fitHeight="300.0" fitWidth="105.0" layoutX="632.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
@@ -45,12 +51,6 @@
                 <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="229.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../../Blommor/blomma13.1.png" />
-                    </image>
-                </ImageView>
-
-                <ImageView fitHeight="130.0" fitWidth="116.0" layoutX="430.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../../Blommor/login.png" />
                     </image>
                 </ImageView>
 
