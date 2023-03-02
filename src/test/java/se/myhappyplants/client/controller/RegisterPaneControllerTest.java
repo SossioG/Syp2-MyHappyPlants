@@ -37,7 +37,7 @@ import static se.myhappyplants.shared.MessageBoxTest.assertMessageAndClick;
  *
  */
 
-class RegisterPaneTest extends ApplicationTest {
+class RegisterPaneControllerTest extends ApplicationTest {
     //Create a new user in the register pane.
     static String validEmail = "testuser@example.com";
     static String validUsername = "TestUsername";

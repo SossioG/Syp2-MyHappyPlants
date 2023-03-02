@@ -24,7 +24,7 @@ import java.util.concurrent.Callable;
 
 import static se.myhappyplants.shared.MessageBoxTest.assertMessageAndClick;
 
-public class SettingsPaneTest extends ApplicationTest {
+public class SettingsPaneControllerTest extends ApplicationTest {
     private final String email = "settings@pane.test";
     private final String username = "settingspanetest";
     private final String password = "Kaffekopp1";
