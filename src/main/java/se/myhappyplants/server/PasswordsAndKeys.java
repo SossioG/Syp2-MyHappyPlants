@@ -10,5 +10,5 @@ public class PasswordsAndKeys {
     public static String dbHostName = "x";
 
     //API
-    public static String APIToken = "cnJ1npdJl36cKIS-OJ3eNM-Bs63npvPXqiCveHrrHco";
+    public static String APIToken = "sk-N34h6401a815c7e65152";
 }

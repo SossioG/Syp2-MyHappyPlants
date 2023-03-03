@@ -2,6 +2,7 @@ package se.myhappyplants.server.services;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.*;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class PlantRepository {
 
     static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final String token = "sk-N34h6401a815c7e65152";
+    private final String token = PasswordsAndKeys.APIToken;
     private IQueryExecutor database;
 
     public PlantRepository(IQueryExecutor database) {
