@@ -35,6 +35,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
@@ -162,7 +163,11 @@ public class SearchTabPaneTest extends ApplicationTest {
         String commonName = result.getCommonName();
         Assertions.assertThat(commonName).isEqualTo("Meadowsweet");
 
-        String[] scientificName = result.getScientificName();
+       // String[] scientificName = new String[]{result.getScientificName()};
+        String[] scientificName = Optional.ofNullable(result.getScientificName())
+                .map(str -> new String[]{str})
+                .orElse(new String[]{});
+
         Assertions.assertThat(scientificName).isEqualTo("Filipendula ulmaria");
 
         // Extract familyName from the toString method

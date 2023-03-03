@@ -22,7 +22,7 @@ public class PlantRepository {
 
     static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final String token = "sk-N34h6401a815c7e65152";
+    private final String token = "sk-824P6401d8db6d09d154";
     private IQueryExecutor database;
 
     public PlantRepository(IQueryExecutor database) {
@@ -47,6 +47,11 @@ public class PlantRepository {
         ArrayList<Plant> plants = mapper.readValue(getResponse.body(), Plants.class).getPlants();
         return plants;
     }
+
+
+
+
+
 
     /*
     public PlantDetails getPlantDetails(Plant plant) {
