@@ -19,9 +19,10 @@ public class Search implements IResponseHandler {
     public Message getResponse(Message request) {
         Message response;
         String searchText = request.getMessageText();
+        int pageNumber = request.getPageNumber();
 
         try {
-            ArrayList<Plant> plants = plantRepository.getPlantlist(searchText);
+            ArrayList<Plant> plants = plantRepository.getPlantlist(searchText, pageNumber);
             response = new Message(plants, true);
             System.out.println("Im true!");
         } catch (Exception e) {

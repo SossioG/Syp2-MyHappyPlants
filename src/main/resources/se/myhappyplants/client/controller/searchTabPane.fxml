@@ -13,8 +13,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 
+
 <?import se.myhappyplants.client.view.AutocompleteSearchField?>
 <?import javafx.geometry.Insets?>
+
 <BorderPane fx:id="plantsPane" prefHeight="570.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SearchTabPaneController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -30,12 +32,12 @@
             </children>
         </AnchorPane>
     </top>
-    <left>
-        <Pane prefHeight="509.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+   <bottom>
+        <Pane prefHeight="527.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
                 <!-- This is searchfield! This 'AutocompleteSearchField' section does not allow Scene-builder to open the file because it is not valid component in javafx.
                     In order to open, comment this section and have in mind that it exists! Commented by Sossio, 2023-02-06. -->
-                <!-- -->
+
                 <AutocompleteSearchField fx:id="txtFldSearchText" layoutX="14.0" layoutY="10.0" onAction="#searchButtonPressed" prefHeight="30.0" prefWidth="441.0" promptText="Search..."><padding><Insets bottom="5.0" left="5.0" right="5.0" top="5.0" /></padding></AutocompleteSearchField>
 
                 <Button fx:id="btnSearch" layoutX="467.0" layoutY="10.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="23.0" text="Search" />
@@ -56,7 +58,10 @@
                     </image>
                 </ImageView>
                 <TextField fx:id="txtNbrOfResults" editable="false" layoutX="181.0" layoutY="53.0" pickOnBounds="false" style="-fx-background-color: transparent" />
+            <Label fx:id="pageNumber" layoutX="369.0" layoutY="481.0" prefHeight="17.0" prefWidth="56.0" text="Page: 1" />
+            <Button fx:id="nextPageButton" layoutX="467.0" layoutY="477.0" mnemonicParsing="false" onAction="#nextPageButtonPressed" text="Next" />
+            <Button fx:id="previousPageButton" layoutX="269.0" layoutY="477.0" mnemonicParsing="false" onAction="#previousPageButtonPressed" text="Previous" />
             </children>
         </Pane>
-    </left>
+   </bottom>
 </BorderPane>
