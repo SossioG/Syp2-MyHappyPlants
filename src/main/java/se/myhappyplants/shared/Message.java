@@ -23,6 +23,7 @@ public class Message implements Serializable {
     private Plant plant;
     private String newNickname;
     private PlantDetails plantDetails;
+    private int pageNumber;
 
     /**
      * Create a message that can be used to send a boolean value.
@@ -30,6 +31,18 @@ public class Message implements Serializable {
      */
     public Message(boolean success) {
         this.success = success;
+    }
+
+    /**
+     * Create a message that can be used to query the API with pagination.
+     * @param messageType the type of message.
+     * @param searchText the search text.
+     * @param pageNumber the page number in the pagination.
+     */
+    public Message(MessageType messageType, String searchText, int pageNumber){
+        this.messageType = messageType;
+        this.messageText = searchText;
+        this.pageNumber = pageNumber;
     }
 
     /**
@@ -185,5 +198,8 @@ public class Message implements Serializable {
     }
     public PlantDetails getPlantDetails() {
         return plantDetails;
+    }
+    public int getPageNumber(){
+        return pageNumber;
     }
 }

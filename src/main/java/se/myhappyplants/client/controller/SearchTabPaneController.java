@@ -43,6 +43,10 @@ public class SearchTabPaneController {
     @FXML public ImageView imgFunFactTitle;
     @FXML public TextField txtNbrOfResults;
     @FXML public TextArea txtAreaMessages;
+    @FXML public Button nextPageButton;
+    @FXML public Button previousPageButton;
+    @FXML public Label pageNumber;
+    private int currentPageNumber;
 
     private ArrayList<Plant> searchResults;
 
@@ -54,6 +58,8 @@ public class SearchTabPaneController {
     @FXML public void initialize() {
         LoggedInUser loggedInUser = LoggedInUser.getInstance();
         lblUsername.setText(loggedInUser.getUser().getUsername());
+        pageNumber.setText("Page: 1");
+        currentPageNumber = 1;
         imgUserAvatar.setFill(new ImagePattern(new Image(SetAvatar.setAvatarOnLogin(loggedInUser.getUser().getEmail()))));
         cmbSortOption.setItems(ListSorter.sortOptionsSearch());
         showFunFact(LoggedInUser.getInstance().getUser().areFunFactsActivated());
@@ -143,14 +149,14 @@ public class SearchTabPaneController {
     }
 
     /**
-     * Method to sent a message to the server to get the results from the database. Displays a message to the user that more info is on its way
+     * Method that retrevies plants from the API and populates the listview whit plants. Also displays a message
+     * to the user that more info is on its way.
+     * @param pageNumber pagination of the API beacuse each response is only 30 plants.
+     * @param searchText text to be searched on the API.
      */
-    @FXML private void searchButtonPressed() {
-        btnSearch.setDisable(true);
-        txtFldSearchText.addToHistory();
-        //Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.holdOnGettingInfo.toString()));
+    private void getPlantsFromAPI(int pageNumber, String searchText){
         Thread searchThread = new Thread(() -> {
-            Message apiRequest = new Message(MessageType.search, txtFldSearchText.getText());
+            Message apiRequest = new Message(MessageType.search, searchText, pageNumber);
             ServerConnection connection = ServerConnection.getClientConnection();
             Message apiResponse = connection.makeRequest(apiRequest);
 
@@ -171,9 +177,55 @@ public class SearchTabPaneController {
             else {
                 Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "The connection to the server has failed. Check your connection and try again."));
             }
-            btnSearch.setDisable(false);
         });
         searchThread.start();
+    }
+
+    /**
+     * Method to sent a message to the server to get the results from the database. Displays a message to the user that more info is on its way
+     */
+    @FXML private void searchButtonPressed() {
+        btnSearch.setDisable(true);
+        txtFldSearchText.addToHistory();
+        getPlantsFromAPI(1, txtFldSearchText.getText());
+        btnSearch.setDisable(false);
+
+        //Platform.runLater(() -> MessageBox.display(BoxTitle.Success, MessageText.holdOnGettingInfo.toString()));
+    }
+
+    /**
+     * User has requested the next page of results. Get results and display.
+     */
+    @FXML private void nextPageButtonPressed(){
+        nextPageButton.setDisable(true);
+        this.currentPageNumber++;
+        setPageNumberLabel(currentPageNumber);
+        getPlantsFromAPI(currentPageNumber, txtFldSearchText.getText());
+        nextPageButton.setDisable(false);
+    }
+
+    /**
+     * User has requested the previous page of results. Get results and display.
+     */
+    @FXML private void previousPageButtonPressed(){
+        nextPageButton.setDisable(true);
+
+        if(currentPageNumber <= 1)
+            this.currentPageNumber = 1;
+        else
+            this.currentPageNumber--;
+
+        setPageNumberLabel(currentPageNumber);
+        getPlantsFromAPI(currentPageNumber--, txtFldSearchText.getText());
+        nextPageButton.setDisable(false);
+    }
+
+    /**
+     * Method to update the page number label.
+     * @param currentPageNumber the number to display.
+     */
+    private void setPageNumberLabel(int currentPageNumber){
+        pageNumber.setText("Page: " + currentPageNumber);
     }
 
     /**

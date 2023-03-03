@@ -22,19 +22,19 @@ public class PlantRepository {
 
     static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final String token = "sk-S5oz63f4cd6f8ebb590";
+    private final String token = "sk-N34h6401a815c7e65152";
     private IQueryExecutor database;
 
     public PlantRepository(IQueryExecutor database) {
         this.database = database;
     }
 
-    public ArrayList<Plant> getPlantlist(String searchtext) throws URISyntaxException, IOException, InterruptedException {
+    public ArrayList<Plant> getPlantlist(String searchtext, int pageNumber) throws URISyntaxException, IOException, InterruptedException {
         String uritext;
         if(!searchtext.isEmpty()){
-            uritext = "https://perenual.com/api/species-list?key=" + token + "&q=" + searchtext;
+            uritext = "https://perenual.com/api/species-list?key=" + token + "&q=" + searchtext + "&page=" + pageNumber;
         } else{
-            uritext = "https://perenual.com/api/species-list?page=1&key=" + token;
+            uritext = "https://perenual.com/api/species-list?page=1&key=" + token + "&page=" + pageNumber;
         }
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(new URI(uritext))
