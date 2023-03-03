@@ -1,5 +1,6 @@
 package se.myhappyplants.server.services;
 
+import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -25,7 +26,7 @@ public class UserPlantRepository {
 
     private PlantRepository plantRepository;
     private IQueryExecutor database;
-    private final String token = "sk-N34h6401a815c7e65152";
+    private final String token = PasswordsAndKeys.APIToken;
 
     /**
      * Constructor that creates a connection to the database.
