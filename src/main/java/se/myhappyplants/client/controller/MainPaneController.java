@@ -29,7 +29,7 @@ public class MainPaneController {
     @FXML private MyPlantsTabPaneController myPlantsTabPaneController;
     @FXML private SearchTabPaneController searchTabPaneController;
     @FXML private SettingsTabPaneController settingsTabPaneController;
-
+    @FXML private MyWishlistPaneController myWishlistPaneController;
     /**
      * Constructor that has access to FXML variables
      */
@@ -37,6 +37,8 @@ public class MainPaneController {
         myPlantsTabPaneController.setMainController(this);
         searchTabPaneController.setMainController(this);
         settingsTabPaneController.setMainController(this);
+        myWishlistPaneController.setMainController(this);
+        searchTabPaneController.setMyWishlistPaneController(myWishlistPaneController);
     }
 
     /**
@@ -81,6 +83,7 @@ public class MainPaneController {
         myPlantsTabPaneController.updateAvatar();
         searchTabPaneController.updateAvatar();
         settingsTabPaneController.updateAvatar();
+        myWishlistPaneController.updateAvatar();
     }
 
     /**

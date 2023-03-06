@@ -30,6 +30,7 @@ import java.util.ArrayList;
  */
 
 public class SearchTabPaneController {
+    private MyWishlistPaneController myWishlistPaneController;
     public BorderPane plantsPane;
     @FXML public ListView lstFunFacts;
     @FXML private MainPaneController mainPaneController;
@@ -72,6 +73,11 @@ public class SearchTabPaneController {
     public void setMainController(MainPaneController mainPaneController) {
         this.mainPaneController = mainPaneController;
     }
+
+    public void setMyWishlistPaneController(MyWishlistPaneController myWishlistPaneController) {
+        this.myWishlistPaneController = myWishlistPaneController;
+    }
+
     /**
      * Method to set and display the fun facts
      * @param factsActivated boolean, if the user has activated the option to true
@@ -110,7 +116,7 @@ public class SearchTabPaneController {
     private void showResultsOnPane() {
         ObservableList<SearchPlantPane> searchPlantPanes = FXCollections.observableArrayList();
         for (Plant plant: searchResults) {
-            searchPlantPanes.add(new SearchPlantPane(this, ImageLibrary.getLoadingImageFile().toURI().toString(), plant));
+            searchPlantPanes.add(new SearchPlantPane(myWishlistPaneController, this, ImageLibrary.getLoadingImageFile().toURI().toString(), plant));
         }
         listViewResult.getItems().clear();
         listViewResult.setItems(searchPlantPanes);

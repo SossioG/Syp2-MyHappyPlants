@@ -13,8 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import se.myhappyplants.client.controller.MyWishlistPaneController;
 import se.myhappyplants.client.controller.SearchTabPaneController;
-
 import se.myhappyplants.client.model.ImageLibrary;
 import se.myhappyplants.shared.Plant;
 
@@ -32,10 +32,12 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Label scientificName;
     private Button infoButton;
     private Button addButton;
+    private Button favButton;
 
    // private PlantDepricated plantDepricated;
     private Plant plant;
     private SearchTabPaneController searchTabPaneController;
+    private MyWishlistPaneController myWishlistPaneController;
     private ListView listView;
     private ImageView imgViewPlusSign;
     private boolean gotInfoOnPlant;
@@ -46,8 +48,10 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * @param imgPath
      * @param plant
      */
-    public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {
+    public SearchPlantPane(MyWishlistPaneController myWishlistPaneController, SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {
         this.searchTabPaneController = searchTabPaneController;
+        this.myWishlistPaneController = myWishlistPaneController;
+
         this.plant = plant;
         initImage(imgPath);
         initCommonName();
@@ -55,8 +59,20 @@ public class SearchPlantPane extends Pane implements PlantPane {
         initInfoButton();
         initAddButton();
         initImgViewPlusSign();
+        initFavButton();
         initListView();
         initEventHandlerForInfo();
+    }
+
+    /**
+     * Skapar en knapp för att lägga till fav planta
+     */
+    private void initFavButton() {
+        this.favButton = new Button("<3");
+        favButton.setLayoutX(650);
+        favButton.setLayoutY(16.0);
+        favButton.setMnemonicParsing(false);
+        favButton.setOnAction(action -> searchTabPaneController.addPlantToCurrentUserLibrary(plant));
     }
 
     /**
@@ -99,7 +115,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      */
     private void initInfoButton() {
         this.infoButton = new Button("More info");
-        infoButton.setLayoutX(595.0);
+        infoButton.setLayoutX(595.0 - 50);
         infoButton.setLayoutY(16.0);
         infoButton.setMnemonicParsing(false);
     }
@@ -113,6 +129,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
         addButton.setLayoutY(16.0);
         addButton.setMnemonicParsing(false);
         addButton.setOnAction(action -> searchTabPaneController.addPlantToCurrentUserLibrary(plant));
+
     }
 
     /**
@@ -170,7 +187,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
         listView.setPrefHeight(150.0);
 
         this.prefHeight(56.0);
-        this.getChildren().addAll(image, commonName, scientificName, infoButton, addButton);
+        this.getChildren().addAll(image, commonName, scientificName, infoButton, addButton, favButton);
     }
 
     /**
