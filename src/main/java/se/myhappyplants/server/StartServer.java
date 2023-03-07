@@ -5,6 +5,7 @@ import se.myhappyplants.server.services.*;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Class that starts the server.
@@ -22,5 +23,10 @@ public class StartServer {
         UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository, databaseMyHappyPlants);
         ResponseController responseController = new ResponseController(userRepository,userPlantRepository,plantRepository);
         new Server(2550, responseController);
+
+        RemainderTask remainderTask = new RemainderTask(userRepository, userPlantRepository);
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.scheduleAtFixedRate(remainderTask, 0, 1, java.util.concurrent.TimeUnit.DAYS);
     }
+
 }

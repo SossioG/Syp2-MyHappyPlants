@@ -1,5 +1,7 @@
 package se.myhappyplants.server.services;
 
+import jakarta.mail.MessagingException;
+import se.myhappyplants.shared.Email;
 import se.myhappyplants.shared.Plant;
 
 import java.io.IOException;
@@ -44,9 +46,20 @@ public class RemainderTask implements Runnable {
         }
 
         HashMap<Integer, String> users = usrRep.getUsers();
+
         for (int userId : plantsToNofify.keySet()) {
             String email = users.get(userId);
+            String subject = "Dags att vattna dina plantor!";
+            StringBuilder body = new StringBuilder("Dina plantor som behöver vattnas är: \n");
+            for(Plant plant : plantsToNofify.get(userId)) {
+                body.append(plant.getNickname()).append("\n");
+            }
+
+            try {
+                Email.postEmail(email, subject, body.toString());
+            } catch(MessagingException e) {
+                System.err.println("Failed to send email to " + email + "\nError: " + e.getMessage());
+            }
         }
     }
-
 }
