@@ -86,7 +86,8 @@ public class UserPlantRepository {
         }
         return nicknameChanged;
     }
-
+/**ALTER TABLE plant ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE;
+ */
     /**
      * Method that makes a query to delete a specific plant from table plant_person
      * @param user     the user that owns the plant
