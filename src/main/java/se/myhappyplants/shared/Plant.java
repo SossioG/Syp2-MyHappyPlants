@@ -11,6 +11,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Plant implements Serializable {
     private int id;
+    private int tuserid;
     @JsonProperty("common_name")
     private String commonName;
     @JsonProperty("scientific_name")
@@ -33,6 +34,14 @@ public class Plant implements Serializable {
         DefaultImage defaultImage = new DefaultImage();
         defaultImage.setThumbnail(imageURL);
 
+    }
+
+    public int getTuserid() {
+        return tuserid;
+    }
+
+    public void setTuserid(int tuserid) {
+        this.tuserid = tuserid;
     }
 
     public int getId() {
@@ -178,7 +187,7 @@ public class Plant implements Serializable {
         return progress;
     }
 
-    private int getDaysUntilWatering(){
+    public int getDaysUntilWatering(){
 
         LocalDate today = LocalDate.now();
         LocalDate needsWater;

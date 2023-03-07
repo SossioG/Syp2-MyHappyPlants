@@ -71,6 +71,39 @@ public class UserPlantRepository {
         return userPlantLibrary;
     }
 
+
+    public ArrayList<Plant> getAllUserLibrary() throws URISyntaxException, IOException, InterruptedException {
+        ArrayList<Plant> userPlantLibrary = new ArrayList<>();
+        String query = "SELECT plant_id, nickname, last_watered from plant_person;";
+        try {
+            ResultSet resultSet = database.executeQuery(query);
+            while (resultSet.next()){
+                int plantid = resultSet.getInt("plant_id");
+                String nickname = resultSet.getString("nickname");
+                Date lastWatered = resultSet.getDate("last_watered");
+
+                HttpRequest getRequest = HttpRequest.newBuilder()
+                        .uri(new URI("https://perenual.com/api/species/details/" + plantid + "?key=" + token))
+                        .header("Content-Type","application/json")
+                        .build();
+
+                HttpClient httpClient = HttpClient.newHttpClient();
+                HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
+                Plant plant = mapper.readValue(getResponse.body(), Plant.class);
+                plant.setNickname(nickname);
+                plant.setLastWatered(lastWatered.toLocalDate());
+                plant.setTuserid(resultSet.getInt("tuser_id"));
+
+
+                userPlantLibrary.add(plant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(userPlantLibrary);
+        return userPlantLibrary;
+    }
+
     public boolean changeNickname(User user, String nickname, String newNickname) {
         boolean nicknameChanged = false;
         String sqlSafeNickname = nickname.replace("'", "''");
