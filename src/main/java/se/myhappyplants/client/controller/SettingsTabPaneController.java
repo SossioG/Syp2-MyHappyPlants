@@ -2,6 +2,7 @@ package se.myhappyplants.client.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ToggleButton;
@@ -39,6 +40,8 @@ public class SettingsTabPaneController {
     @FXML private Circle imgUserAvatar;
     @FXML private Label lblUsername;
     @FXML private PasswordField passFldDeleteAccount;
+    @FXML public PasswordField newPassFld;
+    @FXML public Button newPassBtn;
 
     /**
      * Method to initialize the GUI
@@ -194,5 +197,24 @@ public class SettingsTabPaneController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML private void changePassword() {
+        Thread changePasswordThread = new Thread(() -> {
+            Message changePasswordRequest = new Message(MessageType.updatePassword, newPassFld.getText(), LoggedInUser.getInstance().getUser().getEmail());
+            ServerConnection connection = ServerConnection.getClientConnection();
+            Message changePasswordResponse = connection.makeRequest(changePasswordRequest);
+            if (changePasswordResponse != null) {
+                if (changePasswordResponse.isSuccess()) {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Success, "Password has been changed."));
+                    newPassFld.setText("");
+                } else {
+                    Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The passwords you entered does not match."));
+                }
+            } else {
+                Platform.runLater(() -> MessageBox.display(BoxTitle.Failed, "The connection to the server has failed. Check your connection and try again."));
+            }
+        });
+        changePasswordThread.start();
     }
 }
