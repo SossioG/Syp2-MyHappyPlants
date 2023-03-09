@@ -1,5 +1,7 @@
 package se.myhappyplants.server.services;
 
+import se.myhappyplants.server.services.IQueryExecutor;
+import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -173,7 +175,7 @@ public class UserPlantRepository {
             sqlException.printStackTrace();
         }
         return dateChanged;
-    }
+    } }
 
 
 
@@ -253,5 +255,4 @@ public class UserPlantRepository {
             sqlException.printStackTrace();
         }
         return pictureChanged;
-    } */
-}
+    }   */
