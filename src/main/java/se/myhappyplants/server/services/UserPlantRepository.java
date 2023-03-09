@@ -40,68 +40,41 @@ public class UserPlantRepository {
     }
 
 
-    public ArrayList<Plant> getUserLibrary(User user) throws URISyntaxException, IOException, InterruptedException {
-        ArrayList<Plant> userPlantLibrary = new ArrayList<>();
-        String query = String.format("SELECT plant_id, nickname, last_watered from plant_person where tuser_id = %s;", user.getUniqueId());
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            while (resultSet.next()){
-                int plantid = resultSet.getInt("plant_id");
-                String nickname = resultSet.getString("nickname");
-                Date lastWatered = resultSet.getDate("last_watered");
-
-                HttpRequest getRequest = HttpRequest.newBuilder()
-                        .uri(new URI("https://perenual.com/api/species/details/" + plantid + "?key=" + token))
-                        .header("Content-Type","application/json")
-                        .build();
-
-                HttpClient httpClient = HttpClient.newHttpClient();
-                HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
-                Plant plant = mapper.readValue(getResponse.body(), Plant.class);
-                plant.setNickname(nickname);
-                plant.setLastWatered(lastWatered.toLocalDate());
-
-
-                userPlantLibrary.add(plant);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println(userPlantLibrary);
-        return userPlantLibrary;
+    public ArrayList<Plant> getUserLibrary(User user) throws URISyntaxException, IOException, InterruptedException, SQLException {
+        String query = String.format("SELECT * from plant_person where tuser_id = %s;", user.getUniqueId());
+        return getPlantFromResultSet(query);
     }
 
 
-    public ArrayList<Plant> getAllUserLibrary() throws URISyntaxException, IOException, InterruptedException {
-        ArrayList<Plant> userPlantLibrary = new ArrayList<>();
-        String query = "SELECT plant_id, nickname, last_watered from plant_person;";
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            while (resultSet.next()){
-                int plantid = resultSet.getInt("plant_id");
-                String nickname = resultSet.getString("nickname");
-                Date lastWatered = resultSet.getDate("last_watered");
+    public ArrayList<Plant> getAllUserLibrary() throws URISyntaxException, IOException, InterruptedException, SQLException {
+        String query = "SELECT pp.* FROM plant_person AS pp INNER JOIN tuser AS u ON pp.tuser_id = u.id WHERE notification_activated = TRUE;";
+        return getPlantFromResultSet(query);
+    }
 
-                HttpRequest getRequest = HttpRequest.newBuilder()
-                        .uri(new URI("https://perenual.com/api/species/details/" + plantid + "?key=" + token))
-                        .header("Content-Type","application/json")
-                        .build();
+    private ArrayList<Plant> getPlantFromResultSet(String query) throws SQLException, URISyntaxException, IOException, InterruptedException {
+        ArrayList<Plant> plantLibrary = new ArrayList<>();
 
-                HttpClient httpClient = HttpClient.newHttpClient();
-                HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
-                Plant plant = mapper.readValue(getResponse.body(), Plant.class);
-                plant.setNickname(nickname);
-                plant.setLastWatered(lastWatered.toLocalDate());
-                plant.setTuserid(resultSet.getInt("tuser_id"));
+        ResultSet resultSet = database.executeQuery(query);
+        while (resultSet.next()){
+            int plantid = resultSet.getInt("plant_id");
+            String nickname = resultSet.getString("nickname");
+            Date lastWatered = resultSet.getDate("last_watered");
 
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                    .uri(new URI("https://perenual.com/api/species/details/" + plantid + "?key=" + token))
+                    .header("Content-Type","application/json")
+                    .build();
 
-                userPlantLibrary.add(plant);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
+            Plant plant = mapper.readValue(getResponse.body(), Plant.class);
+            plant.setNickname(nickname);
+            plant.setLastWatered(lastWatered.toLocalDate());
+            plant.setTuserid(resultSet.getInt("tuser_id"));
+            plantLibrary.add(plant);
         }
-        System.out.println(userPlantLibrary);
-        return userPlantLibrary;
+
+        return plantLibrary;
     }
 
     public boolean changeNickname(User user, String nickname, String newNickname) {
