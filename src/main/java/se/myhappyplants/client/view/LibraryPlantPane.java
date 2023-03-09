@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -278,8 +279,17 @@ public class LibraryPlantPane extends Pane implements PlantPane {
                 //long difference = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()- plantDepricated.getLastWatered().getTime());
                 //String days = difference > 0 ? String.valueOf(difference) + " Days" : "Today";
                 plantInfo.add("Common name: " + plant.getCommonName());
-                plantInfo.add("Scientific name: " + Arrays.stream(plant.getScientificName()).findFirst());
-                plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst());
+                //ändra här senare
+         //       plantInfo.add("Scientific name: " + Arrays.stream(new String[]{plant.getScientificName()}).findFirst());
+                plantInfo.add("Scientific name: " + Arrays.stream(new String[]{plant.getScientificName()})
+                        .findFirst()
+                        .orElse("No Scientific information available"));
+
+                // plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst());
+                plantInfo.add("Sunlight: " + Optional.ofNullable(plant.getSunlight())
+                        .map(str -> String.join(", ", str))
+                        .orElse("No sunlight information available"));
+
                 plantInfo.add("Water: " + plant.getWatering());
                 plantInfo.add("Last watered: " + plant.getLastWatered().toString());
                 listViewMoreInfo.setItems(plantInfo);
@@ -402,8 +412,18 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight()); */
         ObservableList<String> plantInfo = FXCollections.observableArrayList();
         plantInfo.add("Common name: " + plant.getCommonName());
-        plantInfo.add("Scientific name: " + Arrays.stream(plant.getScientificName()).findFirst());
-        plantInfo.add("Sunlight: " + Arrays.stream(plant.getSunlight()).findFirst() );
+
+      //  plantInfo.add("Scientific name: " + Arrays.stream(new String[]{plant.getScientificName()}).findFirst());
+        plantInfo.add("Scientific name: " + Arrays.stream(new String[]{plant.getScientificName()})
+                .findFirst()
+                .orElse("No scientific name available"));
+
+       // plantInfo.add("Sunlight: " + Arrays.stream(new String[]{plant.getSunlight()}).findFirst() );
+        //har ändrat här
+        plantInfo.add("Sunlight: " + Optional.ofNullable(plant.getSunlight())
+                .map(str -> String.join(", ", str))
+                .orElse("No sunlight information available"));
+
         plantInfo.add("Water: " + plant.getWatering());
         plantInfo.add("Last watered: " + plant.getLastWatered().toString());
         listViewMoreInfo.setItems(plantInfo);

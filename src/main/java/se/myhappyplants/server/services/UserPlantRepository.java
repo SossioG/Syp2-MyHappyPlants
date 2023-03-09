@@ -1,6 +1,7 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.server.PasswordsAndKeys;
+import se.myhappyplants.server.services.IQueryExecutor;
+import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -26,7 +27,7 @@ public class UserPlantRepository {
 
     private PlantRepository plantRepository;
     private IQueryExecutor database;
-    private final String token = PasswordsAndKeys.APIToken;
+    private final String token = "sk-S5oz63f4cd6f8ebb590";
 
     /**
      * Constructor that creates a connection to the database.
@@ -86,7 +87,8 @@ public class UserPlantRepository {
         }
         return nicknameChanged;
     }
-
+/**ALTER TABLE plant ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE;
+ */
     /**
      * Method that makes a query to delete a specific plant from table plant_person
      * @param user     the user that owns the plant
@@ -173,7 +175,7 @@ public class UserPlantRepository {
             sqlException.printStackTrace();
         }
         return dateChanged;
-    }
+    } }
 
 
 
@@ -253,5 +255,4 @@ public class UserPlantRepository {
             sqlException.printStackTrace();
         }
         return pictureChanged;
-    } */
-}
+    }   */

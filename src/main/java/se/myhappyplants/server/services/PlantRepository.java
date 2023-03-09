@@ -1,8 +1,8 @@
 package se.myhappyplants.server.services;
 
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.*;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class PlantRepository {
 
     static final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final String token = PasswordsAndKeys.APIToken;
+    private final String token = "sk-824P6401d8db6d09d154";
     private IQueryExecutor database;
 
     public PlantRepository(IQueryExecutor database) {
@@ -48,6 +48,11 @@ public class PlantRepository {
         ArrayList<Plant> plants = mapper.readValue(getResponse.body(), Plants.class).getPlants();
         return plants;
     }
+
+
+
+
+
 
     /*
     public PlantDetails getPlantDetails(Plant plant) {
@@ -127,3 +132,4 @@ public class PlantRepository {
         return waterFrequency;
     } */
 }
+
