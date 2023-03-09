@@ -44,7 +44,7 @@ public class Verifier {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter the same email twice."));
             return false;
         }
-        if (!loginInfoToCompare[2].equals(loginInfoToCompare[3])) {
+        if (!loginInfoToCompare[3].equals(loginInfoToCompare[4])) {
             Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Please enter the same password twice."));
             return false;
         }
