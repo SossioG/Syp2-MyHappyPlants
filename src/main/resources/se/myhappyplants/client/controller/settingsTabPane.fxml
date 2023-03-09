@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane fx:id="settingsPane" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabPaneController">
+<BorderPane fx:id="settingsPane" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.SettingsTabPaneController">
     <top>
         <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
@@ -56,6 +56,8 @@
                   <Image url="@../../../../Blommor/biFlipped.png" />
                </image>
             </ImageView>
+            <PasswordField fx:id="newPassFld" layoutX="118.0" layoutY="356.0" prefHeight="25.0" prefWidth="336.0" promptText="Enter new password" />
+            <Button fx:id="newPassBtn" layoutX="467.0" layoutY="356.0" mnemonicParsing="false" onAction="#changePassword" text="Change" />
             </children>
         </AnchorPane>
     </center>

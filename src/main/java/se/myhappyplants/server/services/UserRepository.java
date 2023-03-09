@@ -3,8 +3,9 @@ package se.myhappyplants.server.services;
 import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.shared.User;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 /**
@@ -59,7 +60,10 @@ public class UserRepository {
         }
         catch (SQLException sqlException) {
             sqlException.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return isVerified;
     }
 
@@ -89,8 +93,8 @@ public class UserRepository {
         }
     }
 
-    public boolean updateUserPassword(String password, String mail)
-    {
+    public boolean updateUserPassword(String password, String mail) {
+        password = BCrypt.hashpw(password, BCrypt.gensalt());
         String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';",password, mail); //test if query works in DB
         try
         {
