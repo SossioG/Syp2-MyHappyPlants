@@ -43,7 +43,7 @@
                 <ToggleButton fx:id="tglBtnChangeNotification" layoutX="118.0" layoutY="74.0" mnemonicParsing="false" onAction="#changeNotificationsSetting" prefHeight="25.0" prefWidth="76.0" selected="true" text="On" />
                 <ToggleButton fx:id="tglBtnChangeFunFacts" layoutX="118.0" layoutY="136.0" mnemonicParsing="false" onAction="#changeFunFactsSetting" prefHeight="25.0" prefWidth="77.0" selected="true" text="On" />
                 <Button layoutX="118.0" layoutY="190.0" mnemonicParsing="false" onAction="#selectAvatarImage" prefHeight="25.0" prefWidth="80.0" text="Select" />
-                <Button fx:id="btnDeleteAccount" layoutX="467.0" layoutY="339.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="60.0" text="Delete " textFill="#d31717" />
+                <Button fx:id="btnDeleteAccount" layoutX="467.0" layoutY="339.0" mnemonicParsing="false" onAction="#deleteAccountButtonPressed" prefHeight="25.0" prefWidth="100.0" text="Delete " textFill="#d31717" />
                 <Label layoutX="118.0" layoutY="312.0" text="Delete account at My Happy Plants:" />
                 <PasswordField fx:id="passFldDeleteAccount" layoutX="118.0" layoutY="339.0" prefHeight="25.0" prefWidth="336.0" promptText="enter password here to delete account" />
             <ImageView fitHeight="88.0" fitWidth="130.0" layoutX="610.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
@@ -57,7 +57,7 @@
                </image>
             </ImageView>
             <PasswordField fx:id="newPassFld" layoutX="118.0" layoutY="272.0" prefHeight="25.0" prefWidth="336.0" promptText="Enter new password" />
-            <Button fx:id="newPassBtn" layoutX="467.0" layoutY="272.0" mnemonicParsing="false" onAction="#changePassword" prefWidth="60.0" text="Change" />
+            <Button fx:id="newPassBtn" layoutX="467.0" layoutY="272.0" mnemonicParsing="false" onAction="#changePassword" prefWidth="100.0" text="Change" />
             <Label layoutX="118.0" layoutY="243.0" text="Change password:" />
             </children>
         </AnchorPane>
