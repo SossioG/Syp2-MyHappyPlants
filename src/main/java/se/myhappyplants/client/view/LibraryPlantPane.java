@@ -428,7 +428,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
         plantInfo.add("Last watered: " + plant.getLastWatered().toString());
         listViewMoreInfo.setItems(plantInfo);
 
-        this.setPrefHeight(92.0);
+        this.setPrefHeight(92.0); //92
         this.getChildren().addAll(image, nickname, daysUntilWaterlbl, progressBar, plantSettings, waterButton, infoButton);
         listViewMoreInfo.setItems(plantInfo);
 

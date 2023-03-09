@@ -50,6 +50,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
     public SearchPlantPane(SearchTabPaneController searchTabPaneController, String imgPath, Plant plant) {
         this.searchTabPaneController = searchTabPaneController;
         this.plant = plant;
+
         initImage(imgPath);
         initCommonName();
         initScientificName();
@@ -79,11 +80,11 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to initialize the common name label
      */
     private void initCommonName() {
-        this.commonName = new Label(plant.getCommonName());
-        commonName.setLayoutX(60.0);
-        commonName.setLayoutY(20.0);
+        splitPlantName("commonName", 20);
         commonName.prefHeight(17.0);
         commonName.prefWidth(264.0);
+        commonName.setLayoutX(60.0);
+        commonName.setLayoutY(20.0);
     }
     /**
      * Method to initialize scientific name label
@@ -91,9 +92,10 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private void initScientificName() {
       //  this.scientificName = new Label(Arrays.stream(new String[]{plant.getScientificName()}).findFirst().toString());
 
-        this.scientificName = new Label(Arrays.stream(new String[]{plant.getScientificName()})
+        splitPlantName("scientificName", 25);
+        /*this.scientificName = new Label(Arrays.stream(new String[]{plant.getScientificName()})
                 .findFirst()
-                .orElse("No scientific name available"));
+                .orElse("No scientific name available")); */
         scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -250,6 +252,46 @@ public class SearchPlantPane extends Pane implements PlantPane {
         });
         extended = false;
         gotInfoOnPlant = false;
+    }
+
+    public boolean splitPlantName(String nameType, int lengthLimit){
+        StringBuilder string1 = new StringBuilder();
+        StringBuilder string2 = new StringBuilder();
+
+        if(nameType == "commonName"){
+            if(plant.getCommonName().length() > lengthLimit) {
+                String[] splitArray  = plant.getCommonName().split(" ");
+                for (int i = 0; i < splitArray.length-1; i++){
+                    if(i < splitArray.length/2){
+                        string1.append(splitArray[i] + " ");
+                    } else {
+                        string2.append(splitArray[i] + " ");
+                    }
+                }
+                this.commonName = new Label(string1 + "\n" + string2);
+            } else {
+                this.commonName = new Label(plant.getCommonName());
+            }
+            return true;
+        } else if (nameType == "scientificName") {
+            if(plant.getScientificName().length() > lengthLimit) {
+                String[] splitArray  = plant.getScientificName().split(" ");
+                for (int i = 0; i < splitArray.length-1; i++){
+                    if(i < splitArray.length/2){
+                        string1.append(splitArray[i] + " ");
+                    } else {
+                        string2.append(splitArray[i] + " ");
+                    }
+                }
+                this.scientificName = new Label(string1 + "\n" + string2);
+            } else {
+                this.scientificName = new Label(Arrays.stream(new String[]{plant.getScientificName()})
+                        .findFirst()
+                        .orElse("No scientific name available"));
+            }
+            return true;
+        }
+        return false;
     }
 }
 
