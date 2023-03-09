@@ -25,8 +25,7 @@ public class UserPlantRepository {
 
     private PlantRepository plantRepository;
     private IQueryExecutor database;
-    //Min egen token
-    private final String token = "sk-824P6401d8db6d09d154";
+    private final String token = "sk-S5oz63f4cd6f8ebb590";
 
     /**
      * Constructor that creates a connection to the database.
