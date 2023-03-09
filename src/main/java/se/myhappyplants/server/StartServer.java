@@ -7,6 +7,7 @@ import se.myhappyplants.server.services.IQueryExecutor;
 import se.myhappyplants.server.services.PlantRepository;
 import se.myhappyplants.server.services.QueryExecutor;
 import se.myhappyplants.server.services.RemainderTask;
+import se.myhappyplants.server.services.Server;
 import se.myhappyplants.server.services.UserPlantRepository;
 import se.myhappyplants.server.services.UserRepository;
 
@@ -29,7 +30,7 @@ public class StartServer {
         PlantRepository plantRepository = new PlantRepository(databaseSpecies);
         UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository, databaseMyHappyPlants);
         ResponseController responseController = new ResponseController(userRepository,userPlantRepository,plantRepository);
-        // new Server(2550, responseController);
+        new Server(2550, responseController);
 
         RemainderTask remainderTask = new RemainderTask(userRepository, userPlantRepository);
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
