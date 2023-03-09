@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Plant implements Serializable {
     private int id;
+    private int tuserid;
     @JsonProperty("common_name")
     private String commonName;
     @JsonProperty("scientific_name")
@@ -23,7 +24,7 @@ public class Plant implements Serializable {
     @JsonProperty("last_watered")
     private LocalDate lastWatered;
 
-    public Plant(){
+    public Plant() {
     }
 
     public Plant(String uniqueNickName, int id, LocalDate date, String imageURL) {
@@ -33,6 +34,14 @@ public class Plant implements Serializable {
         DefaultImage defaultImage = new DefaultImage();
         defaultImage.setThumbnail(imageURL);
 
+    }
+
+    public int getTuserid() {
+        return tuserid;
+    }
+
+    public void setTuserid(int tuserid) {
+        this.tuserid = tuserid;
     }
 
     public int getId() {
@@ -50,17 +59,28 @@ public class Plant implements Serializable {
     public void setCommonName(String common_name) {
         this.commonName = common_name;
     }
-
+/**
     public String[] getScientificName() {
-        return scientificName;
+            return scientificName;
+    }*/
+
+    public String getScientificName() {
+        return Optional.ofNullable(scientificName)
+                .map(names -> String.join(", ", names))
+                .orElseGet(() -> "No Scientific information available");
     }
+
 
     public void setScientificName(String[] scientific_name) {
         this.scientificName = scientific_name;
     }
 
-    public String[] getSunlight() {
-        return sunlight;
+    public String getSunlight() {
+            return Optional.ofNullable(sunlight)
+                    .map(sun -> String.join(", ", sun))
+                    .orElse("No sunlight information available");
+
+        /**return sunlight;*/
     }
 
     public void setSunlight(String[] sunlight) {
@@ -76,7 +96,9 @@ public class Plant implements Serializable {
     }
 
     public String getWatering() {
-        return watering;
+        return watering != null ? watering : "";
+
+      /**  return watering;*/
     }
 
     public void setWatering(String watering) {
@@ -165,7 +187,7 @@ public class Plant implements Serializable {
         return progress;
     }
 
-    private int getDaysUntilWatering(){
+    public int getDaysUntilWatering(){
 
         LocalDate today = LocalDate.now();
         LocalDate needsWater;
@@ -207,6 +229,6 @@ public class Plant implements Serializable {
 
     @Override
     public String toString() {
-        return "Plant{\n" + "id=" + id + ",\n common_name='" + commonName + '\'' + ",\n scientific_name=" + Arrays.toString(scientificName) + ",\n sunlight=" + Arrays.toString(sunlight) + ",\n watering='" + watering + '\'' + ",\n defaultImage=" + defaultImage + ",\n nickname='" + nickname + '\'' + ",\n last_watered=" + lastWatered + "\n}";
+        return "Plant{\n" + "id=" + id + ",\n common_name='" + commonName + '\'' + ",\n scientific_name=" + Arrays.toString(scientificName) + ",\n sunlight=" + sunlight + ",\n watering='" + watering + '\'' + ",\n defaultImage=" + defaultImage + ",\n nickname='" + nickname + '\'' + ",\n last_watered=" + lastWatered + "\n}";
     }
 }

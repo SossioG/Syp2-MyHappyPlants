@@ -104,8 +104,16 @@ public class ListSorter {
     private static ObservableList<PlantPane> sortByScientificName() {
 
         listToBeSorted.sort((pane1, pane2) -> {
-            String s1 = Arrays.stream(pane1.getPlant().getScientificName()).findFirst().toString();
-            String s2 = Arrays.stream(pane2.getPlant().getScientificName()).findFirst().toString();
+            String s1 = Arrays.stream(new String[]{pane1.getPlant().getScientificName()})
+                    .findFirst()
+                    .orElse("No Scientific information available");
+
+          //  String s1 = Arrays.stream(new String[]{pane1.getPlant().getScientificName()}).findFirst().toString();
+         //   String s2 = Arrays.stream(new String[]{pane2.getPlant().getScientificName()}).findFirst().toString();
+            String s2 = Arrays.stream(new String[]{pane1.getPlant().getScientificName()})
+                    .findFirst()
+                    .orElse("No Scientific information available");
+
             return s1.compareToIgnoreCase(s2);
         });
         return listToBeSorted;

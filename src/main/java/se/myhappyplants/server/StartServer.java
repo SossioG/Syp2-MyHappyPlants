@@ -1,10 +1,18 @@
 package se.myhappyplants.server;
 
 import se.myhappyplants.server.controller.ResponseController;
-import se.myhappyplants.server.services.*;
+import se.myhappyplants.server.services.DatabaseConnection;
+import se.myhappyplants.server.services.IDatabaseConnection;
+import se.myhappyplants.server.services.IQueryExecutor;
+import se.myhappyplants.server.services.PlantRepository;
+import se.myhappyplants.server.services.QueryExecutor;
+import se.myhappyplants.server.services.RemainderTask;
+import se.myhappyplants.server.services.UserPlantRepository;
+import se.myhappyplants.server.services.UserRepository;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Class that starts the server.
@@ -21,6 +29,11 @@ public class StartServer {
         PlantRepository plantRepository = new PlantRepository(databaseSpecies);
         UserPlantRepository userPlantRepository = new UserPlantRepository(plantRepository, databaseMyHappyPlants);
         ResponseController responseController = new ResponseController(userRepository,userPlantRepository,plantRepository);
-        new Server(2550, responseController);
+        // new Server(2550, responseController);
+
+        RemainderTask remainderTask = new RemainderTask(userRepository, userPlantRepository);
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.scheduleAtFixedRate(remainderTask, 1, 1, java.util.concurrent.TimeUnit.DAYS);
     }
+
 }

@@ -1,6 +1,5 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -26,7 +25,7 @@ public class UserPlantRepository {
 
     private PlantRepository plantRepository;
     private IQueryExecutor database;
-    private final String token = PasswordsAndKeys.APIToken;
+    private final String token = PasswordsAndKeys.APIToken
 
     /**
      * Constructor that creates a connection to the database.
@@ -40,35 +39,41 @@ public class UserPlantRepository {
     }
 
 
-    public ArrayList<Plant> getUserLibrary(User user) throws URISyntaxException, IOException, InterruptedException {
-        ArrayList<Plant> userPlantLibrary = new ArrayList<>();
-        String query = String.format("SELECT plant_id, nickname, last_watered from plant_person where tuser_id = %s;", user.getUniqueId());
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            while (resultSet.next()){
-                int plantid = resultSet.getInt("plant_id");
-                String nickname = resultSet.getString("nickname");
-                Date lastWatered = resultSet.getDate("last_watered");
-
-                HttpRequest getRequest = HttpRequest.newBuilder()
-                        .uri(new URI("https://perenual.com/api/species/details/" + plantid + "?key=" + token))
-                        .header("Content-Type","application/json")
-                        .build();
-
-                HttpClient httpClient = HttpClient.newHttpClient();
-                HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
-                Plant plant = mapper.readValue(getResponse.body(), Plant.class);
-                plant.setNickname(nickname);
-                plant.setLastWatered(lastWatered.toLocalDate());
+    public ArrayList<Plant> getUserLibrary(User user) throws URISyntaxException, IOException, InterruptedException, SQLException {
+        String query = String.format("SELECT * from plant_person where tuser_id = %s;", user.getUniqueId());
+        return getPlantFromResultSet(query);
+    }
 
 
-                userPlantLibrary.add(plant);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public ArrayList<Plant> getAllUserLibrary() throws URISyntaxException, IOException, InterruptedException, SQLException {
+        String query = "SELECT pp.* FROM plant_person AS pp INNER JOIN tuser AS u ON pp.tuser_id = u.id WHERE notification_activated = TRUE;";
+        return getPlantFromResultSet(query);
+    }
+
+    private ArrayList<Plant> getPlantFromResultSet(String query) throws SQLException, URISyntaxException, IOException, InterruptedException {
+        ArrayList<Plant> plantLibrary = new ArrayList<>();
+
+        ResultSet resultSet = database.executeQuery(query);
+        while (resultSet.next()){
+            int plantid = resultSet.getInt("plant_id");
+            String nickname = resultSet.getString("nickname");
+            Date lastWatered = resultSet.getDate("last_watered");
+
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                    .uri(new URI("https://perenual.com/api/species/details/" + plantid + "?key=" + token))
+                    .header("Content-Type","application/json")
+                    .build();
+
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpResponse<String> getResponse = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
+            Plant plant = mapper.readValue(getResponse.body(), Plant.class);
+            plant.setNickname(nickname);
+            plant.setLastWatered(lastWatered.toLocalDate());
+            plant.setTuserid(resultSet.getInt("tuser_id"));
+            plantLibrary.add(plant);
         }
-        System.out.println(userPlantLibrary);
-        return userPlantLibrary;
+
+        return plantLibrary;
     }
 
     public boolean changeNickname(User user, String nickname, String newNickname) {
@@ -86,7 +91,8 @@ public class UserPlantRepository {
         }
         return nicknameChanged;
     }
-
+/**ALTER TABLE plant ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE;
+ */
     /**
      * Method that makes a query to delete a specific plant from table plant_person
      * @param user     the user that owns the plant

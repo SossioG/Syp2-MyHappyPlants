@@ -2,7 +2,6 @@ package se.myhappyplants.server.services;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.*;
 
 import java.io.IOException;
@@ -48,6 +47,11 @@ public class PlantRepository {
         ArrayList<Plant> plants = mapper.readValue(getResponse.body(), Plants.class).getPlants();
         return plants;
     }
+
+
+
+
+
 
     /*
     public PlantDetails getPlantDetails(Plant plant) {

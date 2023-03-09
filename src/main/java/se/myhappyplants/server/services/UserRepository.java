@@ -4,8 +4,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import se.myhappyplants.shared.User;
 
 import java.sql.*;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class responsible for calling the database about users.
@@ -205,6 +205,23 @@ public class UserRepository {
             sqlException.printStackTrace();
         }
         return funFactsChanged;
+    }
+
+    public HashMap<Integer,String> getUsers() {
+
+        HashMap<Integer,String> users= new HashMap<>();
+
+        String query = "SELECT id, email;";
+        try {
+            ResultSet resultSet = database.executeQuery(query);
+            while (resultSet.next()) {
+                users.put(resultSet.getInt(1), resultSet.getString(2));
+            }
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return users;
     }
 }
 
