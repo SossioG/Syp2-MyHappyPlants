@@ -3,7 +3,9 @@ package se.myhappyplants.server.services;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import se.myhappyplants.shared.*;
+import se.myhappyplants.server.PasswordsAndKeys;
+import se.myhappyplants.shared.Plant;
+import se.myhappyplants.shared.Plants;
 
 import java.io.IOException;
 import java.net.URI;
@@ -11,7 +13,6 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**

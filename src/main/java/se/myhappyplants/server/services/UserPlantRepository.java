@@ -1,7 +1,6 @@
 package se.myhappyplants.server.services;
 
-import se.myhappyplants.server.services.IQueryExecutor;
-import se.myhappyplants.server.services.PlantRepository;
+import se.myhappyplants.server.PasswordsAndKeys;
 import se.myhappyplants.shared.Plant;
 import se.myhappyplants.shared.User;
 
@@ -12,7 +11,9 @@ import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class UserPlantRepository {
 
     private PlantRepository plantRepository;
     private IQueryExecutor database;
-    private final String token = PasswordsAndKeys.APIToken
+    private final String token = PasswordsAndKeys.APIToken;
 
     /**
      * Constructor that creates a connection to the database.
