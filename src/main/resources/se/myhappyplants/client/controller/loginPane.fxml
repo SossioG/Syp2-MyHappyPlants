@@ -12,11 +12,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@Stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.LoginPaneController">
     <top>
         <AnchorPane prefHeight="89.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
             <children>
                 <Label fx:id="loginLargeHeading" layoutX="383.0" layoutY="40.0" prefHeight="42.0" prefWidth="281.0" />
+            <Label fx:id="goBackButtonLogin" layoutX="46.0" layoutY="35.0" onMouseClicked="#swapToLogin" text="&lt; Go Back" textFill="WHITE" />
             </children>
         </AnchorPane>
     </top>

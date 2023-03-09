@@ -10,5 +10,7 @@ public class PasswordsAndKeys {
     public static String dbHostName = "x";
 
     //API
-    public static String APIToken = "sk-N34h6401a815c7e65152";
+    public static String APIToken = "sk-PxRJ6409d1206a055188";
+    public static String emailUsr = "mau@diggins.se";
+    public static String emailpw = "KKiw#k223a";
 }

@@ -6,9 +6,11 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import se.myhappyplants.server.PasswordsAndKeys;
+
 import java.util.Properties;
 
-//todo hämta users mail adress och assign till mail
+// todo hämta users mail adress och assign till mail
 //   skapa en mailsender i servern som skickar ut notificationer
 //   hämta notifications sträng från klienten som ska skrivas in i mailet
 public class Email
@@ -30,7 +32,7 @@ public class Email
 
         jakarta.mail.Authenticator auth = new jakarta.mail.Authenticator() {
             protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("mau@diggins.se", "Gubbelgum123");
+                return new PasswordAuthentication(PasswordsAndKeys.emailUsr, PasswordsAndKeys.emailpw);
             }
         };
 

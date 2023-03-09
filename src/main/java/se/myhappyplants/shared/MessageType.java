@@ -6,6 +6,7 @@ package se.myhappyplants.shared;
  * Updated by: Linn Borgström, 2021-05-13.
  */
 public enum MessageType {
+    checkPasswordEquals,
     changeAllToWatered,
     changeFunFacts,
     changeLastWatered,

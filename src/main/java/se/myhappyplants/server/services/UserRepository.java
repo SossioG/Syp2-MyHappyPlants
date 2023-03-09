@@ -206,5 +206,24 @@ public class UserRepository {
         }
         return funFactsChanged;
     }
+
+    public boolean checkUserPasswordEquals(String password, String mail) {
+        boolean returnstatement = false;
+
+        //If query returns a result, the password and email exists in db.
+        String query = String.format("SELECT * from tuser where email = '%s' and password = '%s';", mail, password);
+        try {
+            ResultSet resultSet = database.executeQuery(query);
+            if (resultSet.next())
+                returnstatement = true;
+            else
+                returnstatement = false;
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnstatement;
+    }
 }
 

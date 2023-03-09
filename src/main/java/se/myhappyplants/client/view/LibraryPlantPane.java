@@ -2,6 +2,7 @@ package se.myhappyplants.client.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -246,6 +247,7 @@ public class LibraryPlantPane extends Pane implements PlantPane {
             setColorProgressBar(100);
             myPlantsTabPaneController.changeLastWateredInDB(plant, date);
             setColorProgressBar(100);
+            daysUntilWaterlbl.setText("Din planta är vattnad!");
         });
     }
     /**
