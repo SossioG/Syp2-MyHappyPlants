@@ -106,14 +106,14 @@ public class UserPlantRepository {
         boolean plantDeleted = false;
         String sqlSafeNickname = nickname.replace("'", "''");
 //        String query = "DELETE FROM [plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
-        String query = String.format("DELETE FROM plant_person WHERE tuser_id = %d AND nickname = '%s';" + user.getUniqueId(), sqlSafeNickname);
+        String query = String.format("DELETE FROM plant_person WHERE tuser_id = %d AND nickname = '%s';", user.getUniqueId(), sqlSafeNickname);
         try {
             database.executeUpdate(query);
             plantDeleted = true;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
-        catch (SQLException sqlException) {
-            System.out.println(sqlException);
-        }
+
         return plantDeleted;
     }
 
