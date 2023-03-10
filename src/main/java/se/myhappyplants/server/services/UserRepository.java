@@ -95,7 +95,7 @@ public class UserRepository {
 
     public boolean updateUserPassword(String password, String mail) {
         password = BCrypt.hashpw(password, BCrypt.gensalt());
-        String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';",password, mail); //test if query works in DB
+        String query = String.format("UPDATE tuser SET password = '%s' WHERE email = '%s';",password, mail);
         try
         {
             database.executeUpdate(query);
