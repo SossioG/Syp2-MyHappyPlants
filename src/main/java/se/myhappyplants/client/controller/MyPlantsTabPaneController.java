@@ -273,23 +273,6 @@ public class MyPlantsTabPaneController {
     }
 
     /**
-     * Method to send to the server to get extended information about the plant
-     * @param plant the selected plant
-     * @return an instance of the class PlantDetails
-     */
-    /*
-    public PlantDetails getPlantDetailsMyPlantsTab(Plant plant) {
-        PlantDetails plantDetails = null;
-        Message getInfoSearchedPlant = new Message(MessageType.getMorePlantInfo, plant);
-        ServerConnection connection = ServerConnection.getClientConnection();
-        Message response = connection.makeRequest(getInfoSearchedPlant);
-        if (response != null) {
-            plantDetails = response.getPlantDetails();
-        }
-        return plantDetails;
-    } */
-
-    /**
      * Method to water all the plant at once
      */
     @FXML public void waterAll() {

@@ -83,7 +83,6 @@ public class UserPlantRepository {
         boolean nicknameChanged = false;
         String sqlSafeNickname = nickname.replace("'", "''");
         String sqlSafeNewNickname = newNickname.replace("'", "''");
-//        String query = "UPDATE [Plant] SET nickname = '" + sqlSafeNewNickname + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
         String query = String.format("UPDATE plant_person SET nickname = '%s' WHERE tuser_id = %d AND nickname = '%s';", sqlSafeNewNickname, user.getUniqueId(), sqlSafeNickname);
         try {
             database.executeUpdate(query);
@@ -105,7 +104,6 @@ public class UserPlantRepository {
     public boolean deletePlant(User user, String nickname) {
         boolean plantDeleted = false;
         String sqlSafeNickname = nickname.replace("'", "''");
-//        String query = "DELETE FROM [plant] WHERE user_id =" + user.getUniqueId() + "AND nickname = '" + sqlSafeNickname + "';";
         String query = String.format("DELETE FROM plant_person WHERE tuser_id = %d AND nickname = '%s';", user.getUniqueId(), sqlSafeNickname);
         try {
             database.executeUpdate(query);
@@ -128,7 +126,6 @@ public class UserPlantRepository {
     public boolean savePlant(User user, Plant plant) {
         boolean success = false;
         String sqlSafeNickname = plant.getNickname().replace("'", "''");
-//      String query = "INSERT INTO Plant (user_id, nickname, plant_id, last_watered, image_url) values (" + user.getUniqueId() + ", '" + sqlSafeNickname + "', '" + plant.getPlantId() + "', '" + plant.getLastWatered() + "', '" + plant.getImageURL() + "');";
         String query = String.format("INSERT INTO plant_person (tuser_id, plant_id, nickname, last_watered) values (%s, %s, '%s', '%s');", user.getUniqueId(), plant.getId(), sqlSafeNickname, plant.getLastWatered());
         System.out.println(query);
         try {
@@ -151,7 +148,6 @@ public class UserPlantRepository {
     public boolean changeLastWatered(User user, String nickname, Date date) {
         boolean dateChanged = false;
         String sqlSafeNickname = nickname.replace("'", "''");
-//        String query = "UPDATE [Plant] SET last_watered = '" + date + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
         String query = String.format("UPDATE plant_person SET last_watered = '%s' WHERE tuser_id = %d AND nickname = '%s';", date, user.getUniqueId(), sqlSafeNickname);
         try {
             database.executeUpdate(query);
@@ -172,7 +168,6 @@ public class UserPlantRepository {
     public boolean changeAllToWatered(User user) {
         boolean dateChanged = false;
         LocalDate date = java.time.LocalDate.now();
-//        String query = "UPDATE [Plant] SET last_watered = '" + date + "' WHERE user_id = " + user.getUniqueId() + ";";
         String query = String.format("UPDATE plant_person SET last_watered = '%s' WHERE tuser_id = %d;", date, user.getUniqueId());
         try {
             database.executeUpdate(query);
@@ -182,84 +177,5 @@ public class UserPlantRepository {
             sqlException.printStackTrace();
         }
         return dateChanged;
-    } }
-
-
-
-    //GAMLA METODER obehandlade metoder
-
-
-
-    /**
-     * Method that returns all the plants connected to the logged in user.
-     * Author: Linn Borgström,
-     * Updated by: Frida Jacobsson
-     * @return an arraylist if plants stored in the database
-     */
-    /*
-    public ArrayList<PlantDepricated> getUserLibrary(User user) {
-        ArrayList<PlantDepricated> plantDepricatedList = new ArrayList<PlantDepricated>();
-//      String query = "SELECT nickname, plant_id, last_watered, image_url FROM [Plant] WHERE user_id =" + user.getUniqueId() + ";";
-        String query = String.format("SELECT nickname, plant_id, last_watered, image_url FROM plant WHERE user_id = %s;", user.getUniqueId());
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            while (resultSet.next()) {
-                String nickname = resultSet.getString("nickname");
-                String plantId = resultSet.getString("plant_id");
-                Date lastWatered = resultSet.getDate("last_watered");
-                String imageURL = resultSet.getString("image_url");
-                long waterFrequency = plantRepository.getWaterFrequency(plantId);
-                plantDepricatedList.add(new PlantDepricated(nickname, plantId, lastWatered, waterFrequency, imageURL));
-            }
-        }
-        catch (SQLException | IOException | InterruptedException exception) {
-            System.out.println(exception.fillInStackTrace());
-        }
-        return plantDepricatedList;
     }
-    */
-
-
-
-    /**
-     * Method that returns one specific plant based on nickname.
-     * @param
-     * @return an instance of a specific plant from the database, null if no plant with the specific nickname exists
-     */
-    /*
-    public PlantDepricated getPlant(User user, String nickname) {
-        PlantDepricated plantDepricated = null;
-        String sqlSafeNickname = nickname.replace("'", "''");
-        String query = String.format("SELECT nickname, plant_id, last_watered, image_url FROM plant WHERE user_id = %d AND nickname = '%s';", user.getUniqueId(), sqlSafeNickname);
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            String plantId = resultSet.getString("plant_id");
-            Date lastWatered = resultSet.getDate("last_watered");
-            String imageURL = resultSet.getString("image_url");
-            long waterFrequency = plantRepository.getWaterFrequency(plantId);
-            plantDepricated = new PlantDepricated(nickname, plantId, lastWatered, waterFrequency, imageURL);
-        }
-        catch (SQLException | IOException | InterruptedException sqlException) {
-            System.out.println(sqlException.fillInStackTrace());
-        }
-        return plantDepricated;
-    }
-*/
-
-
-    /*
-    public boolean changePlantPicture(User user, PlantDepricated plantDepricated) {
-        boolean pictureChanged = false;
-        String nickname = plantDepricated.getNickname();
-        String sqlSafeNickname = nickname.replace("'", "''");
-//        String query = "UPDATE [Plant] SET image_url = '" + plant.getImageURL() + "' WHERE user_id = " + user.getUniqueId() + " AND nickname = '" + sqlSafeNickname + "';";
-        String query = String.format("UPDATE plant SET image_url = '%s' WHERE user_id = %d AND nickname = '%s';", plantDepricated.getImageURL(), user.getUniqueId(), sqlSafeNickname);
-        try {
-            database.executeUpdate(query);
-            pictureChanged = true;
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return pictureChanged;
-    } */
+}

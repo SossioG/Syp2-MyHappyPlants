@@ -33,8 +33,6 @@ public class SearchPlantPane extends Pane implements PlantPane {
     private Label scientificName;
     private Button infoButton;
     private Button addButton;
-
-   // private PlantDepricated plantDepricated;
     private Plant plant;
     private SearchTabPaneController searchTabPaneController;
     private ListView listView;
@@ -90,12 +88,7 @@ public class SearchPlantPane extends Pane implements PlantPane {
      * Method to initialize scientific name label
      */
     private void initScientificName() {
-      //  this.scientificName = new Label(Arrays.stream(new String[]{plant.getScientificName()}).findFirst().toString());
-
         splitPlantName("scientificName", 25);
-        /*this.scientificName = new Label(Arrays.stream(new String[]{plant.getScientificName()})
-                .findFirst()
-                .orElse("No scientific name available")); */
         scientificName.setLayoutX(280.0);
         scientificName.setLayoutY(20.0);
         scientificName.prefHeight(17.0);
@@ -143,18 +136,12 @@ public class SearchPlantPane extends Pane implements PlantPane {
                 commonName.setDisable(true);
                 if (!extended) {
                     if (!gotInfoOnPlant) {
-                        /*PlantDetails plantDetails = searchTabPaneController.getPlantDetails(plantDepricated);
-                        String lightText = LightTextFormatter.getLightTextString(plantDetails.getLight());
-                        long waterInMilli = WaterCalculator.calcWaterFreqForWatering(plantDetails.getWaterFrequency());
-                        String waterText = WaterTextFormatter.getWaterString(waterInMilli); */
                         ObservableList<String> plantInfo = FXCollections.observableArrayList();
                         plantInfo.add("Common name: " + plant.getCommonName());
-                     //   plantInfo.add("Scientific name: "+ Arrays.stream(new String[]{plant.getScientificName()}).findFirst());
                         plantInfo.add("Scientific name: " + Arrays.stream(new String[]{plant.getScientificName()})
                                 .findFirst()
                                 .orElse("No scientific name available"));
 
-                        //  plantInfo.add("Light: " + Arrays.stream(plant.getSunlight()).findFirst());
                         plantInfo.add("Light: " + Arrays.stream(new String[]{plant.getSunlight()}).findFirst()
                                 .orElse("No sunlight information available"));
                         plantInfo.add("Water: "+ plant.getWatering());

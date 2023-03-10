@@ -2,10 +2,6 @@ package se.myhappyplants.shared;
 
 import java.io.Serializable;
 
-/**
- * Container class for more detailed information about a plant.
- * Created by: Frida Jacobsson.
- **/
 public class PlantDetails implements Serializable {
 
     private String genus;

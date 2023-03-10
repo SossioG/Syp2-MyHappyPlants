@@ -6,11 +6,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 
-/**
- * Class defining a plant.
- * Created by: Frida Jacobsson.
- * Updated by: Linn Borgström, Eric Simonson, Susanne Vikström.
- */
 public class PlantDepricated implements Serializable {
 
     private static final long serialVersionUID = 867522155232174497L;
