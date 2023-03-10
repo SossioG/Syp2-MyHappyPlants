@@ -1,7 +1,7 @@
 # MyHappyPlants
 
 ### Länk till repot på github
-https://github.com/antonholmCO/MyHappyPlants
+https://github.com/SossioG/Syp2-MyHappyPlants 
 
 ### Produktbeskrivning
 My Happy Plants är en applikation tänkt att hjälpa en användare att ta hand om sina växter i hemmet samt ge användaren information om växterna. My Happy Plants använder sig av information hämtad från Trefle.io, som var ett öppet och gratis API som erbjöd information om en miljon växtarter och hybrider. Applikationen omfattar ett färgglatt grafiskt användargränssnitt utvecklat i JavaFX med bilder av illustrerade växter, och ger möjlighet för användaren att söka bland tiotusentals växter, döpa dem och lägga till dem i sitt personliga bibliotek.
