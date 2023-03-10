@@ -8,6 +8,10 @@ My Happy Plants är en applikation tänkt att hjälpa en användare att ta hand 
 Applikationen påminner även användaren när det är tid att vattna, enligt appens beräkning.
 
 ### Instruktioner för att köra programmet
+0. Se till att hämta PasswordAndKeys från Canvas och lägga den under `src\main\java\se\myhappyplants\server`.
+
+![20230310_154343 909](https://user-images.githubusercontent.com/17850814/224337444-026bd0a6-cf1b-44d8-9379-f39e3b23c9f3.png)
+
 1. Se till att alla maven dependencies har laddats in.
 
 ![image](https://user-images.githubusercontent.com/100341750/224311297-1edd8e92-1627-4421-9dfb-17f710fb53da.png)
