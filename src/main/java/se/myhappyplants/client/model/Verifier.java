@@ -51,6 +51,22 @@ public class Verifier {
         return true;
     }
 
+    public boolean validatePassword(String password) {
+        if (password.length() < 8) {
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Password must be at least 8 characters."));
+            return false;
+        }
+        if (!Pattern.matches(".*[A-Z].*", password)) {
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Password must contain one character with uppercase."));
+            return false;
+        }
+        if (!Pattern.matches(".*[0-9].*", password)) {
+            Platform.runLater(() -> MessageBox.display(BoxTitle.Error, "Password must contain one digit."));
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Method for validating an email by checking that it contains @
      *

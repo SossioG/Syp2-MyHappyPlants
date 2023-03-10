@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import se.myhappyplants.client.model.BoxTitle;
 import se.myhappyplants.client.model.LoggedInUser;
 import se.myhappyplants.client.model.SetAvatar;
+import se.myhappyplants.client.model.Verifier;
 import se.myhappyplants.client.service.ServerConnection;
 import se.myhappyplants.client.view.ButtonText;
 import se.myhappyplants.client.view.MessageBox;
@@ -200,7 +201,13 @@ public class SettingsTabPaneController {
     }
 
     @FXML private void changePassword() {
+        Verifier verifier = new Verifier();
+        if(!verifier.validatePassword(newPassFld.getText())) {
+            return;
+        }
+        
         Thread changePasswordThread = new Thread(() -> {
+
             Message changePasswordRequest = new Message(MessageType.updatePassword, newPassFld.getText(), LoggedInUser.getInstance().getUser().getEmail());
             ServerConnection connection = ServerConnection.getClientConnection();
             Message changePasswordResponse = connection.makeRequest(changePasswordRequest);
