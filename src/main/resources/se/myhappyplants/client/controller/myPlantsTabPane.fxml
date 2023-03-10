@@ -4,13 +4,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane fx:id="myPlantsTab" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.MyPlantsTabPaneController">
+<BorderPane fx:id="myPlantsTab" prefHeight="575.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.myhappyplants.client.controller.MyPlantsTabPaneController">
 <top>
     <AnchorPane prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <children>
@@ -20,6 +21,12 @@
             <ImageView fitHeight="79.0" fitWidth="125.0" layoutX="770.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Blommor/Logotyp.png" />
+               </image>
+            </ImageView>
+            <Slider fx:id="soundSlider" layoutX="430.0" layoutY="31.0" onDragDone="#changeVolume" />
+            <ImageView fx:id="soundButton" fitHeight="39.0" fitWidth="46.0" layoutX="378.0" layoutY="17.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Knappar/speaker.png" />
                </image>
             </ImageView>
         </children>

@@ -10,7 +10,7 @@ import se.myhappyplants.server.PasswordsAndKeys;
 
 import java.util.Properties;
 
-// todo hämta users mail adress och assign till mail
+//  todo hämta users mail adress och assign till mail
 //   skapa en mailsender i servern som skickar ut notificationer
 //   hämta notifications sträng från klienten som ska skrivas in i mailet
 public class Email
@@ -28,7 +28,7 @@ public class Email
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "mailcluster.loopia.se");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "465");
 
         jakarta.mail.Authenticator auth = new jakarta.mail.Authenticator() {
             protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {

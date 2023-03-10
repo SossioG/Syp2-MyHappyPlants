@@ -184,7 +184,7 @@ public class SearchTabPaneController {
     /**
      * Method to sent a message to the server to get the results from the database. Displays a message to the user that more info is on its way
      */
-    @FXML private void searchButtonPressed() {
+    @FXML public void searchButtonPressed() {
         btnSearch.setDisable(true);
         txtFldSearchText.addToHistory();
         getPlantsFromAPI(1, txtFldSearchText.getText());

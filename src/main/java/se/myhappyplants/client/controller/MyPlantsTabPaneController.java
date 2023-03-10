@@ -4,10 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
@@ -46,6 +43,10 @@ public class MyPlantsTabPaneController {
     @FXML private Button btnWaterAll;
     @FXML private Button btnExpandAll;
     @FXML public Button btnCollapseAll;
+    @FXML private Slider soundSlider;
+    @FXML private ImageView soundButton;
+
+    private JukeBox jukebox;
 
     /**
      * Method to initilize the variables
@@ -58,8 +59,17 @@ public class MyPlantsTabPaneController {
         cmbSortOption.setItems(ListSorter.sortOptionsLibrary());
         createCurrentUserLibrary();
         addCurrentUserLibraryToHomeScreen();
+        this.jukebox = new JukeBox(soundSlider, soundButton);
+
     }
 
+    public void changeVolume(){
+        jukebox.changeVolume();
+    }
+
+    public void toggleMusic(){
+        jukebox.mute();
+    }
     /**
      * Method to set the mainPaneController
      * @param mainPaneController to set

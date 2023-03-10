@@ -74,6 +74,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>15</version>
+        </dependency>
+
         <!-- TestFX -->
         <!-- https://mvnrepository.com/artifact/org.testfx/testfx-core -->
         <dependency>

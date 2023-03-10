@@ -37,6 +37,14 @@ public class MainPaneController {
         myPlantsTabPaneController.setMainController(this);
         searchTabPaneController.setMainController(this);
         settingsTabPaneController.setMainController(this);
+
+        searchTab.setOnSelectionChanged(e -> {
+            if(searchTab.isSelected()){
+                System.out.println("Search tab selected!");
+                searchTabPaneController.searchButtonPressed();
+            }
+
+        });
     }
 
     /**
